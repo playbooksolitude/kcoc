@@ -1,0 +1,116 @@
+---
+title: "KCOC 데이터 분석 교육 참여자 설문조사 EDA"
+subtitle: "참여자 특성 분석 및 강의 설계 참고 자료"
+author: "최요한"
+date: "`r Sys.Date()`"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-fold: true
+    code-tools: true
+    self-contained: true
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(readr)
+library(tidytext)
+library(wordcloud2)
+library(RColorBrewer)
+library(stopwords)
+library(showtext)
+showtext_auto()
+library(MetBrewer)   # 예쁜 팔레트
+
+# 데이터 불러오기
+read_csv("../week_1/99.참여자설문조사/survey.csv") -> kcoc_1sheet
+
+# Factor 변환
+kcoc_2_factor <- kcoc_1sheet %>%
+  mutate(across(where(is.character), as.factor))
+```
+
+
+```{r}
+#| include: false
+
+df_anon <- kcoc_2_factor %>%
+  select(-성명, -NO.) %>%
+  mutate(ID = row_number()) %>%
+  select(ID, everything())
+
+# 직위 정리
+df_anon <- df_anon %>%
+  mutate(
+    직위 = case_when(
+      str_detect(직위, "성과관리 AM|임팩트부문 대표") ~ "대표",
+      str_detect(직위, "책임매니저") ~ "책임매니저",
+      str_detect(직위, "실장") ~ "실장",
+      TRUE ~ 직위
+    )
+  )
+
+df_clean <- df_anon %>%
+  mutate(직위_clean = 직위)
+```
+
+# 1.경력 분포
+# 3-1. 현재 직무 경력
+
+```{r}
+
+ggplot(df_anon, aes(x = fct_reorder(`현재 직무 경력`, `현재 직무 경력`, .fun = length))) +
+  geom_bar(fill = "#2E86C1") +
+  coord_flip() +
+  labs(title = "참여자 현재 직무 경력 분포",
+       x = "경력 구간", y = "인원 수") +
+  theme_minimal(base_size = 14)
+
+
+```
+
+# 3-2. 직위 분포
+```{r}
+
+ggplot(df_anon, aes(x = fct_infreq(직위))) +
+  geom_bar(fill = "#E67E22") +
+  labs(title = "참여자 직위 분포", x = "직위", y = "인원") +
+  theme_minimal()
+
+```
+
+# 3-3. 국제개발협력 경력 vs 현재 직무 경력
+```{r}
+
+table(df_anon$`국제개발협력 경력`, 
+      df_anon$`현재 직무 경력`) |>
+  as.data.frame() |>
+  ggplot(aes(x = Var1, y = Var2, fill = Freq)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = Freq), size = 6, color = 'white') +
+  theme_minimal() +
+  labs(title = "국제개발협력 경력 vs 현재 직무 경력",
+       x = '국제개발협력 경력', y = '현재 직무 경력')
+
+```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
