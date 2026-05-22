@@ -1,6 +1,7 @@
 #26-0418 sat 10:44
 
 library(tidyverse)
+library(palmerpenguins)
 
 #
 set.seed(123)
@@ -204,3 +205,21 @@ mpg |>
 
 
 
+data()
+penguins
+
+penguins |> 
+  drop_na(body_mass_g) |> 
+  select(species, island, sex, bill_length_mm) |> 
+  mutate(
+    body_nember = cut_number(bill_length_mm, n = 10)
+  ) |> 
+  count(body_nember)
+
+penguins |> 
+  drop_na(body_mass_g) |> 
+  select(species, island, sex, bill_length_mm) |> 
+  mutate(
+    body_interval = cut_interval(bill_length_mm, n = 10)
+  ) |> 
+  count(body_interval)
