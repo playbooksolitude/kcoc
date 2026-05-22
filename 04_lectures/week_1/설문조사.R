@@ -316,6 +316,7 @@ ggplot(df_clean, aes(x = 직위_clean
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
+
 ggplot(level_by_pos, aes(x = 직위_clean, 
                          y = n
                          #color = `데이터 분석 수준`
