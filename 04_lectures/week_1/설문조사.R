@@ -315,6 +315,8 @@ ggplot(df_clean, aes(x = 직위_clean
   theme_minimal(base_size = 14) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+level_by_pos <- df_clean %>%
+  count(직위_clean, `데이터 분석 수준`)
 
 ggplot(level_by_pos, aes(x = 직위_clean, 
                          y = n
