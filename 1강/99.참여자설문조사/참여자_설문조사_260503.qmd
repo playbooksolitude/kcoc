@@ -1,0 +1,53 @@
+---
+title: "KCOC 참여자 설문조사"
+subtitle: "참여자 명단"
+author: "최요한"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: true
+    code-summary: "소스 코드 확인하기"
+    toc-float: true        # 스크롤 내리면 목차도 이동
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    theme: Zephyr
+    #theme: Flatly
+    css: styles.css
+    self-contained: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| message: false
+
+library(here)
+library(MetBrewer)
+source(here("p_load.R"), echo = T)
+
+# 외부 로드 파일 (필요시 경로 수정)
+```
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+# #| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
