@@ -18,6 +18,7 @@ gss_cat |>
   geom_tile(color = 'snow') +
   geom_text(aes(label = n), color = 'snow')
 
+
 # 항목에는 있지만 실제 답변은 없었던 경우
 gss_cat |> 
   count(race, rincome) |> 
@@ -155,9 +156,6 @@ mpg |> #str()
   count(drv, fl, class) |> #drv 3 fl 5 class 7
   pivot_wider(names_from = class, values_from = n, values_fill = 0)
 
-
-#
-msleep_1factor |> is.na() |> colSums()
 
 #
 mpg |> 
