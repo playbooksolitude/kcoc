@@ -22,12 +22,15 @@ mpg |>
   group_by_all() |> 
   filter(n() > 1)
 
+
 mpg |> 
   filter(n() > 1)
+
 
 # table ----
 penguins |> 
   count(species)
+
 
 penguins |> 
   count(species, island)
@@ -35,6 +38,11 @@ penguins |>
 penguins |> 
   count(species, island) |> 
   pivot_wider(names_from = 'species', values_from = n)
+
+penguins |> 
+  count(species, sex) |> 
+  complete(species, sex, fill = list(n = 0))
+
 
 penguins |> 
   count(species, island) |> 

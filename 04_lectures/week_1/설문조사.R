@@ -318,6 +318,7 @@ ggplot(df_clean, aes(x = 직위_clean
 level_by_pos <- df_clean %>%
   count(직위_clean, `데이터 분석 수준`)
 
+
 ggplot(level_by_pos, aes(x = 직위_clean, 
                          y = n
                          #color = `데이터 분석 수준`
