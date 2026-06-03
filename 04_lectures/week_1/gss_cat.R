@@ -67,6 +67,7 @@ mpg |>
   ggplot(aes(x = drv, y = class, fill = n)) +
   geom_tile()
 
+
 mpg |> 
   count(drv, class) |> 
   complete(drv, class, fill = list(n = 0)) |> 

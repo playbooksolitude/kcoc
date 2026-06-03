@@ -17,12 +17,13 @@ read_csv("./04_lectures/week_1/99.참여자설문조사/survey.csv") -> kcoc_1sh
 
 
 #
-kcoc_1sheet |> 
+(kcoc_1sheet |> 
   mutate(
     across(
       where(is.character), as.factor)
-    ) -> kcoc_2_factor
+    ) -> kcoc_2_factor)
   
+
 #
 # mpg |> 
 #   mutate(
@@ -52,10 +53,13 @@ kcoc_1sheet |>
 
 
 # 2-1. 현재 직무 경력 분포
-ggplot(df_anon, aes(x = fct_reorder(`현재 직무 경력`, `현재 직무 경력`, .fun = length))) +
+ggplot(df_anon, aes(x = fct_reorder(`현재 직무 경력`, 
+                                    `현재 직무 경력`, .fun = length))
+       ) +
   geom_bar(fill = "#2E86C1") +
   coord_flip() +
-  labs(title = "참여자 현재 직무 경력 분포",
+  labs(
+    title = "참여자 현재 직무 경력 분포",
        x = "경력 구간", y = "인원 수") +
   theme_minimal(base_size = 14)
 
@@ -94,13 +98,14 @@ ggplot(df_anon, aes(x = fct_infreq(`데이터 분석 수준`))) +
 
 
 #4 도구 분리 (여러 개 쓰는 사람 많음)
-tools_long <- df_anon %>%
+(tools_long <- df_anon %>%
   select(`활용 경험이 있는 분석 도구`) %>%
   mutate(tool = str_split(`활용 경험이 있는 분석 도구`, ",|/", simplify = FALSE)) %>%
   unnest(tool) %>%
   mutate(tool = str_trim(tool)) %>%
   filter(tool != "") %>%
-  mutate(tool = str_to_lower(tool))
+  mutate(tool = str_to_lower(tool)))
+
 
 tool_count <- tools_long %>%
   count(tool, sort = TRUE)
@@ -167,6 +172,7 @@ filter(!str_detect(word, "[에의한를을가이은는도만부터까지하고�
 # RColorBrewer로 색상 팔레트 생성
 colors <- brewer.pal(8, "Set1")
 
+
 word_freq <- motivation_text %>%
   count(word, sort = TRUE) |> 
 #  filter(n >= 2) %>%                    # 최소 3번 이상 등장
@@ -197,6 +203,7 @@ word_freq_expect <- expect_text %>%
   #filter(n >= 2) %>%
   slice_max(n, n = 25)
 
+
 # 워드클라우드
 colors <- brewer.pal(8, "Set1")
 
@@ -217,6 +224,7 @@ df_clean <- df_anon %>%
       TRUE ~ 직위
     )
   )
+
 
 # 2-1. 직위별 관심 SDGs
 df_clean %>%
@@ -249,6 +257,7 @@ sdg_by_position <- df_clean %>%
   count(직위_clean, `관심있는 SDGs 주제`) %>%
   arrange(직위_clean)
 
+
 ggplot(sdg_by_position, aes(x = 직위_clean, 
                             y = `관심있는 SDGs 주제`, 
                             fill = n)) +
@@ -273,9 +282,9 @@ ggplot(sdg_by_position, aes(x = `관심있는 SDGs 주제`, y = n)) +
 
 
 # 2-3 tidy 전처리
-# df_clean %>%
-#   count(직위_clean, `데이터 분석 수준`) |> 
-#   view()
+df_clean %>%
+  count(직위_clean, `데이터 분석 수준`) |>
+  view()
 
 df_clean %>%
   count(직위_clean, `데이터 분석 수준`) |> 
@@ -347,6 +356,7 @@ tools_by_position <- df_clean %>%
   count(직위_clean, tool, sort = TRUE)
 
 
+
 tools_by_position |> 
   ggplot(aes(
     x = 직위_clean, y = n, fill = tool
@@ -368,7 +378,7 @@ tools_by_position |>
   theme(
     legend.position = 'top'
   ) +
-  MetBrewer::scale_fill_met_d(name = 'VanGogh2')
+  MetBrewer::scale_fill_met_d(name = 'VanGogh3')
 
 
 ggplot(tools_by_position, aes(x = 직위_clean, y = n, fill = 직위_clean)) +
