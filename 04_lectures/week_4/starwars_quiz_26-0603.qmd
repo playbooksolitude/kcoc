@@ -1,0 +1,1397 @@
+---
+title: "'퀴즈"
+author: "최요한"  # 저자 이름 추가
+date: "2026-06-03"
+version: "1.0.0"  # 사용자 정의 버전 필드
+format:
+  html:
+    number-sections: true
+    number-depth: 3
+    toc: true
+    toc-depth: 4
+    code-fold: true
+    code-summary: "소스 코드 확인하기"
+    toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    theme:
+      light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+      dark: darkly
+    embed-resources: true
+
+editor: source
+
+---
+
+## tidyverse()
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+library(tidyverse)
+
+```
+
+<br>
+
+## 데이터셋 출력
+### starwars 데이터셋을 출력하고 몇 행, 몇 열인지 확인하시오
+
+> starwars
+
+```r
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars
+
+```
+
+----
+
+
+<br>
+
+## 자료형과 구조
+### starwars 데이터셋의 자료형과 구조를 출력하시오
+
+> str(), glimpse()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  glimpse()
+
+```
+
+<br>
+
+
+----
+
+<br>
+
+## 자료 훑어보기
+### 첫 1~6행, 마지막 1~ 6행을 각각 출력하시오
+
+> tail()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+head(starwars);tail(starwars)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 두개 함수 붙이기
+### 첫 1~6행, 마지막 1~ 6행을 붙여서 출력하시오
+
+> tail()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+head(starwars);tail(starwars)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+
+## 개수 세기
+### 스타워즈에 등장하는 종족들을 많은 순서대로 출력하시오
+
+> count(), species
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  count(species, sort = T) #|> 
+  #nrow()
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 결측값 
+### starwars 데이터셋의 결측값(NA)을 변수(열) 단위로 출력하시오
+
+> colSums(), is.na()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  is.na() |> 
+  colSums()
+
+```
+
+<br>
+
+
+
+
+<br>
+
+## 결측값 제거
+### 결측값이 하나도 없는 등장인물을 출력하시오
+
+> drop_na()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  drop_na()
+
+```
+
+<br>
+
+
+----
+
+
+<br>
+
+## 결측값 개수 출력 
+### height, mass, homeworld 변수에 결측값이 없는 등장인물은 총 몇 명인가?
+
+> drop_na(), , nrow()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  drop_na(height, mass, homeworld) |> 
+  nrow()
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 범위 선택과 화면 출력
+### starwars 데이터셋에서 name, height, mass 열만 선택한 후 30개의 행을 화면에 출력하시오
+
+> select(), print()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(name, height, mass) |> 
+  print(n = 30)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 필터와 화면 출력
+### height > 180이고, mass < 50을 만족하는 등장인물의 모든 변수(열)를 화면에 출력하시오
+
+> filter(), &, print()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  filter(height > 180, mass < 50) |> 
+  print(width = Inf)
+
+```
+
+<br>
+
+-------
+
+
+
+<br>
+
+## OR 조건 설정
+
+### "Droid", "Dug", "Yoda's species" 세 종족(species)의 name, birth_year, species를 출력하시오
+
+> filter(), %in%
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  filter(species %in% c('Droid', 'Dug', "yoda's species")) |> 
+  select(name, birth_year, species)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 헬퍼 함수
+### color로 끝나는 변수명만 출력하시오
+
+> select(), ends_with()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(ends_with('color'))
+  
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## vector 형식
+
+### 사회학적 성별(gender)를 vector 형식으로 출력하시오
+
+> starwars$gender
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars$gender
+  
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+
+## 인덱싱
+### select() 함수를 사용하지 말고 10번째 행의 1번째열을 출력하시오
+
+
+> [,]
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars[10,1]
+  
+  
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 인덱싱 범위 선택
+### select() 함수를 사용하지 말고 10번째 행의 1번째열과 11번째 열을 출력하시오
+
+> [,], c()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars[10,c(1,11)]
+  
+  
+```
+
+<br>
+
+
+------------------------------------------------------------------------
+
+<br>
+
+## 표 만들기(1)
+### table() 함수를 사용해 생물학적 성별(sex)을 도수분포표(frequency table)로 만드시오
+
+> table(), starwars$sex
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars$sex |> 
+  table()
+  
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 표 만들기(2)
+### count() 함수를 사용해 생물학적 성별(sex)을 도수분포표(frequency table)로 만들고 위에서 만든 table() 함수 결과와 비교하시오
+
+> count()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  count(sex, sort = T)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 표 만들기(3)
+### args() 함수를 사용해 table() 함수의 인수를 확인하고 table() 함수를 사용해 count() 와 동일한 도수분포표(frequency table)로 만드시오
+
+> args(),table(), as.data.frame(), as_tibble(), rename()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+args(table)
+
+starwars$sex |> table(useNA = 'always') |> 
+  as.data.frame() |> 
+  as_tibble() |> 
+  rename(sex = 1)
+
+#starwars$sex |> 
+#  table(useNA = 'always') |> 
+#  as_tibble(.name_repair = 'check_unique')
+  
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 표 만들기 (4)
+### 생물학적 성별이 남성(male)인 등장인물 중 최대 체중, 최소 체중 인물을 출력하시오
+
+> filter(), arramge(), drop_na(), slice(), select()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  filter(sex == 'male') |> 
+  arrange(mass) |> 
+  drop_na(mass) |> 
+  slice(1,n()) |> 
+  select(1:3, species)
+  
+```
+
+<br>
+
+-------------------------
+
+<br>
+
+## 산점도 
+### starwars 데이터셋에서 height(x축)와 mass(y축)의 산점도를 그리시오 점의 색상은 gender로 구분하세요.
+
+> ggplot(), geom_point(), aes()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+starwars |> 
+  ggplot(aes(x = height, y= mass, color = gender)) +
+  geom_point()
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+## 막대 그래프
+### 사회학적 성별(gender)을 기준으로 막대 그래프(geom_bar)를 시각화하고, 색깔은 생물학적 성별(sex)로 채우고 막대는 옆으로 배열하시오
+
+> position, geom_bar()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+starwars |> 
+  ggplot(aes(x = gender, y = after_stat(count))) +
+  geom_bar(aes(fill = sex), position = 'dodge' ) 
+
+  
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+## 히스토그램
+### 신장(height)을 히스토그램 그래프로 시각화 하고 눈금의 넓이는 '10'으로 하시오
+
+> geom_historam(), binwidth = 10
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+starwars |> 
+  ggplot(aes(x = height)) +
+  geom_histogram(binwidth = 10)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 최대값과 최소값
+### 등장인물 중 가장 나이 많은 인물과 적은 인물을 출력하시오
+
+> birth_year, arrange(), desc(), slice(), drop_na(), n()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  drop_na(birth_year) |> 
+  arrange(desc(birth_year)) |> #tail()
+  slice(1,n()) |> 
+  select(name, birth_year)
+
+```
+
+<br>
+
+
+----------------------------------------------------------------
+
+<br>
+
+## 오름차순과 내림차순
+### name, height, birth_year를 선택한 후, 나이(birth_year)를 알수 없는 인물을 제외하고, 키가 큰 순서대로 5명을 조회하시오
+
+> select(), birth_year, select(), arrange(), desc(), drop_na()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  drop_na(birth_year) |> 
+  select(name, height, birth_year) |> 
+  #filter(is.na(birth_year)) |>
+  #slice_max(height, n = 10) |> 
+  arrange(desc(height)) |> 
+  slice(1:5) |> 
+  select(1:3, birth_year)
+  
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 범위 제외
+### films, vehicles, starships 열을 제외한 나머지 모든 열을 선택하시오
+
+> select(-), everything()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(-films, -vehicles, -starships)
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br> 
+
+## 파생변수 만들기
+### mass / (height/100)\^2로 계산된 "bmi"라는 새로운 열을 추가하고, name, height, mass, bmi 변수만 출력하시오
+
+> mutate(), select()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  mutate(bmi = mass / (height/100)^2) |> 
+  select(name, height, mass, bmi) 
+
+```
+
+<br>
+
+
+----
+
+<br>
+
+## 랭크 함수
+### 나이(birth_year) 많은 순서대로 순위(rank)를 부여하고 상위 10명의 name, birth_year, rank를 출력하시오 (동점자도 순위를 다르게 부여하시오)
+
+> select(), mutate(), arrange(), filter(), row_number()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(name, birth_year) |> 
+  mutate(rank = row_number(desc(birth_year))) |> 
+  arrange(rank) |> 
+  filter(rank < 11)
+
+```
+
+<br>
+
+----
+
+
+<br>
+
+## 랭크 함수
+### 나이(birth_year) 많은 순서대로 순위(rank)를 부여하고 상위 10명의 name, birth_year, rank를 출력하시오 (동점자는 같은 순위를 부여하고, 차등 순위를 비우시오)
+
+> select(), mutate(), arrange(), filter(), min_rank()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(name, birth_year) |> 
+  mutate(rank = min_rank(desc(birth_year))) |> 
+  arrange(rank) |> 
+  filter(rank < 10)
+
+```
+
+<br>
+
+----
+
+<br> 
+
+## slice 함수(1)
+### 1번행, 10번행, 46번행, 56번행, 16번부터 19번행만 명시한 순서대로 출력하시오
+
+> slice()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  slice(1, 10, 46, 56, 16:19)
+  
+```
+
+<br>
+
+----
+
+
+<br> 
+
+## slice 함수(2)
+### 10개의 행을 랜덤하게 출력하시오
+
+> slice_sample()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  slice_sample(n = 10)
+  
+```
+
+<br>
+
+----
+
+
+<br>
+
+## slice 함수(3)
+### 등장인물 중 가장 체중(mass)이 적은 4명을 출력하시오
+
+> slice_min(), select()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  slice_min(mass, n = 4, with_ties = F)
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## slice 함수(4)
+### 등장인물 중 가장 키(height)가 큰 8명을 출력하시오
+
+> slice_max(), select()
+
+``` r
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  slice_max(height, n = 8)
+```
+
+<br><br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 반올림 하기
+### 사회학적 성별(gender)을 기준으로 등장인물수, 평균 신장, 체중을 구하고 소수 둘째자리에서 반올림 하시오 
+
+> round(), n(), filter(), group_by(), refraem(), mean()
+
+``` r
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  #filter(species %in% c('Human')) |> 
+  group_by(gender) |> 
+  reframe(mean_height = round(mean(height, na.rm = T),1), 
+          mean_mass = round(mean(mass, na.rm = T),1), 
+          n = n())
+
+```
+
+<br><br>
+
+
+------------------------------------------------------------------------
+
+<br>
+
+## 산점도와 스케일
+### x축 = mass, y축 = height, color = sex, shape = gender 산점도를 그리시오
+
+> ggplot(), geom_point()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+starwars |> 
+  ggplot(aes(x = mass, y = height, color = sex, shape = gender)) +
+  geom_point()
+
+```
+
+<br>
+
+----
+
+<br>
+
+## 그래프 확대
+### 데이터 포인트는 size = 3으로 설정하고 위 그래프를 확대하시오 (mass > 12.5, mass =< 50, height > 60, height =< 100)
+
+> coord_cartesian()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+starwars |> 
+  ggplot(aes(x = mass, y = height, 
+             color = sex, shape = gender)) +
+  geom_point(size = 3) +
+  coord_cartesian(xlim = c(12.5,50), ylim = c(60,100)) 
+
+```
+
+<br><br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 막대 그래프 (1)
+### species == 'Human' 필터링 후 homeworld의 가로 도수 막대그래프(frequency bar graph)를 시각화하고 제목과 부제목, 캡션을 출력하시오
+
+> ggplot(), geom_bar(), labs()
+
+``` r
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+starwars |> 
+  #filter(species == 'Human') |> 
+  count(homeworld) |> 
+  ggplot(aes(x = homeworld, y = n)) +
+  geom_bar(stat = 'identity') +
+  labs(title = "homeworld", 
+       subtitle = "starwars", 
+       caption = 'caption')
+ 
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 막대 그래프 (2) - 축 변환
+### 위 그래프의 x축 가독성을 높이기 위해 x,y 축변환하시오
+
+> ggplot(), geom_point(), coord_flip()
+
+``` r
+
+
+
+
+```
+
+```{r, fig.width=6, fig.height=10}
+#| echo: false
+#| warning: false
+
+
+starwars |> 
+  #filter(species == 'Human') |> 
+  count(homeworld) |> 
+  ggplot(aes(x = homeworld, 
+             y = n)) +
+  geom_bar(stat = 'identity') +
+  labs(title = "homeworld", 
+       subtitle = "starwars", 
+       caption = 'caption') +
+  coord_flip()
+
+```
+
+<br>
+
+----
+
+<br>
+
+## 막대 그래프 (3) 
+### 빈도가 높은 순서대로 정렬한 후 상위 10개의 막대만 남기고 나머지는 그래프에서 제거하시오
+
+> ggplot(), geom_point(), fct_reorder(), desc()
+> ggplot(aes(x = homeworld |> fct_reorder(n)
+
+``` r
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+
+starwars |> 
+  #filter(species == 'Human') |> 
+  count(homeworld, sort = T) |> 
+  slice_max(order_by = n, n = 10, with_ties = T) |> 
+  #mutate(homeworld = replace_na(homeworld, 'NA'))
+  ggplot(aes(x = homeworld |> fct_reorder(n), 
+             y = n)) +
+  geom_bar(stat = 'identity') +
+  labs(title = "homeworld", 
+       subtitle = "starwars", 
+       caption = 'caption') +
+  coord_flip()
+  
+
+```
+
+<br>
+
+----
+
+<br>
+
+## 막대 그래프 (4) 
+### NA를 순위에 맞게 위치시키고(내림차순), 막대에 값(label)을 붙이시오 
+
+> mutate(), replace_na(), geom_label(), desc(), labs()
+> mutate(homeworld = replace_na(homeworld, 'NA'))
+> size = 5
+
+``` r
+
+
+
+
+
+```
+
+```{r, fig.width=6, fig.height=10}
+#| echo: false
+#| warning: false
+
+
+starwars |> 
+  #filter(species == 'Human') |> 
+  count(homeworld, sort = T) |> 
+  slice_max(order_by = n, n = 10, with_ties = T) |> 
+  mutate(homeworld = replace_na(homeworld, 'NA')) |> 
+  ggplot(aes(x = homeworld |> fct_reorder(n), 
+             y = n)) +
+  geom_bar(stat = 'identity') +
+  labs(title = "homeworld", 
+       subtitle = "starwars", 
+       caption = 'caption') +
+  #coord_flip() +
+  geom_label(aes(label = n), size = 5) +
+  labs(x = 'homeworld') +
+  coord_flip()
+
+```
+
+<br>
+
+----
+
+<br>
+
+## 할당 연산자
+### name, height, mass, birth_year, sex, gender, homeworld, species 열을 선택한 후 starwars_1select 이라는 변수에 저장하시오
+
+> 화살표
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  select(name, height, mass, birth_year, sex, gender, homeworld,
+         species) -> starwars_1select
+
+
+
+```
+
+<br><br>
+
+----
+
+<br>
+
+## 기술 통계량
+### starwars_1select 데이터셋에서 기술 통계량을 구하시오
+
+> summary()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+starwars_1select |> 
+  summary()
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 그룹핑과 범위값
+### starwars_1select 데이터셋에서 사회학적 성별을 기준으로(group_by) 나이(birth_year)가 가장 많은 사람과 적은 사람 1명씩 조회하시오 (나이를 알수 없는 사람은 제외할 것)
+
+> starwars_1select, drop_na(), group_by(), filter(), range(), arrange()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars_1select |> 
+  drop_na(birth_year, gender) |> 
+  group_by(gender) |> 
+  #slice_max(order_by = birth_year, n = 1) |> 
+  filter(birth_year %in% range(birth_year)) |> 
+  select(name, gender, birth_year, species) |> 
+  arrange(gender, birth_year) 
+
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## 고유값(1)
+### starwars_1select 데이터셋에서 등장하는 homeworld의 고유한 값은 총 몇개인가?
+
+> dinstinct(), nrow()
+
+
+``` r
+
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+starwars_1select |> 
+  distinct(homeworld) |> #print(n = Inf)
+  nrow()
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br> 
+
+## 고유값(2)
+### starwars_1select에서 homeworld의 자료형을 factor()으로 변경한 후 str() 함수를 통해 확인된 homeworld의 고유값을 위에서 확인한 결과와 비교하시오 
+
+> factor(), str()
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+starwars_1select |> 
+  mutate(homeworld = factor(homeworld)) |> 
+  str()
+
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## OR 연산 (논리합)
+### sex == 'none' 이거나 gender가 결측치인 등장인물의 name, species, sex, gender를 출력하시오
+
+> filter(), gender(), sex(), feminine, female
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+starwars |> 
+  filter(sex == "none" | is.na(gender)) |> 
+  select(name, species, sex, gender)
+
+
+# starwars |> 
+#   filter(gender %in% c('feminine')) |> 
+#   filter(sex != 'female')
+  
+
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+<br>
+
+## AND 연산 (논리곱)
+### sex == 'female' 이면서, homeworld가 Naboo 혹은 Tatooine인 등장인물의 name, sex, homeworld를 출력하시오
+
+``` r
+
+
+
+
+
+```
+
+```{r}
+#| echo: false
+
+starwars |> 
+  filter(sex == 'female', homeworld %in% c('Naboo', 'Tatooine')) |> 
+  select(name, sex, homeworld)
+
+```
+<br>
+
+
+끝.
+
+
+

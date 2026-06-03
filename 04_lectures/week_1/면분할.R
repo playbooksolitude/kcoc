@@ -7,7 +7,11 @@ library(palmerpenguins)
 #
 penguins
 
-ggplot(data = penguins, mapping = aes(x = bill_length_mm, y = bill_depth_mm)) +
+ggplot(data = penguins, 
+       mapping = aes(
+         x = bill_length_mm, 
+         y = bill_depth_mm)
+       ) +
   geom_point()
 
 #

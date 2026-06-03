@@ -1,0 +1,57 @@
+---
+title: "종료평가보고서 성과지표"
+subtitle: "한국국제협력단 요약 데이터"
+author: "최요한"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    number-sections: true
+    number-depth: 3
+    toc: true
+    toc-depth: 4
+    code-fold: true
+    code-summary: "소스 코드 확인하기"
+    toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    theme:
+      light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+      dark: darkly
+    embed-resources: true
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| warning: false
+
+library(tidyverse)
+library(readxl)
+
+read_xlsx("../../99.files/eval_koica.xlsx") -> koica_evalrep_1_sheet
+
+
+```
+
+## 총 몇 개의 지표(행)와 몇 개의 항목(열)으로 구성되어 있나요?
+
+```{r}
+
+
+```
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
