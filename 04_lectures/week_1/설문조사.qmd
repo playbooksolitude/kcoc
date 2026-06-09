@@ -37,7 +37,6 @@ kcoc_2_factor <- kcoc_1sheet %>%
   mutate(across(where(is.character), as.factor))
 ```
 
-
 ```{r}
 #| include: false
 
@@ -62,6 +61,7 @@ df_clean <- df_anon %>%
 ```
 
 # 1.경력 분포
+
 # 3-1. 현재 직무 경력
 
 ```{r}
@@ -77,6 +77,7 @@ ggplot(df_anon, aes(x = fct_reorder(`현재 직무 경력`, `현재 직무 경�
 ```
 
 # 3-2. 직위 분포
+
 ```{r}
 
 ggplot(df_anon, aes(x = fct_infreq(직위))) +
@@ -87,6 +88,7 @@ ggplot(df_anon, aes(x = fct_infreq(직위))) +
 ```
 
 # 3-3. 국제개발협력 경력 vs 현재 직무 경력
+
 ```{r}
 
 table(df_anon$`국제개발협력 경력`, 
@@ -100,17 +102,3 @@ table(df_anon$`국제개발협력 경력`,
        x = '국제개발협력 경력', y = '현재 직무 경력')
 
 ```
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-

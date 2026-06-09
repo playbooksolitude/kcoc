@@ -17,11 +17,13 @@ read_csv("./04_lectures/week_1/99.참여자설문조사/survey.csv") -> kcoc_1sh
 
 
 #
-kcoc_1sheet |> 
+(kcoc_1sheet |> 
   mutate(
     across(
       where(is.character), as.factor)
-    ) -> kcoc_2_factor
+    ) -> kcoc_2_factor)
+
+
   
 #
 # mpg |> 
