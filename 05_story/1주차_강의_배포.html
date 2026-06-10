@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="최요한">
+<meta name="dcterms.date" content="2026-05-22">
+
+<title>데이터 분석 시각화 커리큘럼</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="1주차_강의_배포_files/libs/clipboard/clipboard.min.js"></script>
+<script src="1주차_강의_배포_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="1주차_강의_배포_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="1주차_강의_배포_files/libs/quarto-html/popper.min.js"></script>
+<script src="1주차_강의_배포_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="1주차_강의_배포_files/libs/quarto-html/anchor.min.js"></script>
+<link href="1주차_강의_배포_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="1주차_강의_배포_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="1주차_강의_배포_files/libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="1주차_강의_배포_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="1주차_강의_배포_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="1주차_강의_배포_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="1주차_강의_배포_files/libs/bootstrap/bootstrap-4cb233a056f58e6c969d6cca57debfbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="1주차_강의_배포_files/libs/bootstrap/bootstrap-dark-4cebb7433dae7371a4c794f58dd4888b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="1주차_강의_배포_files/libs/bootstrap/bootstrap-4cb233a056f58e6c969d6cca57debfbd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#엑셀의-제약사항과-한계" id="toc-엑셀의-제약사항과-한계" class="nav-link active" data-scroll-target="#엑셀의-제약사항과-한계"><span class="header-section-number">1</span> 엑셀의 제약사항과 한계</a></li>
+  <li><a href="#데이터-처리-방식" id="toc-데이터-처리-방식" class="nav-link" data-scroll-target="#데이터-처리-방식"><span class="header-section-number">2</span> 데이터 처리 방식</a></li>
+  <li><a href="#도구에-종속되는-사고의-깊이" id="toc-도구에-종속되는-사고의-깊이" class="nav-link" data-scroll-target="#도구에-종속되는-사고의-깊이"><span class="header-section-number">3</span> 도구에 종속되는 사고의 깊이</a></li>
+  <li><a href="#도구에-종속되는-관점" id="toc-도구에-종속되는-관점" class="nav-link" data-scroll-target="#도구에-종속되는-관점"><span class="header-section-number">4</span> 도구에 종속되는 관점</a></li>
+  <li><a href="#데이터분석-시각화-커리큘럼" id="toc-데이터분석-시각화-커리큘럼" class="nav-link" data-scroll-target="#데이터분석-시각화-커리큘럼"><span class="header-section-number">5</span> 데이터분석 시각화 커리큘럼</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">데이터 분석 시각화 커리큘럼</h1>
+<p class="subtitle lead">1주차</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>최요한 </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 22, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br></p>
+<section id="엑셀의-제약사항과-한계" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="엑셀의-제약사항과-한계"><span class="header-section-number">1</span> 엑셀의 제약사항과 한계</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>엑셀은 장점이 많고 데이터 분석의 토대가 되는 대체불가능한 데이터 분석 도구입니다.</p>
+<p>그러나 분석의 규모가 커지고 복잡도가 높아질수록 아래와 같은 한계에 직면하게 됩니다.</p>
+</div>
+</div>
+<blockquote class="blockquote">
+<h4 id="대용량-데이터-처리-불가" class="anchored"><strong>대용량 데이터 처리 불가</strong></h4>
+<ul>
+<li>약 100만 개 이상의 데이터는 파일에 담을 수 없어 `빅 데이터`, `로그 데이터` 처리에 한계가 있습니다.</li>
+</ul>
+<h4 id="연산-속도-및-성능-저하" class="anchored"><strong>연산 속도 및 성능 저하</strong></h4>
+<ul>
+<li>함수가 참조하는 값이 많아질수록 처리 속도가 기하급수적으로 지연됩니다</li>
+</ul>
+<h4 id="분석-과정의-휘발성과-낮은-재현성" class="anchored"><strong>분석 과정의 휘발성과 낮은 재현성</strong></h4>
+<ul>
+<li>분석 과정이 대화상자, 메뉴 클릭 등에 의존적이라 분석 과정이 휘발돼 재현성이 떨어집니다</li>
+</ul>
+<h4 id="분석-품질의-편차와-검증의-어려움" class="anchored"><strong>분석 품질의 편차와 검증의 어려움</strong></h4>
+<ul>
+<li>재현성이 떨어지므로 개인의 역량에 따라 분석 품질에 편차가 발생합니다.</li>
+</ul>
+<h4 id="업무-자동화-및-확장성의-한계" class="anchored"><strong>업무 자동화 및 확장성의 한계</strong></h4>
+<ul>
+<li>결과 검증도 어려워 자동화할수 있는 부분도 제한적입니다.</li>
+</ul>
+</blockquote>
+<p><br></p>
+</section>
+<section id="데이터-처리-방식" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="데이터-처리-방식"><span class="header-section-number">2</span> 데이터 처리 방식</h2>
+<section id="이것은-gui-방식의-한계이기도-합니다." class="level4">
+<h4 class="anchored" data-anchor-id="이것은-gui-방식의-한계이기도-합니다."><strong>이것은 GUI 방식의 한계이기도 합니다.</strong></h4>
+<p>데이터를 다루는 방식에는 크게 GUI와 CLI가 있습니다.</p>
+<p><br></p>
+</section>
+<section id="gui-vs-cli-차이" class="level4">
+<h4 class="anchored" data-anchor-id="gui-vs-cli-차이">GUI vs CLI 차이</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 46%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>Graphic User Interface (GUI)</strong></th>
+<th style="text-align: left;">Command Line Interface (CLI)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">정의</td>
+<td style="text-align: left;">사용자가 화면에 있는 <strong>아이콘, 메뉴, 버튼 등 그래픽 요소</strong>를 마우스로 클릭해 동작시키는 방식</td>
+<td style="text-align: left;">그래픽 화면 없이, <strong>텍스트 형태의 명령어(Code)</strong>를직접 키보드로 타이핑해 동작시키는 방식</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">대표 예시</td>
+<td style="text-align: left;">Excel(엑셀), 웹 브라우저(크롬/사파리),<br>
+스마트폰 앱 등</td>
+<td style="text-align: left;">Windows의 명령 프롬프트(CMD),<br>
+R, Python 등</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">성능</td>
+<td style="text-align: left;"><strong>그래픽을 화면</strong>에 띄워야 하므로 컴퓨터의 메모리(RAM)와 그래픽 자원을 상대적으로 더 많이 소모함</td>
+<td style="text-align: left;"><strong>명령어를 순서대로 적어둔 스크립트(code)에 따라 실행</strong>함으로 연산 처리 속도가 상대적으로 매우 빠름</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">자동화</td>
+<td style="text-align: left;">매번 마우스로 클릭해야 하므로, 수백 개의 파일을 동시에 처리하는 등의 반복 작업을 자동화하기 어려움</td>
+<td style="text-align: left;">복잡한 작업도 순서대로 동작하는 코드를 활용해 언제든 다시 실행할 수 있어 자동화에 적합함</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+</section>
+<section id="도구에-종속되는-사고의-깊이" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="도구에-종속되는-사고의-깊이"><span class="header-section-number">3</span> 도구에 종속되는 사고의 깊이</h2>
+<section id="여기에-덧붙여-도구는-사고의-틀을-고정하고-사고의-깊이는-도구에-종속되기도-합니다." class="level4">
+<h4 class="anchored" data-anchor-id="여기에-덧붙여-도구는-사고의-틀을-고정하고-사고의-깊이는-도구에-종속되기도-합니다.">여기에 덧붙여 도구는 사고의 틀을 고정하고, 사고의 깊이는 도구에 종속되기도 합니다.</h4>
+<blockquote class="blockquote">
+<p>단순히 “속도가 빠르다”거나 “반복 작업을 줄여준다”는 성능의 차이보다 더 중요한 본질입니다</p>
+</blockquote>
+<p><br></p>
+</section>
+<section id="datasaurus-엑셀" class="level4">
+<h4 class="anchored" data-anchor-id="datasaurus-엑셀">datasauRus: 엑셀</h4>
+</section>
+<section id="datasaurus의-dino-데이터셋을-차트로-그릴-때-엑셀이-기본적으로-보여주는-그래프" class="level4">
+<h4 class="anchored" data-anchor-id="datasaurus의-dino-데이터셋을-차트로-그릴-때-엑셀이-기본적으로-보여주는-그래프">datasauRus의 dino 데이터셋을 차트로 그릴 때 엑셀이 기본적으로 보여주는 그래프</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>막대 그래프</td>
+<td><img src="images/스크린샷%202026-05-30%2018.36.10.png" class="img-fluid" width="400" alt="막대그래프를 디폴트로 출력"></td>
+</tr>
+<tr class="even">
+<td>분산형 그래프</td>
+<td><img src="images/스크린샷%202026-05-30%2018.40.23.png" class="img-fluid" width="400" alt="분산형으로 차트 설정을 변경"></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="blockquote">
+<ul>
+<li><p>어떤 의미인지 직관적으로 이해하기 어려울뿐더러 무의식적으로 시계열(시간순서대로) 접근하게 됩니다</p></li>
+<li><p>차트를 분산형으로 변경해도 x축과 y축을 엑셀이 자동으로 설정하므로, 보여지는 모습에서 의미를 더듬어가야 합니다.</p></li>
+</ul>
+</blockquote>
+<p><br></p>
+</section>
+<section id="datasaurus-r" class="level4">
+<h4 class="anchored" data-anchor-id="datasaurus-r">datasauRus: R</h4>
+</section>
+<section id="데이터-과학-도구인-r로-시각화한-그래프" class="level4">
+<h4 class="anchored" data-anchor-id="데이터-과학-도구인-r로-시각화한-그래프">데이터 과학 도구인 R로 시각화한 그래프</h4>
+<div class="cell" data-layout-align="left">
+<details class="code-fold">
+<summary>R ggplot</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasauRus)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>datasaurus_dozen <span class="sc">|&gt;</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(dataset <span class="sc">==</span> <span class="st">'dino'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#facet_wrap(.~dataset) +</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="1주차_강의_배포_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid quarto-figure quarto-figure-left figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<ul>
+<li><p>기본적으로 보여주는 기본값이 없기 때문에 처음엔 아무것도 보이지 않지만 이것은 틀에 갇히지 않는다는 의미입니다.</p></li>
+<li><p>보이는 것을 보는 것을 넘어, 무엇을 볼 것인지 탐색하는 높은 자유도가 보장됩니다.</p></li>
+<li><p>데이터의 구조와 구성, 분포부터 살펴보는 ’탐색적 데이터 분석’이 데이터 과학 분야에서 발전한 이유이기도 합니다.</p></li>
+</ul>
+</blockquote>
+<p><br></p>
+</section>
+</section>
+<section id="도구에-종속되는-관점" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="도구에-종속되는-관점"><span class="header-section-number">4</span> 도구에 종속되는 관점</h2>
+<section id="엑셀은-사용자를-배려하기-위해-추천-차트나-기본-레이아웃을-제공합니다." class="level4">
+<h4 class="anchored" data-anchor-id="엑셀은-사용자를-배려하기-위해-추천-차트나-기본-레이아웃을-제공합니다.">엑셀은 사용자를 배려하기 위해 ’추천 차트’나 ’기본 레이아웃’을 제공합니다.</h4>
+</section>
+<section id="하지만-역설적으로-이러한-배려와-편리는-분석하려는-사람의-시야를-가두고-관점을-고정하는-반작용을-불러옵니다." class="level4">
+<h4 class="anchored" data-anchor-id="하지만-역설적으로-이러한-배려와-편리는-분석하려는-사람의-시야를-가두고-관점을-고정하는-반작용을-불러옵니다.">하지만 역설적으로 이러한 배려와 편리는 분석하려는 사람의 시야를 가두고 관점을 고정하는 반작용을 불러옵니다.</h4>
+<p><br></p>
+<blockquote class="blockquote">
+<h4 id="엑셀은-장점이-많고-데이터-분석의-토대가-되는-대체불가능한-데이터-분석-도구입니다." class="anchored">엑셀은 장점이 많고 데이터 분석의 토대가 되는 대체불가능한 데이터 분석 도구입니다.</h4>
+<h4 id="하지만-일정-수준-이상의-데이터-분석-역량은-엑셀보다-더-나은-성능과-자유도-높은-분석-도구를-필요로합니다." class="anchored">하지만 일정 수준 이상의 데이터 분석 역량은 ’엑셀’보다 더 나은 성능과 자유도 높은 분석 도구를 필요로합니다.</h4>
+<h4 id="우리가-7주동안-배우려는-r이-여기에-가장-적합한-도구입니다" class="anchored">우리가 7주동안 배우려는 ’R’이 여기에 가장 적합한 도구입니다</h4>
+</blockquote>
+<p><br></p>
+</section>
+</section>
+<section id="데이터분석-시각화-커리큘럼" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="데이터분석-시각화-커리큘럼"><span class="header-section-number">5</span> 데이터분석 시각화 커리큘럼</h2>
+<p>🔗 <a href="https://www.ngokcoc.or.kr/bbs/board.php?bo_table=news01&amp;wr_id=2124&amp;&amp;page=2&amp;type=&amp;gr_id=media">홈페이지</a></p>
+<p><img src="images/커리큘럼.png" class="img-fluid"></p>
+<p>끝.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<script src="1주차_강의_배포_files/libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
