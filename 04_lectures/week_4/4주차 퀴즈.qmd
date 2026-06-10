@@ -1,0 +1,467 @@
+---
+title: "KOICA WFK 파견인원"
+subtitle: "4주차 퀴즈(1)"
+author: "최요한"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    toc-depth: 3           # 번호 깊이
+    toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
+    number-depth: 3
+    number-sections: true   # 자동 번호
+    code-fold: false         # 
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+editor: visual
+---
+
+# 준비사항
+
+## tidyverse 로드
+
+> 항상 tidyverse를 로드합니다.
+
+```{r}
+
+library(tidyverse)            # 라이브러리 로드
+
+```
+
+## showtext 로드
+
+> 한글을 오류없이 출력할수 있습니다
+
+```{r}
+
+# install.packages("showtext")        # 최초 1회
+library(showtext)                     # 라이브러리 로드
+showtext_auto()     
+
+```
+
+## 자료 출처
+
+출처: [공공데이터포탈](https://www.data.go.kr/data/15051101/fileData.do)
+
+![](03강_해외봉사단_파견실적.png)
+
+```{r}
+#| echo: false
+#| warning: false
+
+# 1. 파일 경로 및 Base64 변환 (화면에는 숨겨짐)
+#install.packages("downloadthis")
+#library(downloadthis)
+excel_path <- "../../99.files/koica_wfk_20260331.csv" 
+b64_data <- base64enc::base64encode(readBin(excel_path, "raw", n = file.info(excel_path)$size))
+
+# 2. 버튼 출력 (이 버튼만 웹 화면에 노출됨)
+htmltools::HTML(paste0(
+  '<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,', b64_data, '" ',
+  'download="koica_wfk_20260331.csv" class="btn btn-primary">',
+  '<i class="bi bi-download"></i> KOICA 해외봉사단 파견현황</a>'
+))
+
+```
+
+<br>
+
+## 변수에 저장하기
+
+> 변수명: koica_wfk_20260331
+
+```{r}
+#| label: sheet
+#| warning: false
+#| cache: true
+
+read_csv("./koica_wfk_20260331.csv") ->  koica_wfk_20260331
+koica_wfk_20260331 -> koica_1csv
+
+```
+
+<br>
+
+## 데이터셋 출력
+
+```{r}
+
+koica_1csv
+
+```
+
+# 기초 문제
+
+## 데이터셋의 구조를 출력하시오
+
+> glimpse()
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  glimpse()
+
+```
+
+<br>
+
+## '국가명'을 기준으로 파견인원 현황표를 출력하시오
+
+> count(국가명)
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  count(국가명)
+
+```
+
+<br>
+
+## '국가명'을 기준으로 파견인원 현황표를 (엑셀)표처럼 출력하시오
+
+> view()
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  count(국가명) |> 
+  view()
+
+```
+
+<br>
+
+## '파견분야'와 '파견직종'을 기준으로 파견인원 현황표를 출력하시오
+
+> count(파견분야, 파견직종)
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  count(파견분야, 파견직종)
+
+```
+
+# 보통 문제
+
+## 네팔에 파견되는 관측값을 모두 출력하시오
+
+> filter(국가명 == '네팔')
+
+```{r}
+#| eval: true
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 == '네팔')
+
+```
+
+<br>
+
+## 파견분야에서 '보건의료' 파견인원이 많은 순서대로 출력하시오
+
+> filter(파견분야 == '보건의료'), arrange
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(파견분야 == '보건의료') |> 
+  arrange(desc(인원))
+
+```
+
+<br>
+
+## 피지(피지) 국가에서 '축산' 직종이 속한 파견분야는 무엇입니까?
+
+> filter, &
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 == '피지', 파견직종 == '축산') |> 
+  select(국가명, 파견직종, 파견분야)
+
+```
+
+<br>
+
+## '가나'와 '네팔'의 '유아교육' 파견 인원을 합산하면 총 몇 명입니까?
+
+> filter(국가명 %in% c('가나', '네팔'), 파견직종 == '유아교육')
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 %in% c('가나', '네팔'), 
+         파견직종 == '유아교육') |> 
+  reframe(합계 = sum(인원))
+
+```
+
+<br>
+
+## '파견분야'별로 파견인원 합계를 출력하시오
+
+> group_by(파견분야) \|\> reframe(합계 = sum(인원))
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  group_by(파견분야) |> 
+  reframe(합계 = sum(인원))
+
+```
+
+<br>
+
+## '르완다', '모로코', '에콰도르'에 파견되는 '사회복지' 인원의 합계는 얼마입니까?
+
+> filter(국가명 %in% c('르완다', '모로코', '에콰도르'))
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 %in% c('르완다', '모로코', '에콰도르')) |> 
+  filter(파견직종 == '사회복지') |> 
+  group_by(파견직종) |> 
+  reframe(sum(인원))
+
+```
+
+<br>
+
+## 파견분야별 파견인원은 얼마입니까?
+
+> group_by(파견분야), reframe(), sum()
+
+```{r}
+#| echo: false
+
+koica_1csv |>
+  group_by(파견분야) |> 
+  reframe(합계 = sum(인원))
+
+```
+
+<br>
+
+## 파견분야별 파견인원을 막대그래프로 시각화하시오
+
+> ggplot(), geom_bar(stat = 'identity)
+
+```{r}
+#| echo: false
+
+koica_1csv |>
+  group_by(파견분야) |> 
+  reframe(합계 = sum(인원)) |> 
+  ggplot(aes(x = 파견분야, y = 합계)) +
+  geom_bar(stat = 'identity')
+
+```
+
+<details>
+
+<summary>한글이 안나올 경우</summary>
+
+```{r}
+
+library(showtext)
+showtext_auto()
+
+```
+
+</details>
+
+<br>
+
+# 어려움 문제
+
+## 단일 국가 기준으로 총 인원 30명을 초과하는 국가는 어디입니까?
+
+> group_by(국가명), reframe(인원합계 = sum(인원))
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  group_by(국가명) |> 
+  reframe(인원합계 = sum(인원)) |> 
+  filter(인원합계 > 30)
+
+```
+
+<br>
+
+## 해외 파견 '국가'는 총 몇 개인가요? (중복 제외)
+
+> distinct(국가명)
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  distinct(국가명) |> 
+  reframe(n = n())
+
+```
+
+<br>
+
+## '한국어교육(일반)' 직종의 파견 인원 합계를 국가별로 그룹화했을 때, 인원수가 가장 많은 국가는 어디인가요?
+
+> filter, agrepl, group_by, reframe, arrange
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(
+    agrepl("한국어", 파견직종)
+  ) |> 
+  group_by(국가명) |> 
+  reframe(합계 = sum(인원)) |> 
+  arrange(desc(합계))
+
+```
+
+<br>
+
+## 동티모르의 데이터를 '파견분야'로 그룹화하여 인원수를 합산했을 때, 가장 많은 인원이 배정된 분야는 무엇인가요?
+
+> filter, group_by, reframe
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 == '동티모르') |> 
+  group_by(파견분야) |> 
+  reframe(합계 = sum(인원))
+
+```
+
+<br>
+
+## '탄자니아'와 '모로코'에 공통적으로 파견되는 '파견분야'가 아닌 것은 무엇입니까?
+
+> filter, distinct, unique
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(국가명 %in% c('탄자니아', '모로코')) |> 
+  distinct(국가명, 파견분야)
+  #count(파견분야, 국가명)
+
+```
+
+<br>
+
+## '한국어교육(일반) 및 한국어 교육(심화)' 파견 인원은 총 몇 명입니까?
+
+> filter
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(
+    agrepl("한국어", 파견직종)
+  )
+
+```
+
+<br>
+
+## 가나, 에티오피아, 파라과이, 라오스 중 '간호' 직종의 파견 인원이 없는 국가는 어디입니까?
+
+> filter(국가명 %in% c('에티오피아', '가나', '파라과이', '라오스')) \|\> count(국가명, 파견직종, 파견분야)
+
+```{r}
+#| echo: false
+
+koica_1csv |>
+  filter(국가명 %in% c('에티오피아', '가나', '파라과이', 
+                    '라오스')) |> 
+  count(국가명, 파견직종, 파견분야) |> 
+  filter(파견직종 == '간호')
+
+```
+
+<br>
+
+## 전체 국가 중에서 '태권도' 관련 직종으로 파견되는 총 인원은 몇 명입니까?
+
+> filter
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(
+    agrepl("태권도", 파견직종)
+  )
+
+```
+
+<br>
+
+# 매우 어려움 2개
+
+## 파견분야가 '보건의료'인 국가의 파견직종별 파견인원을 표로 출력하시오
+
+> filter(), group_by, reframe
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(파견분야 %in% c('보건의료')) |> 
+  group_by(국가명, 파견분야, 파견직종) |> 
+  reframe(n = sum(인원))
+
+```
+
+<br>
+
+## 파견분야가 '보건의료'인 국가의 파견직종별 파견인원을 히트맵으로 그리고 값을 넣으시오
+
+> filter, group_by(국가명, 파견직종), reframe(), ggplot, geom_tile, geom_text, theme_minimal
+
+```{r}
+#| echo: false
+
+koica_1csv |> 
+  filter(파견분야 %in% c('보건의료')) |> 
+  group_by(국가명, 파견분야, 파견직종) |> 
+  reframe(n = sum(인원)) |> 
+  #count(국가명, 파견직종) |> 
+  ggplot(aes(x = 파견직종, y = 국가명, fill = n)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = n), color = 'snow') +
+  theme_minimal()
+
+```

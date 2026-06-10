@@ -10,7 +10,7 @@ format:
     toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
     number-depth: 3
     number-sections: true   # 자동 번호
-    code-fold: true         # 
+    code-fold: false         # 
     code-summary: "소스 코드 확인하기"
     smooth-scroll: true  # 클릭 시 부드럽게 이동
     code-copy: true        # 코드 복사 버튼 활성화
