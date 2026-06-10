@@ -22,6 +22,11 @@ read_csv("./04_lectures/week_1/99.참여자설문조사/survey.csv") -> kcoc_1sh
     across(
       where(is.character), as.factor)
     ) -> kcoc_2_factor)
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> df46a560a313f656bc32953e3faf241fa876b7c5
   
 
 #
