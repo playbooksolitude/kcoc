@@ -1,0 +1,118 @@
+---
+title: "palmerpenguins"
+subtitle: "4주차 펭귄 설문조사"
+author: "최요한"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    toc-depth: 3           # 번호 깊이
+    toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
+    number-depth: 3
+    number-sections: false   # 자동 번호
+    code-fold: false         # 
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+editor: visual
+---
+
+# 준비사항
+
+## tidyverse 로드
+
+> 항상 tidyverse를 로드합니다.
+
+```{r}
+
+library(tidyverse)            # 라이브러리 로드
+
+```
+
+## penguins 데이터셋 로드
+
+> 한글을 오류없이 출력할수 있습니다
+
+```{r}
+
+# install.packages("palmerpenguins")        # 최초 1회
+library(palmerpenguins)                     # 라이브러리 로드
+
+```
+
+## 데이터셋 출력
+
+```{r}
+
+penguins 
+
+```
+
+# 설문조사 개요
+
+**\[조사 배경\]** 남극 복지재단에서 펭귄 부족들의 신체 건강 상태와 거주 지역별 환경을 조사하여 복지 정책을 수립하기 위한 설문입니다.
+
+![세 종류의 펭귄 품종](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width="90%"}
+
+**\[개인정보 및 펭귄정보 수집·이용 동의 안내\]**
+
+본 설문조사를 통해 수집된 귀하의 정보(부족명, 거주지, 건강 상태 등)를 오직 **'펭귄 복지 정책 수립 및 통계 분석'** 목적으로만 활용하며, 목적 달성 후 안전하게 파기할 것을 약속드립니다.
+
+남극복지재단과 본 설문조사는 어떠한 경우에도 펭귄 개인을 식별하는 남극주민등록번호를 수집,보관하지 않습니다.
+
+□ 동의함 / □ 동의하지 않음 (미동의 시 꽁치 지급이 어려울 수 있습니다.)
+
+<br>
+
+## 📋 \[세션 1\] 기본 정보 및 거주 환경
+
+-   **Q1. 귀하가 소속된 부족(종)은 어디입니까?** (명목형 / `species`)
+
+    -   ① 아델리(Adelie) 부족 ② 턱끈(Chinstrap) 부족 ③ 젠투(Gentoo) 부족
+
+-   **Q2. 귀하의 생물학적 성별은 무엇입니까?** (명목형 / `sex`)
+
+    -   ① 수컷(male) ② 암컷(female)
+
+-   **Q3. 귀하가 현재 거주하고 계신 지역(섬)은 어디입니까?** (명목형 / `island`)
+
+    -   ① 비스코(Biscoe) 섬 ② 드림(Dream) 섬 ③ 토르거센(Torgersen) 섬
+
+-   **Q4. 몇 년도부터 서식지에 거주하고 계십니까?** (이산형 / `year`)
+
+    -   ① 2007년 ② 2008년 ③ 2009년
+
+![Bill length, Bill depth](https://allisonhorst.github.io/palmerpenguins/reference/figures/culmen_depth.png)
+
+## 🐟 \[세션 2\] 신체 건강 및 영양 상태
+
+-   **Q5. 귀하의 자부심을 대변하는 '부리의 길이'는 어느 정도입니까? (단위: mm)** (연속형 / `bill_length_mm`)
+
+    -   \[ 주관식 기입: \_\_\_\_\_\_\_ mm \] *(주의: 미응답 시 결측치 처리)*
+
+-   **Q6. 귀하의 강인함을 상징하는 '부리의 두께'는 어느 정도입니까? (단위: mm)** (연속형 / `bill_depth_mm`)
+
+    -   \[ 주관식 기입: \_\_\_\_\_\_\_ mm \]
+
+-   **Q7. 남극 바다를 헤엄치고 이동할 때 쓰는 귀하의 '날개(지느러미) 길이'는 어느 정도입니까? (단위: mm)** (연속형 / `flipper_length_mm`)
+
+    -   \[ 주관식 기입: \_\_\_\_\_\_\_ mm \]
+
+-   **Q8. 귀하의 현재 체중(신체 질량)은 어느 정도입니까? (단위: g)** (연속형 / `body_mass_g`)
+
+    -   \[ 주관식 기입: \_\_\_\_\_\_\_ g \]
+
+::: {.callout-note icon="false"}
+**\[안내 사항\]** 설문조사를 모두 마치신 펭귄께서는 본 설문지를 지참하시고 \*\*재단 사무실(제3빙하 앞 파란 지붕 막사)\*\*로 방문해 주시기 바랍니다.
+
+참여해 주신 모든 펭귄분들께는 감사의 뜻으로 **싱싱한 꽁치 2마리**를 즉시 지급해 드립니다. (부족당 대리 수령 불가, 1펭귄 1회 수령 원칙)
+:::
+
+\<끝\>
