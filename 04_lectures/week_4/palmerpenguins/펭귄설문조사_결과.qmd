@@ -63,7 +63,7 @@ library(janitor)                     # 라이브러리 로드
 
 ```
 
-![세 종류의 펭귄 품종](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){alt="세 종류의 펭귄 품종" fig-align="center" width="90%"}
+![세 종류의 펭귄 품종](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width="90%"}
 
 ## penguins 데이터셋 로드
 
@@ -176,24 +176,21 @@ penguins |>
 ::: panel-tabset
 ## 결측치 모두 제거
 
-penguins \|\> drop_na()
-penguins \|\> drop_na(bill_length_mm)
+penguins \|\> drop_na() penguins \|\> drop_na(bill_length_mm)
 
 ## 결측치 0으로 변환
 
-penguins \|\>
-mutate(body_mass_g = replace_na(body_mass_g, 0))
+penguins \|\> mutate(body_mass_g = replace_na(body_mass_g, 0))
 
 ## 결측치 평균으로 변환
 
-penguins \|\> \
-mutate(bill_length_mm = replace_na(bill_length_mm, mean(bill_length_mm, \
+penguins \|\>\
+mutate(bill_length_mm = replace_na(bill_length_mm, mean(bill_length_mm,\
 na.rm = TRUE)))
 
 ## 결측치 모름으로 변환
 
-penguins \|\>
-mutate(sex = fct_na_value_to_level(sex, level = "Unknown"))
+penguins \|\> mutate(sex = fct_na_value_to_level(sex, level = "Unknown"))
 :::
 
 <br>
@@ -320,7 +317,7 @@ penguins_1_number |>
 #| warning: false
 
 # install.packages('devtools')
-devtools::install_github('bbc/bbplot')
+# devtools::install_github('bbc/bbplot')
 library(bbplot)
 
 ```
