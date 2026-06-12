@@ -107,7 +107,8 @@ penguins
 
 ```{r}
 
-penguins
+penguins |> 
+  count(species)
 
 ```
 
