@@ -1,6 +1,7 @@
 #26-0610 wedn
 
 library(palmerpenguins)
+library(GGally)
 library(bbplot)
 library(showtext)
 showtext_auto()
@@ -178,10 +179,45 @@ penguins_1_number |>
 
 
 
+penguins |> 
+  ggpairs(columns = c("bill_length_mm", 
+                      "bill_depth_mm", 
+                      "flipper_length_mm", 
+                      "body_mass_g", 
+                      "species"), 
+          aes(color = species)) 
 
 
+# 1 ----
+# 데이터셋의 변수별 결측치 비율/건수 시각화
+penguins |> 
+  is.na() |> 
+  colSums() |> 
+  enframe(name = "변수명", value = "결측치_건수") |> 
+  ggplot(aes(x = reorder(변수명, 결측치_건수), y = 결측치_건수)) +
+  geom_bar(fill = "steelblue", stat = 'identity') +
+  geom_text(aes(label = 결측치_건수), hjust = -0.2) +
+  coord_flip() +
+  labs(title = "변수별 결측치(Missing Value) 현황 파악", 
+       x = "", 
+       y = "결측치 건수") +
+  theme_minimal() +
+  theme(
+    axis.text = element_text(size = 12)
+  )
 
-
-
+penguins |> 
+  ggpairs(columns = c("bill_length_mm", 
+                      "bill_depth_mm", 
+                      "flipper_length_mm", 
+                      "body_mass_g",
+                      "species"), 
+          aes(color = species)
+  ) +
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 10)
+  ) +
+  theme_bw()
 
 
