@@ -337,12 +337,20 @@ koica_1csv |>
 #| echo: false
 
 koica_1csv |> 
+  filter(파견직종 == "한국어교육(일반)") |> 
+  group_by(국가명) |> 
+  reframe(합계 = sum(인원)) |> 
+  arrange(desc(합계)) 
+
+
+koica_1csv |> 
   filter(
     agrepl("한국어", 파견직종)
   ) |> 
   group_by(국가명) |> 
   reframe(합계 = sum(인원)) |> 
-  arrange(desc(합계))
+  arrange(desc(합계)) |> 
+  gt::gt()
 
 ```
 
