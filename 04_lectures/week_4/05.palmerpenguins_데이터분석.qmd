@@ -63,6 +63,21 @@ showtext_auto()
 
 ```
 
+<<<<<<< HEAD:04_lectures/week_4/palmerpenguins/펭귄설문조사_결과.qmd
+## janitor 패키지 로드
+
+> 다양한 수식을 편리하게 계산할수 있습니다
+
+```{r}
+
+# install.packages("janitor")        # 최초 1회
+library(janitor)                     # 라이브러리 로드
+   
+
+```
+
+=======
+>>>>>>> d4fa81d10a9ca88ef6b0215c7a187ca195deceab:04_lectures/week_4/palmerpenguins/05.palmerpenguins_데이터분석.qmd
 ![세 종류의 펭귄 품종](https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png){fig-align="center" width="90%"}
 
 ## penguins 데이터셋 로드
@@ -92,7 +107,8 @@ penguins
 
 ```{r}
 
-penguins
+penguins |> 
+  count(species)
 
 ```
 
@@ -517,7 +533,7 @@ penguins_1_number |>
 #| warning: false
 
 # install.packages('devtools')
-devtools::install_github('bbc/bbplot')
+# devtools::install_github('bbc/bbplot')
 library(bbplot)
 
 ```
