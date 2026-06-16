@@ -1,0 +1,245 @@
+---
+title: "T 검정"
+subtitle: "sleep "
+author: "최요한"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    toc: true
+    toc-depth: 2           # 번호 깊이
+    toc-float: true        # 스크롤을 내려도 목차가 따라옵니다.
+    number-depth: 3
+    number-sections: true   # 자동 번호
+    code-fold: false         # 
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true  # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+editor: visual
+---
+
+# 준비사항
+
+## tidyverse 로드
+
+> 항상 tidyverse를 로드합니다.
+
+```{r}
+
+library(tidyverse)            # 라이브러리 로드
+
+```
+
+## showtext 로드
+
+> 한글을 오류없이 출력할수 있습니다
+
+```{r}
+
+# install.packages("showtext")        # 최초 1회
+library(showtext)                     # 라이브러리 로드
+showtext_auto()     
+
+```
+
+<br>
+
+# t-검정 종류
+
+## 두 평균의 비교
+
+두 그룹의 차이를 알고자 할 때 수행
+
+A와 B 그룹이 있을 경우
+
+> 단일 표본: A의 평균과 어떤 값을 비교 (A 평균이 0과 같다, 3보다 크다 등)
+>
+> 독립 표본: A그룹의 평균과 B 그룹의 평균을 비교
+>
+> 대응 표본: A그룹 평균의 Before, After를 비교
+
+<br>
+
+# sleep dataset
+
+## 데이터 이해
+
+> 주제: 두 종류의 수면제가 수면 시간에 미치는 효과
+>
+> 실험 설계: 10명의 환자 각각에게 두 가지 약(group 1, group 2)을 투여하고, 대조군 대비 실험군의 수면 증가 시간을 측정
+>
+> 관측치: 총 20개 (10명 × 2회 측정)
+
+```{r}
+
+sleep 
+
+```
+
+<br>
+
+## 데이터셋 도움말
+
+> 단순하고 직관적인 데이터셋
+
+```{r}
+
+?sleep
+
+```
+
+<br>
+
+## 데이터셋 설명
+
+> extra: 수면 증가 시간 (numeric, 단위: hours)
+>
+> group: 투여한 약의 종류 (factor, 1 또는 2)
+>
+> ID: 환자 ID (factor, 1\~10)
+
+```{r}
+
+sleep
+
+```
+
+### 질문(1) 
+
+extra가 양수인 경우는 수면 시간 증가를 의미하나요? 감소를 의미하나요?
+
+### 질문(2)
+
+`sleep` 실험에는 몇 명이 참여했나요?
+
+### 질문(3)
+
+데이터셋을 group 기준의 넓은 형식(wide)으로 변경하고 sleep_wide_group 변수로 저장하시오
+
+```{r}
+
+(sleep |> 
+  pivot_wider(names_from = group, 
+              values_from = extra, 
+              names_prefix = 'extra_') -> sleep_wide_group)
+
+```
+
+### 질문(4)
+
+데이터셋을 ID 기준의 넓은 형식(wide)으로 변경하고 sleep_wide\_\_id 변수로 저장하시오
+
+```{r}
+
+(sleep |> 
+  pivot_wider(names_from = ID, 
+              values_from = extra) -> sleep_wide_id)
+
+```
+
+### 질문(5)
+
+sleep_wide_group 데이터셋을 다시 원래의 긴 형식(long) 으로 변경하시오
+
+```{r}
+
+sleep_wide_id |> 
+  pivot_longer(cols = !group,
+               names_to = 'ID', 
+               values_to = 'extra')
+
+```
+
+```{r}
+
+sleep
+
+```
+
+<br>
+
+## 문제
+
+1.  1번약과 2번약의 수면 시간 평균울 구하시오
+2.  평균을 비교했을 때 수면 시간 증가에 더욱 효과적인 약은 무엇인가요? (group1 or group2)
+3.  참가자별로 수면 시간의 증감 평균을 구하시오
+4.  1번약과 2번약을 포함해 수면 시간이 가장 많이 증가한 참가자는 누구인가요?
+5.  1번약과 2번약 모두 수면 시간이 증가하지 않은 (효과가 없는) 참가자는 누구인가요?
+6.  1번약은 통계적으로 수면 시간 증대 효과가 있었나요?
+7.  2번약은 통계적으로 수면 시간 증대 효과가 있었나요?
+8.  1번약과 2번약을 통계적으로 검정할 때 사용해야 하는 t검정 기법은 무엇인가요?
+9.  1번약과 2번약 중 더 효과적인 약은 무엇인가요?
+10. 그 효과는 얼마인가요?
+
+<br>
+
+# 풀이
+
+## 수면 평균 시간
+
+> 1번약과 2번약의 수면 시간 평균을 구하시오
+
+```{r}
+
+sleep |> 
+  group_by(group) |> 
+  reframe(mean_extra = mean(extra))
+
+```
+
+<br>
+
+## 수면제로서 더욱 효과적인 약은?
+
+> 평균을 비교했을 때 수면 시간 증가에 더욱 효과적인 약은 무엇인가요? (group1 or group2)
+
+```{r}
+
+(sleep |> 
+  filter(group == 1) |> 
+  pull(extra) |> 
+  mean() -> sleep_1)
+
+(sleep |> 
+  filter(group == 2) |> 
+  pull(extra) |> 
+  mean() -> sleep_2)
+  
+sleep_2 - sleep_1
+
+```
+
+<details>
+
+<summary>해석</summary>
+
+약물의 순수한 '효과 크기'는 뺄셈으로 비교해야 합니다
+
+1.58의 의미는 수면 시간을 1.58시간 더 늘려주었다는 의미입니다
+
+</details>
+
+<br>
+
+## 참가자별 편차
+
+> 참가자별로 수면 시간의 증감 편차와 평균을 구하시오
+
+```{r}
+
+sleep_wide_group |> 
+  mutate(sum_experimental = extra_1 + extra_2)
+
+
+
+```
+
+<br>
+
+## 
