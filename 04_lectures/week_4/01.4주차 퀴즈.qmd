@@ -195,6 +195,9 @@ koica_1csv |>
 ```{r}
 #| echo: false
 
+
+koica_1csv
+
 koica_1csv |> 
   filter(국가명 == '피지', 파견직종 == '축산') |> 
   select(국가명, 파견직종, 파견분야)
