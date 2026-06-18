@@ -221,3 +221,39 @@ penguins |>
   theme_bw()
 
 
+# 설문조사 ----
+penguins
+
+penguins |> 
+  filter(flipper_length_mm < 180)
+
+penguins |> 
+  filter(flipper_length_mm < 200, flipper_length_mm > 180)
+
+penguins |> 
+  filter(flipper_length_mm < 220, flipper_length_mm > 200)
+
+
+set.seed(123)
+penguins |> 
+  drop_na() |> 
+  slice_sample(n = 20) |> 
+  mutate(번호 = row_number(), .before = 1) -> penguins_2_seed
+
+
+
+penguins_2_seed |> 
+  ggpairs(columns = c("bill_length_mm", 
+                      "bill_depth_mm", 
+                      "flipper_length_mm", 
+                      "body_mass_g",
+                      "species"), 
+          aes(color = species)
+  ) +
+  theme(
+    strip.text = element_text(size = 16),
+    axis.text = element_text(size = 10)
+  )
+
+
+
