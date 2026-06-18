@@ -331,3 +331,39 @@ sleep |>
 
 
 
+penguins_1_table |> 
+  pivot_longer(cols = !species,
+               names_to = "type", 
+               values_to = "value") |> 
+  ggplot(aes(x = species, y = value)) +
+  geom_bar(stat = 'identity') +
+  facet_wrap(.~type, scales = 'free_y') +
+  geom_label(aes(label = value))
+
+penguins |> 
+  filter(species %in% c('Adelie', 'Chinstrap')) -> penguins_Adelie_Chinstrap
+
+penguins |> 
+  filter(species %in% c('Gentoo', 'Chinstrap')) -> penguins_Gentoo_Chinstrap
+
+
+Chinstrap vs Gentoo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
