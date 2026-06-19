@@ -28,8 +28,6 @@ editor: visual
 
 ## 학습 목표
 
-> 항상 tidyverse를 로드합니다.
-
 ::: {.callout-note icon="false"}
 1.  t-검정을 통해 두 평균의 통계적 비교를 배웁니다.
 2.  pivot_weder, pivot_longer 함수를 사용해 데이터 구성을 변형합니다.
@@ -124,7 +122,7 @@ t.test(bill_depth_mm ~ species, data = penguins_Gentoo_Chinstrap)
 
 #### 해석
 
-3.4mg의 차이는 통계적으로 유의미하게 다릅니다. (체중이 다르다고 하기 어렵습니다)
+3.4mm의 차이는 통계적으로 유의미하게 다릅니다.
 
 > t = 21.01
 >
@@ -165,11 +163,13 @@ t.test(body_mass_g ~ species, data = penguins_Adelie_Chinstrap)
 
 33g의 차이는 통계적으로 유의미하지 않습니다 (체중이 다르다고 하기 어렵습니다)
 
-> t = -0.54390
+> t = -0.54390 (= 체중 차이 / 표준오차) 차이가 크지 않습니다
 >
 > p-value = 0.5879
 >
 > 95 percent confidence interval: -150.38481 \~ 85.53284
+>
+> - 신뢰구간이 0을 지나면 유의미하지 않습니다 (클 때도 있고 작을 때도 있다)
 
 <br>
 
@@ -208,6 +208,92 @@ Adelie 펭귄과 Chinstrap 펭귄의 체중 차이 33g은 통계적으로 유의
 **신뢰구간 0.357 \~ 2.30이 의미하는 바는 무엇일까요?**\
 Gentoo 펭귄과 Chinstrap 펭귄의 부리 길이를 여러 차례 표본으로 측정할 경우, 부리 길이 차이는 0.357mm \~ 2.300mm 구간 안에 있을 확률이 95%입니다.
 :::
+
+<br>
+
+# 회귀분석
+
+## 심슨 패러독스
+
+🔗 [링크](https://namu.wiki/w/%EC%8B%AC%EC%8A%A8%EC%9D%98%20%EC%97%AD%EC%84%A4)
+
+> 펭귄 부리의 길이가 길수록 부리의 두께도 두꺼워질까?
+
+```{r}
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() 
+```
+
+<br>
+
+> 추체선을 그려 흩어진 데이터를 해석합니다
+>
+> 부리가 길수록 두꺼워지나요?
+
+```{r}
+#| warning: false
+#| message: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = F)
+
+```
+
+<br>
+
+> 종족별로 구분합니다
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| message: false
+#| error: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point() +
+  geom_smooth(method = 'lm', se = F)
+
+```
+
+<br>
+
+## 분산분석 (ANOVA)
+
+> Gentoo vs Chinstrap 부리 길이
+>
+> 부리 길이 측정에 성별 차이가 영향을 주었을까?
+
+```{r}
+library(showtext)
+showtext_auto()
+
+penguins_Gentoo_Chinstrap %>%
+  filter(!is.na(sex)) %>% 
+  ggplot(aes(x = species, y = bill_length_mm, fill = sex)) +
+  geom_boxplot(alpha = 0.7) +
+  labs(title = "Species별, Sex별 부리 길이 분포",
+       x = "Species", y = "Bill Length (mm)") +
+  theme_minimal() +
+  scale_fill_brewer(palette = 'Set1')
+
+```
+
+<br>
+
+> 종과 성별을 모두 포함해 분석하는 ANOVA(Two-way) 를 수행합니다
+
+```{r}
+
+# 두 변수의 주효과와 상호작용을 함께 검정
+anova_result <- aov(bill_length_mm ~ species * sex, data = penguins_Gentoo_Chinstrap)
+summary(anova_result)
+
+```
 
 <br>
 
@@ -401,21 +487,21 @@ t.test(sleep_wide_group$extra_1, sleep_wide_group$extra_2, paired = T)
 >
 > t = -4.0621 (= mean difference / 표준오차)
 >
-> -   표준오차 대비 평균 차이가 4.06 배 크다는 의미이므로 실험 효과가 큽니다
+> - 표준오차 대비 평균 차이가 4.06 배 크다는 의미이므로 실험 효과가 큽니다
 >
-> -   부호는 신경 쓰지 않고 크기(절대값 4.06)만 보면 됩니다
+> - 부호는 신경 쓰지 않고 크기(절대값 4.06)만 보면 됩니다
 >
 > p-value = 0.002833 (= 0.28%)
 >
-> -   이 실험결과 우연일 확률은 0.28%
+> - 이 실험결과 우연일 확률은 0.28%
 >
-> -   다른 표본으로 테스트해도 99.72% 유사하게 재현될 것입니다
+> - 다른 표본으로 테스트해도 99.72% 유사하게 재현될 것입니다
 >
 > 95 percent confidence interval: -2.45 \~ -0.70
 >
-> -   구간 전체가 마이너스($-$) 영역에 존재하며, **`0`을 포함하지 않습니다.**
+> - 구간 전체가 마이너스($-$) 영역에 존재하며, **`0`을 포함하지 않습니다.**
 >
-> -   여러차례 반복 실험을 할 경우 그 실험 결과의 95%는 0.7시간에서 2.45시간 더 수면 효과가 클 것입니다
+> - 여러차례 반복 실험을 할 경우 그 실험 결과의 95%는 0.7시간에서 2.45시간 더 수면 효과가 클 것입니다
 
 <br>
 
@@ -495,7 +581,7 @@ t.test(sleep_wide_group$extra_1, sleep_wide_group$extra_2, paired = T)
 
     ```
 
-    #### \[단일표본\]{#sec-one-sample}
+    #### \[단일표본\] {#sec-one-sample}
 
 6.  1번약은 통계적으로 수면 시간 증대 효과가 있었나요?\
     (신뢰구간이 0을 지나간다는 것은 무엇을 의미하나요?)
