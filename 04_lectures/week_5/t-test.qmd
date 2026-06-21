@@ -339,7 +339,7 @@ sleep |>
 
 sleep |> 
   ggplot(aes(x = group, y = extra, color = group)) +
-  geom_point(position = position_jitter(width = .1), 
+  geom_point(position = position_jitter(width = .2), 
              size = 4)
 
 ```
@@ -355,7 +355,7 @@ sleep |>
 
 sleep |> 
   ggplot(aes(x = group, y = extra, color = group)) +
-  geom_point(position = position_jitter(width = .1, height = .1), 
+  geom_point(position = position_jitter(width = .2, height = .2), 
              size = 4)
 
 ```
@@ -495,7 +495,7 @@ t.test(sleep_wide_group$extra_1, sleep_wide_group$extra_2, paired = T)
 
     ```
 
-    #### \[단일표본\]{#sec-one-sample}
+    #### \[단일표본\] {#sec-one-sample}
 
 6.  1번약은 통계적으로 수면 시간 증대 효과가 있었나요?\
     (신뢰구간이 0을 지나간다는 것은 무엇을 의미하나요?)
