@@ -1,0 +1,338 @@
+---
+title: "KCOC M&E workbook"
+author: "최요한"
+date: "`r Sys.Date()`"
+version: "0.1.0"
+format: 
+  html: 
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
+execute:
+  warning: false
+  message: false    
+  echo: false
+fig-width: 12
+fig-height: 7
+out-width: "90%"
+
+editor: visual
+---
+
+## 2023 KOICA OECD CRS++ rawdata
+
+KOICA 오픈데이터 포탈 참고 <https://www.oda.go.kr/opo/nnstat/opoNstatInfoOthBcOecdList.do>.
+
+## M&E 예제
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+library(gapminder)
+library(tidyverse)
+library(RColorBrewer)
+library(scales)
+library(ggalluvial)
+library(bbplot)
+library(waffle)
+library(treemapify)
+library(showtext)
+showtext_auto()
+read_csv("./oecd2023_5select.csv") -> oecd2023_5select
+
+```
+
+### 대륙별 지원금 규모
+막대 그래프
+
+```{r}
+#| echo: false
+
+
+oecd2023_5select |> 
+  group_by(대륙명_1) |> 
+  reframe(총지원금 = sum(지출액_백만달러), 
+          사업건수 = n()) |> 
+  ggplot(aes(x = 대륙명_1, y = 총지원금)) +
+  geom_bar(stat = 'identity', show.legend = F, aes(fill = 대륙명_1)) +
+  geom_label(aes(label = round(총지원금,1)), size = 7) +
+  bbc_style() +
+  scale_fill_brewer(palette = 'Set2') +
+  ggtitle(label = '', 
+          subtitle = '단위: 백만달러') 
+```
+
+### 대륙별 원조유형
+
+waffle 차트
+
+```{r}
+
+oecd2023_5select |> 
+  group_by(대륙명_1, 원조유형) |> 
+  reframe(총지원금 = sum(지출액_백만달러), 
+          사업건수 = n()) |> 
+  arrange(desc(사업건수)) |> 
+  ggplot(aes(fill = 원조유형, values = 총지원금)) +
+  geom_waffle(flip = T, 
+              n_rows = 5) +
+  facet_wrap(.~대륙명_1, nrow = 1, strip.position = 'bottom')  +
+  #coord_equal() +
+  theme_void() +
+  theme(strip.text = element_text(size = 18), 
+        legend.position = 'top') +
+  scale_fill_brewer(palette = 'Dark2')
+
+
+```
+
+### 원조 지원금
+
+treemap
+
+```{r}
+#| fig-height: 12
+
+oecd2023_5select |> 
+  group_by(대륙명_1) |> 
+  reframe(총지원금 = sum(지출액_백만달러), 
+          사업건수 = n()) |> 
+  ggplot(aes(area = 총지원금, fill = 총지원금, 
+             label = 대륙명_1, subgroup2 = paste0(comma(사업건수),"건"),
+             subgroup = round(총지원금,1))) +
+  geom_treemap(color = 'snow', size = 4) +
+  geom_treemap_text(colour = 'snow', place = "topleft", 
+                    reflow = T, alpha = .7) +
+  geom_treemap_subgroup_text(color = 'snow', size = 42,
+                              grow = F, place = 'center', alpha = .7) +
+  geom_treemap_subgroup2_text(color = 'snow', size = 22,
+                             grow = F, place = 'bottomright') +
+  #scale_fill_brewer(palette = 'Set1') +
+  labs(title = "대륙별 지원 비중 (트리맵)", subtitle = '단위: 백만달러') +
+  scale_y_continuous(labels = scales::comma_format(suffix = "M$")) +
+  theme(strip.text = element_text(size = 28, color = 'black'), 
+        strip.background = element_rect(fill = 'snow'), 
+        legend.position = 'none') 
+
+
+```
+
+### 수원국 \* 원조 지원금
+
+treemap
+
+```{r}
+
+oecd2023_5select |> 
+  group_by(대륙명_1, 수원국) |> 
+  reframe(총지원금 = sum(지출액_백만달러), 
+          사업건수 = n()) |> 
+  filter(대륙명_1 %in% c('아시아', '아프리카')) |> 
+ggplot(aes(area = 총지원금, fill = 총지원금, label = 수원국,
+           subgroup = 대륙명_1)) +
+  geom_treemap(show.legend = F) +
+  # geom_treemap_subgroup_text(grow = T, color = 'grey60', 
+  #                            size = 6, place = 'center') +
+  geom_treemap_text(colour = "snow", place = "centre", reflow = T) +
+  facet_wrap(.~대륙명_1) +
+  labs(title = "수원국별 지원 비중 (트리맵)") +
+    theme(strip.text = element_text(size = 28, color = 'black'), 
+          strip.background = element_rect(fill = 'snow'))
+
+
+```
+
+### 사업유형
+
+treemap
+
+```{r}
+
+oecd2023_5select |> 
+  group_by(원조유형) |> 
+  reframe(총지원금 = sum(지출액_백만달러), 
+          사업건수 = n()) |> 
+  #filter(대륙명_1 %in% c('아시아', '아프리카')) |> 
+  ggplot(aes(area = 총지원금, fill = 총지원금, label = 원조유형,
+             subgroup = 원조유형)) +
+  geom_treemap() +
+  # geom_treemap_subgroup_text(grow = T, color = 'grey60', 
+  #                             size = 6, place = 'center') +
+  geom_treemap_text(colour = "snow", place = "centre", reflow = T) 
+#facet_wrap(.~원조유형) +
+labs(title = "수원국별 지원 비중 (트리맵)") +
+  theme(strip.text = element_text(size = 28, color = 'black'), 
+        strip.background = element_rect(fill = 'snow'))
+
+```
+
+### 성평등 관련 지출액 비중
+
+treemap
+
+```{r}
+
+oecd2023_5select |> 
+  group_by(성평등) |> 
+  reframe(total = sum(지출액_백만달러), 
+          n = n()) |> 
+  mutate(prop = total / sum(total) * 100) |> 
+  ggplot(aes(x = '성평등', y = total, fill = 성평등)) +
+  geom_bar(stat = 'identity', position = 'stack') +
+  coord_flip() +
+  geom_text(
+    aes(label = paste0(round(prop, 1), "%\n(", round(total, 1), "M$)")), 
+            size = 5,
+            lineheight = 0.8, # 줄 간격 조절
+            position = position_stack(vjust = 0.5)) +
+  theme_void() +
+  #ggtitle(label = '성평등 관련 지출액 규모') +
+  theme(legend.position = 'top', 
+        legend.margin = margin(t = 15, b = 10), 
+        legend.text = element_text(size = 10)) +
+  guides(fill = guide_legend(reverse = T)) #범례 일치 
+
+
+```
+
+### 상위 10개국 원조
+
+면분할
+
+```{r}
+
+top10_countries <- oecd2023_5select %>%
+  group_by(대륙명_1, 수원국) %>%
+  summarise(total = sum(지출액_백만달러, na.rm = TRUE)) %>%
+  arrange(desc(total)) %>%
+  slice(2:11) %>%
+  pull(수원국)
+
+oecd2023_5select %>%
+  filter(수원국 %in% top10_countries) %>%
+  ggplot(aes(x = 수원국 |> fct_reorder(지출액_백만달러), 
+             y = 지출액_백만달러, 
+             fill = 원조유형)) +
+  geom_col() +
+  coord_flip() +
+  facet_wrap(.~대륙명_1, scales = 'free_y') +
+  scale_fill_viridis_d(option = "plasma") +
+  labs(
+    title = "대륙별 지원금 상위 10개국",
+    subtitle = " 원조유형비중 확인",
+    x = "수원국", y = "지출액 (백만달러)",
+    fill = "원조 유형"
+  ) +
+  theme_minimal(base_family = "NanumGothic") +
+  theme(legend.position = "top", 
+        axis.text = element_text(size = 12),
+        legend.text = element_text(size = 10), 
+        strip.text = element_text(size = 16))
+
+
+```
+
+### 미배분 사업
+
+heatmap
+
+```{r}
+
+oecd2023_5select |> 
+  filter(str_detect(수원국, '미배분')) |> 
+  count(사업실시기관명, 사업분야) |> #print(n = Inf)
+  ggplot(aes(x = 사업실시기관명, y = 사업분야, fill = n)) +
+  geom_tile(color = 'snow', show.legend = F) +
+  geom_text(aes(label = n), color = 'snow', size = 5) +
+  theme_minimal() +
+  ggtitle(label = '2023년도 미배분 사업') +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = .5, 
+                                   size = 12), 
+        axis.text.y = element_text(size = 12), 
+        plot.title = element_text(size = 24)) 
+
+
+```
+
+### 자금 흐름도
+
+sankey
+
+```{r}
+#| fig-height: 18
+
+oecd2023_5select |>
+  group_by(원조유형, 대륙명_1, 사업분야) |>
+  summarise(total = sum(지출액_백만달러, na.rm = TRUE), .groups = "drop") |>
+  # 상위 노드 위주로 시각화하기 위해 필터링 (선택 사항)
+  filter(total > 5) |> 
+  ggplot(aes(y = total, axis1 = 원조유형, axis2 = 대륙명_1, 
+             axis3 = 사업분야)) +
+  geom_alluvium(aes(fill = 원조유형), width = 1/12) +
+  geom_stratum(width = 1/12, fill = "grey80", color = "white") +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum)), size = 3) +
+  scale_x_discrete(limits = c("원조유형", "대륙", "분야"), 
+                   expand = c(.05, .05)) +
+  scale_fill_viridis_d(alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "2023 KOICA 원조 자금 흐름도", y = "지출액 (백만달러)", 
+       fill = "원조유형") +
+  theme(legend.position = "bottom")
+
+```
+
+### SDGs 분야별 지출액
+
+radar 차트
+
+```{r}
+library(fmsb)
+
+#### 6-10-1 data check ----
+  oecd2023_5select |>
+  separate_rows(SDGs, sep = "; ") |> 
+  mutate(sdg_main = as.numeric(str_extract(SDGs, "^[0-9]+"))) |> 
+  filter(!is.na(sdg_main)) |>
+  group_by(sdg_main) |>
+  summarise(total = sum(지출액_백만달러, na.rm = TRUE), n = n()) 
+
+# 1. 데이터 정리: 공백 유무에 상관없이 분리하고 1~17번 순서 고정
+sdg_summary <- oecd2023_5select |>
+  # "; " 또는 ";" 모두 대응하도록 정규표현식(sep = ";\\s*") 사용
+  separate_rows(SDGs, sep = ";\\s*") |> 
+  mutate(sdg_main = as.numeric(str_extract(SDGs, "^[0-9]+"))) |> 
+  filter(!is.na(sdg_main)) |>
+  group_by(sdg_main) |>
+  summarise(total = sum(지출액_백만달러, na.rm = TRUE)) |>
+  complete(sdg_main = 1:17, fill = list(total = 0)) |> 
+  # [핵심] 반시계 방향(1 -> 17 -> 16...) 정렬 로직
+  mutate(sort_order = ifelse(sdg_main == 1, 0, 18 - sdg_main)) |> 
+  arrange(sort_order) |> 
+  mutate(sdg_label = paste0("G", sdg_main)) |> 
+  select(sdg_label, total) |> 
+  pivot_wider(names_from = sdg_label, values_from = total)
+
+# 2. 레이더 차트용 상한/하한행 추가
+# max_val을 수동으로 넉넉하게 잡거나 데이터의 최대값으로 설정
+max_val <- 250 # Goal 17이 약 243이므로 250으로 고정하면 눈금 보기가 편합니다.
+radar_df <- rbind(rep(max_val, 17), 
+                  rep(0, 17), 
+                  sdg_summary)
+
+# 3. 차트 그리기
+radarchart(radar_df,
+           axistype = 1,
+           # 디자인 설정
+           pcol = rgb(0.1, 0.4, 0.8, 0.9), pfcol = rgb(0.1, 0.4, 0.8, 0.3), plwd = 3,
+           cglcol = "grey70", cglty = 1, axislcol = "grey30", 
+           # 축 눈금 표시 (0, 62.5, 125, 187.5, 250)
+           caxislabels = seq(0, max_val, length.out = 5),
+           title = "SDGs 기여도 (G1 기준 반시계 방향)")
+
+```

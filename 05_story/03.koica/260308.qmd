@@ -24,8 +24,7 @@ editor: visual
 
 ## 2023 KOICA OECD CRS++ rawdata
 
-KOICA 오픈데이터 포탈 참고
-<https://www.oda.go.kr/opo/nnstat/opoNstatInfoOthBcOecdList.do>.
+KOICA 오픈데이터 포탈 참고 <https://www.oda.go.kr/opo/nnstat/opoNstatInfoOthBcOecdList.do>.
 
 ## M&E 예제
 
@@ -48,6 +47,7 @@ read_csv("../../05.files/oecd2023_5select.csv") -> oecd2023_5select
 ```
 
 ### 대륙별 지원금 규모
+
 막대 그래프
 
 ```{r}
@@ -67,7 +67,8 @@ oecd2023_5select |>
           subtitle = '단위: 백만달러') 
 ```
 
-### 대륙별 원조유형 
+### 대륙별 원조유형
+
 waffle 차트
 
 ```{r}
@@ -90,8 +91,8 @@ oecd2023_5select |>
 
 ```
 
+### 원조 지원금
 
-### 원조 지원금 
 treemap
 
 ```{r}
@@ -119,9 +120,8 @@ oecd2023_5select |>
 
 ```
 
+### 수원국 \* 원조 지원금
 
-
-### 수원국 * 원조 지원금 
 treemap
 
 ```{r}
@@ -145,9 +145,8 @@ ggplot(aes(area = 총지원금, fill = 총지원금, label = 수원국,
 
 ```
 
+### 사업유형
 
-
-### 사업유형 
 treemap
 
 ```{r}
@@ -170,9 +169,8 @@ labs(title = "수원국별 지원 비중 (트리맵)") +
 
 ```
 
+### 성평등 관련 지출액 비중
 
-
-### 성평등 관련 지출액 비중 
 treemap
 
 ```{r}
@@ -200,9 +198,8 @@ oecd2023_5select |>
 
 ```
 
-
-
 ### 상위 10개국 원조
+
 면분할
 
 ```{r}
@@ -238,10 +235,8 @@ oecd2023_5select %>%
 
 ```
 
-
-
-
 ### 미배분 사업
+
 heatmap
 
 ```{r}
@@ -262,10 +257,8 @@ oecd2023_5select |>
 
 ```
 
-
-
-
 ### 자금 흐름도
+
 sankey
 
 ```{r}
@@ -290,9 +283,8 @@ oecd2023_5select |>
 
 ```
 
-
-
 ### SDGs 분야별 지출액
+
 radar 차트
 
 ```{r}
@@ -340,11 +332,3 @@ radarchart(radar_df,
            title = "SDGs 기여도 (G1 기준 반시계 방향)")
 
 ```
-
-
-
-
-
-
-
-

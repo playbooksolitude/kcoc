@@ -1,0 +1,235 @@
+---
+title: "6강 지도그리기"
+subtitle: "leaflet"
+editor: visual
+format: 
+  html:
+    toc: true
+    toc-depth: 3             # 번호 깊이
+    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
+    number-depth: 3
+    number-sections: true    # 자동 번호
+    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true      # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+---
+
+# 지도
+
+```{r}
+
+#install.packages("leaflet")
+library(leaflet)
+library(tidyverse)
+
+```
+
+## 지도 생성
+
+> leaflet 함수를 사용해 지도의 위도, 경도를 찾아갈 수 있습니다
+
+### 우간다 경도, 위도, 확대
+
+```{r}
+#| echo: false
+
+#우간다
+leaflet() |>
+  setView(32.5825, 0.3476, zoom = 13)
+
+```
+
+<br>
+
+### OpenStreetMap
+
+> 오픈소스지도를 활용합니다
+
+```{r}
+
+leaflet() |>
+  setView(32.5825, 0.3476, zoom = 13) |>
+  addTiles() 
+
+```
+
+<br>
+
+### addMarkers
+
+> 해당 위치에 마커 추가
+>
+> "Kampala"는 마우스를 올렸을 때 표시될 이름
+
+```{r}
+
+leaflet() |>
+  setView(32.5825, 0.3476, zoom = 13) |>
+  addTiles() |>
+  addMarkers(32.5825, 0.3476, "Kampala")
+
+```
+
+<br>
+
+# AI GPT 사용
+
+> AI를 활용해 아래 지역의 경도, 위도를 찾아내 지도에 표시하시오
+
+### 이란 (테헤란)
+
+> #우간다
+> leaflet() \|\>
+> setView(32.5825, 0.3476, zoom = 13) \|\>
+> addTiles() \|\>
+> addMarkers(32.5825, 0.3476, "Kampala")
+>
+> R 을 사용해 지도를 시각화할거야.
+>
+> 위의 코드는 우간다를 표시한 지도야
+>
+> 코드를 해석한 후 이란 호르무즈 해협을 표시하는 위도,경도 code를 제시해
+
+```{r}
+#| echo: false
+
+leaflet() |>
+  setView(51.3890, 35.6892, zoom = 10) |>
+  #addTiles() |>
+  addProviderTiles(providers$CartoDB.Positron) |>
+  addMarkers(51.3890, 35.6892, "Tehran")
+
+```
+
+<br>
+
+### 호르무즈 해협
+
+```{r}
+#| echo: false
+
+leaflet() |>
+  setView(56.2500, 26.5667, zoom = 8) |>
+  #addTiles() |>
+  addProviderTiles(providers$CartoDB.Positron) |>
+  addMarkers(56.2500, 26.5667, "Strait of Hormuz")
+
+```
+
+<br>
+
+### 다크모드
+
+```{r}
+
+leaflet() |>
+  setView(56.2500, 26.5667, zoom = 8) |>
+  addProviderTiles(providers$CartoDB.DarkMatter) |>
+  addMarkers(
+    lng = 56.2500,
+    lat = 26.5667,
+    label = "호르무즈 해협"
+  )
+```
+
+## 이스라엘, 팔레스타인
+
+> 한번에 보기
+
+```{r}
+
+leaflet() |>
+  setView(35.2, 31.7, zoom = 8) |>
+  #addTiles() |>
+  addProviderTiles(providers$CartoDB.Positron) |>
+  addMarkers(35.2137, 31.7683, "Jerusalem") |>
+  addMarkers(34.4668, 31.5017, "Gaza")
+
+```
+
+<br>
+
+# 국토교통부 VWorld 지도
+
+## 주소로 경도,위도 찾기
+
+```{r}
+
+#install.packages("tidygeocoder")
+library(tidygeocoder)
+
+```
+
+<br>
+
+## 서울시청
+
+```{r}
+
+leaflet() |> 
+  setView(126.9784, 37.5665, zoom = 14) |> 
+  # 국토교통부 브이월드 기본 지도 타일 쓰기
+  addTiles("http://xdworld.vworld.kr:8080/2d/Base/service/{z}/{x}/{y}.png", 
+           attribution = "Vworld") |> 
+  addMarkers(126.9784, 37.5665, popup = "서울시청")
+
+```
+
+<br>
+
+## KCOC 건물 위치를 지도해 표시하시오
+
+> 위치: 서울시 마포구 독막로 282
+
+```{r}
+#| echo: true
+
+kcoc_addresses <- tibble(
+  name = "kcoc",
+  address = "서울시 마포구 독막로 282"
+)
+
+```
+
+### 위치 확인
+
+```{r}
+
+df_coords <- kcoc_addresses |>
+  geocode(address = address, 
+          method = 'osm', 
+          lat = latitude, 
+          long = longitude)
+
+print(df_coords)
+
+```
+
+### 지도 표시
+
+```{r}
+
+leaflet(df_coords) |>
+  setView(
+    lng = df_coords$longitude[1],
+    lat = df_coords$latitude[1],
+    zoom = 19
+  ) |>
+  addTiles() |>
+  addMarkers(
+    lng = ~longitude,
+    lat = ~latitude,
+    popup = ~name
+  )
+
+```
+
+🔗 [구글 링크](https://www.google.com/maps?q=37.545,126.9443)
