@@ -1,6 +1,8 @@
 ---
 title: "6강 재현성 있는 문서작성"
 subtitle: "기본 YAML"
+author: "최요한"
+date: "`r Sys.Date()`"
 editor: visual
 format: 
   html:
@@ -122,7 +124,6 @@ library(palmerpenguins)
 -   **Code Block\... (일반 코드 블록 삽입)** `ctrl + alt + I`
 
 ``` r
-
 ```
 
 -   Special Characters (특수 문자)

@@ -1,9 +1,8 @@
 ---
 title: "KCOC M&E workbook"
 author: "최요한"
-date: "2026-03-08"
+date: "`r Sys.Date()`"
 version: "0.1.0"
-
 format: 
   html: 
     embed-resources: true
@@ -14,7 +13,6 @@ execute:
   warning: false
   message: false    
   echo: false
-  
 fig-width: 12
 fig-height: 7
 out-width: "90%"
@@ -41,13 +39,16 @@ library(tidyverse)
 library(RColorBrewer)
 library(scales)
 library(ggalluvial)
-source("../../../p_load.R")
-read_csv("../../05.files/oecd2023_5select.csv") -> oecd2023_5select
+library(bbplot)
+library(waffle)
+library(treemapify)
+library(showtext)
+showtext_auto()
+read_csv("./oecd2023_5select.csv") -> oecd2023_5select
 
 ```
 
 ### 대륙별 지원금 규모
-
 막대 그래프
 
 ```{r}
@@ -86,7 +87,7 @@ oecd2023_5select |>
   theme_void() +
   theme(strip.text = element_text(size = 18), 
         legend.position = 'top') +
-  scale_fill_brewer(palette = 'Set3')
+  scale_fill_brewer(palette = 'Dark2')
 
 
 ```
@@ -96,6 +97,7 @@ oecd2023_5select |>
 treemap
 
 ```{r}
+#| fig-height: 12
 
 oecd2023_5select |> 
   group_by(대륙명_1) |> 
@@ -105,12 +107,13 @@ oecd2023_5select |>
              label = 대륙명_1, subgroup2 = paste0(comma(사업건수),"건"),
              subgroup = round(총지원금,1))) +
   geom_treemap(color = 'snow', size = 4) +
-  geom_treemap_text(colour = 'snow', place = "topleft", reflow = T, alpha = .7) +
+  geom_treemap_text(colour = 'snow', place = "topleft", 
+                    reflow = T, alpha = .7) +
   geom_treemap_subgroup_text(color = 'snow', size = 42,
                               grow = F, place = 'center', alpha = .7) +
   geom_treemap_subgroup2_text(color = 'snow', size = 22,
                              grow = F, place = 'bottomright') +
-  scale_fill_viridis_c()  + #색맹 color Blindness 고려
+  #scale_fill_brewer(palette = 'Set1') +
   labs(title = "대륙별 지원 비중 (트리맵)", subtitle = '단위: 백만달러') +
   scale_y_continuous(labels = scales::comma_format(suffix = "M$")) +
   theme(strip.text = element_text(size = 28, color = 'black'), 
@@ -262,6 +265,7 @@ oecd2023_5select |>
 sankey
 
 ```{r}
+#| fig-height: 18
 
 oecd2023_5select |>
   group_by(원조유형, 대륙명_1, 사업분야) |>

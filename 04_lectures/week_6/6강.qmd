@@ -29,4 +29,4 @@ The `echo: false` option disables the printing of code (only output is displayed
 
 도구상자
 
-![도구상자 화면](스크린샷 2026-06-25 10.22.13.png){width="200"}
+![도구상자 화면](스크린샷%202026-06-25%2010.22.13.png){width="200"}

@@ -50,7 +50,6 @@ library(tidyverse)
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -71,7 +70,6 @@ starwars
 > str(), glimpse()
 
 ``` r
-
 
 
 
@@ -101,7 +99,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -127,7 +124,6 @@ head(starwars);tail(starwars)
 
 
 
-
 ```
 
 ```{r}
@@ -150,7 +146,6 @@ head(starwars);tail(starwars)
 > count(), species
 
 ``` r
-
 
 
 
@@ -181,7 +176,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -204,7 +198,6 @@ starwars |>
 > drop_na()
 
 ``` r
-
 
 
 
@@ -231,7 +224,6 @@ starwars |>
 > drop_na(), , nrow()
 
 ``` r
-
 
 
 
@@ -262,7 +254,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -287,7 +278,6 @@ starwars |>
 > filter(), &, print()
 
 ``` r
-
 
 
 
@@ -318,7 +308,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -343,7 +332,6 @@ starwars |>
 > select(), ends_with()
 
 ``` r
-
 
 
 
@@ -373,7 +361,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -396,7 +383,6 @@ starwars$gender
 > \[,\]
 
 ``` r
-
 
 
 
@@ -426,7 +412,6 @@ starwars[10,1]
 
 
 
-
 ```
 
 ```{r}
@@ -450,7 +435,6 @@ starwars[10,c(1,11)]
 > table(), starwars\$sex
 
 ``` r
-
 
 
 
@@ -480,7 +464,6 @@ starwars$sex |>
 
 
 
-
 ```
 
 ```{r}
@@ -504,7 +487,6 @@ starwars |>
 > args(),table(), as.data.frame(), as_tibble(), rename()
 
 ``` r
-
 
 
 
@@ -542,7 +524,6 @@ starwars$sex |> table(useNA = 'always') |>
 
 
 
-
 ```
 
 ```{r}
@@ -573,7 +554,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -596,7 +576,6 @@ starwars |>
 > position, geom_bar()
 
 ``` r
-
 
 
 
@@ -623,7 +602,6 @@ starwars |>
 > geom_historam(), binwidth = 10
 
 ``` r
-
 
 
 
@@ -655,7 +633,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -682,7 +659,6 @@ starwars |>
 > select(), birth_year, select(), arrange(), desc(), drop_na()
 
 ``` r
-
 
 
 
@@ -719,7 +695,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -742,7 +717,6 @@ starwars |>
 > mutate(), select()
 
 ``` r
-
 
 
 
@@ -770,7 +744,6 @@ starwars |>
 > select(), mutate(), arrange(), filter(), row_number()
 
 ``` r
-
 
 
 
@@ -803,7 +776,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -833,7 +805,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -857,7 +828,6 @@ starwars |>
 > slice_sample()
 
 ``` r
-
 
 
 
@@ -887,7 +857,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -913,7 +882,6 @@ starwars |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -936,7 +904,6 @@ starwars |>
 > round(), n(), filter(), group_by(), refraem(), mean()
 
 ``` r
-
 
 
 ```
@@ -969,7 +936,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -995,7 +961,6 @@ starwars |>
 > coord_cartesian()
 
 ``` r
-
 
 
 
@@ -1028,7 +993,6 @@ starwars |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -1059,7 +1023,6 @@ starwars |>
 > ggplot(), geom_point(), coord_flip()
 
 ``` r
-
 
 
 ```
@@ -1095,7 +1058,6 @@ starwars |>
 > ggplot(), geom_point(), fct_reorder(), desc() ggplot(aes(x = homeworld \|\> fct_reorder(n)
 
 ``` r
-
 
 
 ```
@@ -1134,7 +1096,6 @@ starwars |>
 > mutate(), replace_na(), geom_label(), desc(), labs() mutate(homeworld = replace_na(homeworld, 'NA')) size = 5
 
 ``` r
-
 
 
 
@@ -1179,7 +1140,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -1209,7 +1169,6 @@ starwars |>
 
 
 
-
 ```
 
 ```{r}
@@ -1233,7 +1192,6 @@ starwars_1select |>
 > starwars_1select, drop_na(), group_by(), filter(), range(), arrange()
 
 ``` r
-
 
 
 
@@ -1270,7 +1228,6 @@ starwars_1select |>
 
 
 
-
 ```
 
 ```{r}
@@ -1294,7 +1251,6 @@ starwars_1select |>
 > factor(), str()
 
 ``` r
-
 
 
 
@@ -1326,7 +1282,6 @@ starwars_1select |>
 
 
 
-
 ```
 
 ```{r}
@@ -1355,7 +1310,6 @@ starwars |>
 ##### sex == 'female' 이면서, homeworld가 Naboo 혹은 Tatooine인 등장인물의 name, sex, homeworld를 출력하시오
 
 ``` r
-
 
 
 
