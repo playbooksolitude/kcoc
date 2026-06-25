@@ -208,7 +208,7 @@ koica_wfk_20260331 |>
 #### 📮 enframe()
 
 ```{r}
-#| code-fold: false
+#| code-fold: true
 
 koica_wfk_20260331 |> 
   sapply(n_distinct) |> 
@@ -225,7 +225,7 @@ koica_wfk_20260331 |>
 ```{r}
 
 koica_wfk_20260331 |> 
-  count(국가명),
+  count(국가명)
 
 ```
 

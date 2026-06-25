@@ -1,0 +1,546 @@
+---
+title: "6강 재현성 있는 문서작성"
+subtitle: "기본 YAML"
+editor: visual
+format: 
+  html:
+    toc: true
+    toc-depth: 3             # 번호 깊이
+    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
+    number-depth: 3
+    number-sections: true    # 자동 번호
+    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true      # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+<br>
+
+```{r}
+#| label: setup
+#| echo: false
+#| include: false
+
+library(tidyverse)
+library(palmerpenguins)
+
+```
+
+# Render와 화면 설정
+
+## Render
+
+> Quarto 문서를 html 파일로 생성하기
+>
+> 단축키: ctrl + shift + k
+
+![](렌더.png){width="500" height="46"}
+
+<br>
+
+## View 설정
+
+> Render 옆 '톱니바퀴' 버튼
+
+![도구상자 \> 톱니바퀴](톱니바퀴.png){fig-align="left" width="600"}
+
+### 설명
+
+-   Use Visual Editor (추천)
+
+    -   체크되어 있으면 워드(Word)나 노션(Notion)처럼 서식이 곧바로 눈에 보이는 WYSIWYG 방식의 '비주얼 에디터'를 사용합니다. 체크를 해제하면 마크다운(Markdown) 코드가 그대로 노출되는 '소스 에디터'로 전환됩니다.
+
+-   Preview in Window (새 창에서 미리보기)
+
+-   Preview in Viewer Pane (Viewer 창에서 미리보기, 추천)
+
+-   Chunk Output Inline (코드 청크 아래에 출력)
+
+    -   현재 체크되어 있는 옵션입니다. R 코드 블록(청크)을 실행했을 때, 그 결과(표, 그래프, 텍스트 등)를 소스 코드 바로 아래(문서 내부)에 끼워 넣어서 보여줍니다.
+
+-   Chunk Output in Console (콘솔 창에 출력, 추천)
+
+    -   코드 블록을 실행했을 때, 결과물을 문서 내부가 아닌 RStudio 하단의 **Console(콘솔) 창**이나 **Plots 창**에 분리하여 출력합니다. 전통적인 R 스크립트 실행 방식과 같습니다.
+
+<br>
+
+# 다양한 요소 추가
+
+## Insert
+
+> 설정보기
+
+![추가하기](인서트.png){fig-align="left" width="250"}
+
+### 설정하기
+
+-   Any (무엇이든 검색해서 삽입하기) `ctrl + /`
+
+    -   일종의 만능 검색창입니다. 단축키를 누르고 원하는 기능 이름(예: Table, Image 등)을 타이핑하면 메뉴를 일일이 찾지 않고도 바로 삽입할 수 있습니다. (노션의 `/` 명령어와 유사)
+
+<!-- -->
+
+-   YAML Block (YAML 블록 삽입)
+
+    -   문서의 제목, 저자, 출력 포맷 등 전체적인 설정을 정의하는 문서 최상단의 **YAML 헤더 블록**을 삽입합니다.
+
+-   **Figure / Image\... (그림 / 이미지 삽입)** `ctrl + shist + I`
+
+-   Link\... (하이퍼링크 삽입) `ctrl + K`
+
+🔗 [KCOC](https://www.ngokcoc.or.kr/)
+
+-   **Code Block\... (일반 코드 블록 삽입)** `ctrl + alt + I`
+
+``` r
+
+```
+
+-   Special Characters (특수 문자)
+
+    -   😀 웃음 이모지
+
+-   Horizontal Rule (가로 구분선)
+
+------------------------------------------------------------------------
+
+-   Tabset\... (탭 화면 삽입)
+
+::: panel-tabset
+## 코드
+
+```{r}
+#| eval: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+## 시각화
+
+```{r}
+#| echo: false
+#| warning: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, y = bill_depth_mm)) +
+  geom_point()
+```
+
+## Raw data
+
+```{r}
+
+penguins
+```
+:::
+
+-   Callout\... (콜아웃 상자 삽입)
+
+::: callout-note
+노트 콜아웃
+:::
+
+::: callout-important
+중요 콜아웃
+:::
+
+-   Comment (주석) <!--# 테스트 -->
+
+<br>
+
+### palmerpenguins 출력
+
+```{r}
+
+library(tidyverse)
+library(palmerpenguins)
+penguins
+
+```
+
+<br>
+
+## Run 설정
+
+> Run Selected Line 을 주로 사용
+>
+> shift +Enter
+
+![Run 설정](런.png){fig-align="left" width="300"}
+
+# chunk
+
+## 청크 옵션(Chunk Option)
+
+> code 블록에 적용하는 다양한 특수 설정들
+>
+> 코드 블록에서만 동작하며 반드시 줄간격 없이 입력해야 함
+
+|                  |               |               |          |            |            |          |
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| **옵션**         | **코드 실행** | **코드 표시** | **출력** | **그래프** | **메시지** | **경고** |
+| `eval: false`    | **X**         |               | **X**    | **X**      | **X**      | **X**    |
+| `include: false` |               | **X**         | **X**    | **X**      | **X**      | **X**    |
+| `echo: false`    |               | **X**         |          |            |            |          |
+| `results: hide`  |               |               | **X**    |            |            |          |
+| `fig-show: hide` |               |               |          | **X**      |            |          |
+| `message: false` |               |               |          |            | **X**      |          |
+| `warning: false` |               |               |          |            |            | **X**    |
+
+<br>
+
+## `eval: false` (코드 실행 안 함)
+
+> 코드가 문서에 그대로 **표시만 되고 실행은 되지 않습니다.** 당연히 그래프나 결과 출력도 없습니다.
+
+```{r}
+#| eval: false
+
+penguins
+
+```
+
+<br>
+
+## `echo: false` (코드만 숨김)
+
+> 소스 코드는 감추고, 코드의 실행 결과인 **그래프만 최종 문서에 깔끔하게 보여줍니다.** 보고서 작성 시 가장 많이 쓰입니다.
+
+```{r}
+#| echo: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = species)) +
+    geom_point()
+
+```
+
+<br>
+
+## `results: hide` (텍스트 출력만 숨김)
+
+> 코드는 보여주고 그래프도 그려내지만, `summary()`나 데이터 프레임 출력 같은 **텍스트 형태의 콘솔 출력 결과(수치 데이터 등)만 쏙 숨깁니다.**
+
+```{r}
+#| results: hide
+
+
+summary(penguins) # 이 요약 문구만 문서에서 안 보입니다.
+```
+
+<br>
+
+## `message: false` (안내 메시지 숨김)
+
+> `tidyverse`나 `palmerpenguins` 같은 패키지를 불러올 때(load) 자동으로 뜨는 **부수적인 시스템 안내 문구(메시지)들을 안 보이게 가려줍니다.**
+
+```{r}
+#| message: false
+
+library(tidyverse) # 패키지 로드 시 뜨는 스타트업 메시지가 사라집니다.
+```
+
+<br>
+
+## `warning: false` (경고 메시지 숨김)
+
+> `penguins` 데이터에는 결측치(`NA`)가 포함되어 있어서 그래프를 그릴 때 "이 결측치를 제거했다"는 경고(`Warning`) 문구가 뜹니다. 이 옵션은 그 **경고 문구만 깔끔하게 지워줍니다.**
+
+```{r}
+#| warning: false
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = species)) +
+    geom_point()
+```
+
+<br>
+
+## `include: false` (실행하되 결과 표시 안 함)
+
+> 백그라운드에서 코드를 실행하지만 문서에는 **코드도, 결과도, 메시지도 노출하지 않습니다.** 패키지 로드, 데이터 체크 등 백그라운드 작업에 주로 씁니다.
+
+```{r}
+#| include: false
+
+penguins
+
+```
+
+<br>
+
+## `code-fold: true` (코드를 펼쳐보기)
+
+> 코드를 접어둡니다
+
+```{r}
+#| code-fold: true
+#| code-summary: 펼쳐보기
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = species)) +
+    geom_point()
+
+```
+
+<br>
+
+## code-summary: Raw data 확인하기
+
+> Code 대신 원하는 이름을 지정할 수 있습니다
+
+```{r}
+#| code-fold: true
+#| code-summary: Raw data 확인
+
+penguins |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = species)) +
+    geom_point()
+
+```
+
+<br>
+
+# csv 파일 첨부하기
+
+## 파일 첨부하기 (어려움)
+
+> html 파일에 csv(xlsx) 파일을 첨부합니다
+
+```{r}
+#| echo: false
+#| warning: false
+
+# 1. 파일 경로 및 Base64 변환 (화면에는 숨겨짐)
+#install.packages("downloadthis")
+#library(downloadthis)
+excel_path <- "./koica_wfk_20260331.csv"
+b64_data <- base64enc::base64encode(readBin(excel_path, "raw", n = file.info(excel_path)$size))
+
+# 2. 버튼 출력 (이 버튼만 웹 화면에 노출됨)
+htmltools::HTML(paste0(
+  '<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,', b64_data, '" ',
+  'download="koica_wfk_20260331.csv" class="btn btn-primary">',
+  '<i class="bi bi-download"></i> KOICA 해외봉사단 파견현황</a>'
+))
+
+```
+
+<br>
+
+# 실습: 3주차 강의교재 직접 만들어보기
+
+## tidyverse 로드
+
+> 항상 tidyverse를 로드합니다.
+
+```{r}
+#| message: false
+
+library(tidyverse)            # 라이브러리 로드
+
+```
+
+## showtext 로드
+
+> 한글을 오류없이 출력할수 있습니다
+
+```{r}
+#| message: false
+
+# install.packages("showtext")        # 최초 1회
+library(showtext)                     # 라이브러리 로드
+showtext_auto()     
+
+```
+
+## 자료 출처
+
+출처: [공공데이터포탈](https://www.data.go.kr/data/15051101/fileData.do)
+
+![](03강_해외봉사단_파견실적.png)
+
+<br>
+
+## csv 파일 불러오기
+
+```{r}
+#| include: false
+#| warning: false
+
+read_csv("./koica_wfk_20260331.csv")
+
+```
+
+## 변수에 저장하기
+
+> 변수명: koica_wfk_20260331
+
+```{r}
+#| label: sheet
+#| include: true
+#| warning: false
+#| cache: true
+
+read_csv("./koica_wfk_20260331.csv") ->  koica_wfk_20260331
+print(koica_wfk_20260331)
+
+```
+
+<br>
+
+## 데이터셋 구조보기
+
+#### glimpse()
+
+데이터 셋의 전체 크기, 변수의 자료형을 보여주고, 대략 어떤 값들로 채워져 있는지 정돈된 형태로 출력
+
+> 데이터셋의 물리적 구조를 스냅샷으로 제공
+
+```{r}
+#| label: glimpse
+
+koica_wfk_20260331 |> 
+  glimpse()
+
+```
+
+<br>
+
+## 탐색적 데이터 분석
+
+### group_by() + geom_bar()
+
+> 국가별 파견인원을 가로 막대그래프로 그립니다.
+
+```{r}
+
+koica_wfk_20260331 |> 
+  group_by(국가명, 파견분야) |> 
+  reframe(파견인원_합계 = sum(인원)) |> 
+  ggplot(aes(x = 국가명, y = 파견인원_합계, fill = 파견분야)) +
+  geom_bar(stat = 'identity') 
+
+```
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-fold: true
+#| code-summary: 세로 막대
+
+koica_wfk_20260331 |> 
+  group_by(국가명, 파견분야) |> 
+  reframe(파견인원_합계 = sum(인원)) |> 
+  ggplot(aes(x = 국가명, y = 파견인원_합계, fill = 파견분야)) +
+  geom_bar(stat = 'identity') + 
+  coord_flip()
+
+```
+
+<br>
+
+### group_by() + geom_tile()
+
+> 국가별 파견분야별 파견인원을 히트맵을 그립니다.
+
+```{r}
+#| fig-height: 15
+#| fig-width: 12
+
+koica_wfk_20260331 |> 
+  group_by(국가명, 파견분야) |> 
+  reframe(파견인원_합계 = sum(인원)) |> 
+  ggplot(aes(x = 파견분야, y = 국가명, fill = 파견분야)) +
+  geom_tile()
+
+```
+
+<br>
+
+### geom_text() + theme_minimal()
+
+> 데이터를 선별하고, 히트맵을 예쁘게 꾸며줍니다.
+
+```{r}
+
+koica_wfk_20260331 |> 
+  group_by(국가명, 파견분야) |> 
+  reframe(파견인원_합계 = sum(인원)) |> 
+  filter(국가명 %in% c("페루", "라오스", "몽골","네팔", 
+                    "탄자니아", "베트남", "필리핀")) |> 
+  ggplot(aes(x = 파견분야, y = 국가명, fill = 파견인원_합계)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = 파견인원_합계), color = 'snow', size = 7) +
+  theme_minimal() +
+  theme(axis.title = element_blank(),
+        axis.text = element_text(size = 11))
+
+```
+
+<br>
+
+### 히스토그램
+
+### geom_histogram(bins = 10)
+
+> 파견인원 분포
+
+```{r}
+
+koica_wfk_20260331 |> 
+  ggplot(aes(x = 인원)) +
+  geom_histogram(bins = 5)
+
+```
+
+#### geom_histogram(binwidth = 1)
+
+```{r}
+
+koica_wfk_20260331 |> 
+  ggplot(aes(x = 인원)) +
+  geom_histogram(binwidth = 1) 
+
+```
+
+<br>

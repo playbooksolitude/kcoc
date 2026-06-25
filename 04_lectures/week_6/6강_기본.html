@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="최요한">
+
+<title>6강 재현성 있는 문서작성</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="6강_기본_files/libs/clipboard/clipboard.min.js"></script>
+<script src="6강_기본_files/libs/quarto-html/quarto.js"></script>
+<script src="6강_기본_files/libs/quarto-html/popper.min.js"></script>
+<script src="6강_기본_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="6강_기본_files/libs/quarto-html/anchor.min.js"></script>
+<link href="6강_기본_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="6강_기본_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="6강_기본_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="6강_기본_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="6강_기본_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">6강 재현성 있는 문서작성</h1>
+<p class="subtitle lead">기본 YAML</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>최요한 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="quarto" class="level2">
+<h2 class="anchored" data-anchor-id="quarto">Quarto</h2>
+<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
+</section>
+<section id="running-code" class="level2">
+<h2 class="anchored" data-anchor-id="running-code">Running Code</h2>
+<p>When you click the <strong>Render</strong> button a document will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>You can add options to executable code like this</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+<p>The <code>echo: false</code> option disables the printing of code (only output is displayed).</p>
+<p><br></p>
+</section>
+<section id="render와-화면-설정" class="level1">
+<h1>Render와 화면 설정</h1>
+<section id="render-중요" class="level2">
+<h2 class="anchored" data-anchor-id="render-중요">Render (중요)</h2>
+<blockquote class="blockquote">
+<p>Quarto 문서를 html 파일로 생성하기</p>
+<p>단축키: ctrl + shift + k</p>
+</blockquote>
+<p><img src="렌더.png" width="500" height="46"></p>
+<p><br></p>
+</section>
+<section id="view-설정" class="level2">
+<h2 class="anchored" data-anchor-id="view-설정">View 설정</h2>
+<blockquote class="blockquote">
+<p>Render 옆 ‘톱니바퀴’ 버튼</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="톱니바퀴.png" class="img-fluid figure-img" width="600"></p>
+<figcaption class="figure-caption">도구상자 &gt; 톱니바퀴</figcaption>
+</figure>
+</div>
+<section id="설명" class="level3">
+<h3 class="anchored" data-anchor-id="설명">설명</h3>
+<ul>
+<li><p>Use Visual Editor (추천)</p>
+<ul>
+<li>체크되어 있으면 워드(Word)나 노션(Notion)처럼 서식이 곧바로 눈에 보이는 WYSIWYG 방식의 ’비주얼 에디터’를 사용합니다. 체크를 해제하면 마크다운(Markdown) 코드가 그대로 노출되는 ’소스 에디터’로 전환됩니다.</li>
+</ul></li>
+<li><p>Preview in Window (새 창에서 미리보기)</p></li>
+<li><p>Preview in Viewer Pane (Viewer 창에서 미리보기, 추천)</p></li>
+<li><p>Chunk Output Inline (코드 청크 아래에 출력)</p>
+<ul>
+<li>현재 체크되어 있는 옵션입니다. R 코드 블록(청크)을 실행했을 때, 그 결과(표, 그래프, 텍스트 등)를 소스 코드 바로 아래(문서 내부)에 끼워 넣어서 보여줍니다.</li>
+</ul></li>
+<li><p>Chunk Output in Console (콘솔 창에 출력, 추천)</p>
+<ul>
+<li>코드 블록을 실행했을 때, 결과물을 문서 내부가 아닌 RStudio 하단의 <strong>Console(콘솔) 창</strong>이나 <strong>Plots 창</strong>에 분리하여 출력합니다. 전통적인 R 스크립트 실행 방식과 같습니다.</li>
+</ul></li>
+</ul>
+<p><br></p>
+</section>
+</section>
+</section>
+<section id="다양한-요소-추가" class="level1">
+<h1>다양한 요소 추가</h1>
+<section id="insert" class="level2">
+<h2 class="anchored" data-anchor-id="insert">Insert</h2>
+<blockquote class="blockquote">
+<p>설정보기</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="인서트.png" class="img-fluid figure-img" width="250"></p>
+<figcaption class="figure-caption">추가하기</figcaption>
+</figure>
+</div>
+<section id="설정하기" class="level3">
+<h3 class="anchored" data-anchor-id="설정하기">설정하기</h3>
+<ul>
+<li><p>Any (무엇이든 검색해서 삽입하기) <code>ctrl + /</code></p>
+<ul>
+<li>일종의 만능 검색창입니다. 단축키를 누르고 원하는 기능 이름(예: Table, Image 등)을 타이핑하면 메뉴를 일일이 찾지 않고도 바로 삽입할 수 있습니다. (노션의 <code>/</code> 명령어와 유사)</li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>YAML Block (YAML 블록 삽입)</p>
+<ul>
+<li>문서의 제목, 저자, 출력 포맷 등 전체적인 설정을 정의하는 문서 최상단의 <strong>YAML 헤더 블록</strong>을 삽입합니다.</li>
+</ul></li>
+<li><p><strong>Figure / Image... (그림 / 이미지 삽입)</strong> <code>ctrl + shist + I</code></p></li>
+<li><p>Link... (하이퍼링크 삽입) <code>ctrl + K</code></p></li>
+</ul>
+<p>🔗 <a href="https://www.ngokcoc.or.kr/">KCOC</a></p>
+<ul>
+<li><strong>Code Block... (일반 코드 블록 삽입)</strong> <code>ctrl + alt + I</code></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Special Characters (특수 문자)</p>
+<ul>
+<li>😀 웃음 이모지</li>
+</ul></li>
+<li><p>Horizontal Rule (가로 구분선)</p></li>
+</ul>
+<hr>
+<ul>
+<li>Tabset... (탭 화면 삽입)</li>
+</ul>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">코드</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">시각화</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Raw data</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, <span class="at">y =</span> bill_depth_mm)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="6강_기본_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>Callout... (콜아웃 상자 삽입)</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>노트 콜아웃</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>중요 콜아웃</p>
+</div>
+</div>
+<ul>
+<li>Comment (주석) <!--# 테스트 --></li>
+</ul>
+<p><br></p>
+</section>
+<section id="palmerpenguins-출력" class="level3">
+<h3 class="anchored" data-anchor-id="palmerpenguins-출력">palmerpenguins 출력</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# ℹ 334 more rows
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="run-설정" class="level2">
+<h2 class="anchored" data-anchor-id="run-설정">Run 설정</h2>
+<blockquote class="blockquote">
+<p>Run Selected Line 을 주로 사용</p>
+<p>shift +Enter</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="런.png" class="img-fluid figure-img" width="300"></p>
+<figcaption class="figure-caption">Run 설정</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="chunk" class="level1">
+<h1>chunk</h1>
+<section id="청크-옵션chunk-option" class="level2">
+<h2 class="anchored" data-anchor-id="청크-옵션chunk-option">청크 옵션(Chunk Option)</h2>
+<blockquote class="blockquote">
+<p>code 블록에 적용하는 다양한 특수 설정들</p>
+<p>코드 블록에서만 동작하며 반드시 줄간격 없이 입력해야 함</p>
+</blockquote>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td><strong>옵션</strong></td>
+<td><strong>코드 실행</strong></td>
+<td><strong>코드 표시</strong></td>
+<td><strong>출력</strong></td>
+<td><strong>그래프</strong></td>
+<td><strong>메시지</strong></td>
+<td><strong>경고</strong></td>
+</tr>
+<tr class="even">
+<td><code>eval: false</code></td>
+<td><strong>X</strong></td>
+<td></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+</tr>
+<tr class="odd">
+<td><code>include: false</code></td>
+<td></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+<td><strong>X</strong></td>
+</tr>
+<tr class="even">
+<td><code>echo: false</code></td>
+<td></td>
+<td><strong>X</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>results: hide</code></td>
+<td></td>
+<td></td>
+<td><strong>X</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>fig-show: hide</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>X</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><code>message: false</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>X</strong></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><code>warning: false</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><strong>X</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</section>
+<section id="eval-false-코드-실행-안-함" class="level2">
+<h2 class="anchored" data-anchor-id="eval-false-코드-실행-안-함"><code>eval: false</code> (코드 실행 안 함)</h2>
+<blockquote class="blockquote">
+<p>코드가 문서에 그대로 <strong>표시만 되고 실행은 되지 않습니다.</strong> 당연히 그래프나 결과 출력도 없습니다.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="echo-false-코드-숨김" class="level2">
+<h2 class="anchored" data-anchor-id="echo-false-코드-숨김"><code>echo: false</code> (코드 숨김)</h2>
+<blockquote class="blockquote">
+<p>소스 코드는 숨기고, 코드의 실행 결과는 화면에 출력하고 싶을 때 사용합니다. 보고서 작성 시 많이 쓰입니다.</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="6강_기본_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="results-hide-텍스트-출력만-숨김" class="level2">
+<h2 class="anchored" data-anchor-id="results-hide-텍스트-출력만-숨김"><code>results: hide</code> (텍스트 출력만 숨김)</h2>
+<blockquote class="blockquote">
+<p>코드는 보여주고 그래프도 그려내지만, <code>summary()</code>나 데이터 프레임 출력 같은 <strong>텍스트 형태의 콘솔 출력 결과(수치 데이터 등)만 쏙 숨깁니다.</strong></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins) <span class="co"># 이 요약 문구만 문서에서 안 보입니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      species          island    bill_length_mm  bill_depth_mm  
+ Adelie   :152   Biscoe   :168   Min.   :32.10   Min.   :13.10  
+ Chinstrap: 68   Dream    :124   1st Qu.:39.23   1st Qu.:15.60  
+ Gentoo   :124   Torgersen: 52   Median :44.45   Median :17.30  
+                                 Mean   :43.92   Mean   :17.15  
+                                 3rd Qu.:48.50   3rd Qu.:18.70  
+                                 Max.   :59.60   Max.   :21.50  
+                                 NA's   :2       NA's   :2      
+ flipper_length_mm  body_mass_g       sex           year     
+ Min.   :172.0     Min.   :2700   female:165   Min.   :2007  
+ 1st Qu.:190.0     1st Qu.:3550   male  :168   1st Qu.:2007  
+ Median :197.0     Median :4050   NA's  : 11   Median :2008  
+ Mean   :200.9     Mean   :4202                Mean   :2008  
+ 3rd Qu.:213.0     3rd Qu.:4750                3rd Qu.:2009  
+ Max.   :231.0     Max.   :6300                Max.   :2009  
+ NA's   :2         NA's   :2                                 </code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="message-false-안내-메시지-숨김" class="level2">
+<h2 class="anchored" data-anchor-id="message-false-안내-메시지-숨김"><code>message: false</code> (안내 메시지 숨김)</h2>
+<blockquote class="blockquote">
+<p><code>tidyverse</code>나 <code>palmerpenguins</code> 같은 패키지를 불러올 때(load) 자동으로 뜨는 <strong>부수적인 시스템 안내 문구(메시지)들을 안 보이게 가려줍니다.</strong></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># 패키지 로드 시 뜨는 스타트업 메시지가 사라집니다.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="warning-false-경고-메시지-숨김" class="level2">
+<h2 class="anchored" data-anchor-id="warning-false-경고-메시지-숨김"><code>warning: false</code> (경고 메시지 숨김)</h2>
+<blockquote class="blockquote">
+<p><code>penguins</code> 데이터에는 결측치(<code>NA</code>)가 포함되어 있어서 그래프를 그릴 때 “이 결측치를 제거했다”는 경고(<code>Warning</code>) 문구가 뜹니다. 이 옵션은 그 <strong>경고 문구만 깔끔하게 지워줍니다.</strong></p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_depth_mm, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="6강_기본_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="include-false-실행하되-결과-표시-안-함" class="level2">
+<h2 class="anchored" data-anchor-id="include-false-실행하되-결과-표시-안-함"><code>include: false</code> (실행하되 결과 표시 안 함)</h2>
+<blockquote class="blockquote">
+<p>백그라운드에서 코드를 실행하지만 문서에는 <strong>코드도, 결과도, 메시지도 노출하지 않습니다.</strong> 패키지 로드, 데이터 체크 등 백그라운드 작업에 주로 씁니다.</p>
+</blockquote>
+<p><br></p>
+</section>
+<section id="code-fold-true-코드를-펼쳐보기" class="level2">
+<h2 class="anchored" data-anchor-id="code-fold-true-코드를-펼쳐보기"><code>code-fold: true</code> (코드를 펼쳐보기)</h2>
+<blockquote class="blockquote">
+<p>코드를 접어둡니다</p>
+</blockquote>
+<div class="cell">
+<details>
+<summary>펼쳐보기</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_depth_mm, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="6강_기본_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="code-summary-raw-data-확인하기" class="level2">
+<h2 class="anchored" data-anchor-id="code-summary-raw-data-확인하기">code-summary: Raw data 확인하기</h2>
+<blockquote class="blockquote">
+<p>Code 대신 원하는 이름을 지정할 수 있습니다</p>
+</blockquote>
+<div class="cell">
+<details>
+<summary>Raw data 확인</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> bill_length_mm, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> bill_depth_mm, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="6강_기본_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="csv-파일-첨부하기" class="level1">
+<h1>csv 파일 첨부하기</h1>
+<section id="파일-첨부하기-어려움" class="level2">
+<h2 class="anchored" data-anchor-id="파일-첨부하기-어려움">파일 첨부하기 (어려움)</h2>
+<blockquote class="blockquote">
+<p>html 파일에 csv(xlsx) 파일을 첨부합니다</p>
+</blockquote>
+<div class="cell">
+<div class="cell-output-display">
+<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,77u/7Jew64+ELOuLqOybkO2Yle2DnCzqta3qsIDrqoUs7YyM6rKs7KeB7KKFLO2MjOqyrOu2hOyVvCzsnbjsm5ANCjIwMjYs7J2867CY67SJ7IKs64uoLOqwgOuCmCzsnKDslYTqtZDsnKEs6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOqwgOuCmCzsoITquLAv7KCE66ClLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzqsIDrgpgs7LK07Jyh6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOqwgOuCmCzsu7Ttk6jthLDqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs6rCA64KYLO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs6rSA6rSRLOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7IKs7ZqM67O17KeALOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7Jyg7JWE6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7J6E7IOB67OR66asLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7J6Q64+Z7LCoLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7LSI65Ox6rWQ7JyhLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7Yq57IiY6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrhKTtjJQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOuPhOuvuOuLiOy5tOqzte2ZlOq1rSzqsITtmLgs67O06rG07J2Y66OMLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOuPhOuvuOuLiOy5tOqzte2ZlOq1rSzrr7jsiKDqtZDsnKEs6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOuPhOuvuOuLiOy5tOqzte2ZlOq1rSzsnYzslYXqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuPhOuvuOuLiOy5tOqzte2ZlOq1rSztirnsiJjqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuPme2LsOuqqOultCzqsITtmLgs67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuPme2LsOuqqOultCzqs7Xqs7XtlonsoJUg7J2867CYLOqzteqzte2WieyglSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs6rSA6rSRLOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs6riw6rOELOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7IKs7IScLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7Jyg7JWE6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7J6Q64+Z7LCoLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7KCE7J6QLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7LKt7IaM64WE6rCc67CcLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrj5nti7DrqqjrpbQs7Lu07ZOo7YSw6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOuPme2LsOuqqOultCztlZzqta3slrTqtZDsnKEoRVBTLVRPUElLKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs64+Z7Yuw66qo66W0LO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw1DQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs6rCE7Zi4LOuztOqxtOydmOujjCwzDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs66+47Iig6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs66+47Jqp6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs67Cp7IKs7ISgLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs7J2M7JWF6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs7LK07Jyh6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOudvOyYpOyKpCzssrTsnKHqtZDsnKEo7YOc6raM64+EKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs65287Jik7IqkLOy7tO2TqO2EsOq1kOycoSjsnbzrsJgpLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrnbzsmKTsiqQs7ZWc6rWt7Ja06rWQ7JyhKOyLrO2ZlCks6rWQ7JyhLDQNCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzqsITtmLgs67O06rG07J2Y66OMLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzqtIDqtJEs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzrho3sl4Us64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzsgqztmozrs7Xsp4As6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzsnKDslYTqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzsnYzslYXqtZDsnKEs6rWQ7JyhLDMNCjIwMjYs7J2867CY67SJ7IKs64uoLOultOyZhOuLpCzsu7Ttk6jthLDqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs66W07JmE64ukLO2KueyImOq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs66qo66Gc7L2ULOq4sO2bhC/tmZjqsr0s6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuqqOuhnOy9lCzrlJTsp4DthLjrr7jrlJTslrQs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuqqOuhnOy9lCzrr7jsiKDqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuqqOuhnOy9lCzrs7TqsbTsnZjro4wg7J2867CYLOuztOqxtOydmOujjCwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqqjroZzsvZQs7IKs7ZqM67O17KeALOqzteqzte2WieyglSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqqjroZzsvZQs7ISs7JygL+ydmOulmCzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs66qo66Gc7L2ULOyalOumrCzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs66qo66Gc7L2ULOycoOyVhOq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs66qo66Gc7L2ULOyyreyGjOuFhOqwnOuwnCzqtZDsnKEsMg0KMjAyNizsnbzrsJjrtInsgqzri6gs66qo66Gc7L2ULOy7tO2TqO2EsOq1kOycoSjsnbzrsJgpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqqjroZzsvZQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDgNCjIwMjYs7J2867CY67SJ7IKs64uoLOuqveqzqCzrlJTsp4DthLjrr7jrlJTslrQs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuqveqzqCzsgqztmozrs7Xsp4As6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuqveqzqCzshKzsnKAv7J2Y66WYLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7IiY7ZWZ6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7JqU66asLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7J2M7JWF6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7J6Q64+Z7LCoLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7Yq57IiY6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrqr3qs6gs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDgNCjIwMjYs7J2867CY67SJ7IKs64uoLOuwqeq4gOudvOuNsOyLnCztlZzqta3slrTqtZDsnKEoRVBTLVRPUElLKSzqtZDsnKEsMw0KMjAyNizsnbzrsJjrtInsgqzri6gs67Cp6riA6528642w7IucLO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw2DQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs6rCE7Zi4LOuztOqxtOydmOujjCwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs6rSA6rSRLOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs6rWt7KCc6rCc67CcLOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs64aN7JeFLOuGjeumvOyImOyCsCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs7Jyg7JWE6rWQ7JyhLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs7KCE6riwL+yghOugpSzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs67Kg7Yq464KoLOyytOycoeq1kOycoSjtg5zqtozrj4QpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrsqDtirjrgqgs7ZWc6rWt7Ja06rWQ7JyhKOyLrO2ZlCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOuyoO2KuOuCqCztlZzqta3slrTqtZDsnKEo7J2867CYKSzqtZDsnKEsMTMNCjIwMjYs7J2867CY67SJ7IKs64uoLOuzvOumrOu5hOyVhCzqsITtmLgs67O06rG07J2Y66OMLDQNCjIwMjYs7J2867CY67SJ7IKs64uoLOuzvOumrOu5hOyVhCzquLDtm4Qv7ZmY6rK9LOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrs7zrpqzruYTslYQs7Iug66y4L+uwqeyGoSzqs7Xqs7XtlonsoJUsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs67O866as67mE7JWELOy5mOychOyDnSzrs7TqsbTsnZjro4wsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs67O866as67mE7JWELOy7tO2TqO2EsOq1kOycoSjsnbzrsJgpLOq1kOycoSw0DQoyMDI2LOydvOuwmOu0ieyCrOuLqCzrs7zrpqzruYTslYQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOyEuOuEpOqwiCzquLDqs4Qs6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyEuOuEpOqwiCzsnKDslYTqtZDsnKEs6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOyKpOumrOuekey5tCzsnpDrj5nssKgs6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyKpOumrOuekey5tCzsoITquLAv7KCE66ClLOq4sOyIoO2ZmOqyveyXkOuEiOyngCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsiqTrpqzrnpHsubQs7Lu07ZOo7YSw6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOyKpOumrOuekey5tCztlZzqta3slrTqtZDsnKEoRVBTLVRPUElLKSzqtZDsnKEsMw0KMjAyNizsnbzrsJjrtInsgqzri6gs7Iqk66as656R7Lm0LO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw1DQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5DsvbDrj4TrpbQs6rCE7Zi4LOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5DsvbDrj4TrpbQs6rWt7KCc6rCc67CcLOqzteqzte2WieyglSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5DsvbDrj4TrpbQs7IKs7ZqM67O17KeALOqzteqzte2WieyglSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5DsvbDrj4TrpbQs7J2M7JWF6rWQ7JyhLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5DsvbDrj4TrpbQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDMNCjIwMjYs7J2867CY67SJ7IKs64uoLOyXkO2LsOyYpO2UvOyVhCzqsITtmLgs67O06rG07J2Y66OMLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOyXkO2LsOyYpO2UvOyVhCzrrLzrpqzsuZjro4ws67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyXkO2LsOyYpO2UvOyVhCzrs7TqsbTsnZjro4wg7J2867CYLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5Dti7DsmKTtlLzslYQs7IKs7ZqM67O17KeALOqzteqzte2WieyglSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsl5Dti7DsmKTtlLzslYQs7LK07Jyh6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyXkO2LsOyYpO2UvOyVhCztlZzqta3slrTqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7JeY7IK067CU64+E66W0LOqwhO2YuCzrs7TqsbTsnZjro4wsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7JeY7IK067CU64+E66W0LOq4sOyIoO2ZmOqyveyXkOuEiOyngCDsnbzrsJgs6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyXmOyCtOuwlOuPhOultCzsnpDrj5nssKgs6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLOyXmOyCtOuwlOuPhOultCzsu7Ttk6jthLDqtZDsnKEo7Ius7ZmUKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7JeY7IK067CU64+E66W0LO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsmpTrpbTri6gs7KCE6riwL+yghOugpSzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMg0KMjAyNizsnbzrsJjrtInsgqzri6gs7JqU66W064uoLO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsmrDqsITri6Qs7Iud7ZKI6rCA6rO1LOuGjeumvOyImOyCsCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsmrDqsITri6Qs7J2M7JWF6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsmrDspojrsqDtgqTsiqTtg4Qs7Lu07ZOo7YSw6rWQ7JyhKOydvOuwmCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOydtOynke2KuCzrr7jsiKDqtZDsnKEs6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLOydtOynke2KuCzsgqztmozrs7Xsp4As6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOydtOynke2KuCzssrTsnKHqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7J207KeR7Yq4LOyytOycoeq1kOycoSjtg5zqtozrj4QpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsnbTsp5Htirgs7Lu07ZOo7YSw6rWQ7JyhKOyLrO2ZlCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOydtOynke2KuCzsu7Ttk6jthLDqtZDsnKEo7J2867CYKSzqtZDsnKEsNA0KMjAyNizsnbzrsJjrtInsgqzri6gs7J207KeR7Yq4LO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxMw0KMjAyNizsnbzrsJjrtInsgqzri6gs7J2464+E64Sk7Iuc7JWELOy7tO2TqO2EsOq1kOycoSjsi6ztmZQpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsnbjrj4TrhKTsi5zslYQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy5tOuplOujrCzqsITtmLgs67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy5tOuplOujrCzrs7TqsbTsnZjro4wg7J2867CYLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsubTrqZTro6ws7ZWc6rWt7Ja06rWQ7JyhKOyLrO2ZlCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzqsITtmLgs67O06rG07J2Y66OMLDMNCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzrlJTsp4DthLjrr7jrlJTslrQs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzrr7jsmqnqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzsnKDslYTqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzsnYzslYXqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCzsnpDrj5nssKgs6riw7Iig7ZmY6rK97JeQ64SI7KeALDINCjIwMjYs7J2867CY67SJ7IKs64uoLOy6hOuztOuUlOyVhCztlZzqta3slrTqtZDsnKEo7Ius7ZmUKSzqtZDsnKEsMw0KMjAyNizsnbzrsJjrtInsgqzri6gs7LqE67O065SU7JWELO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw3DQoyMDI2LOydvOuwmOu0ieyCrOuLqCzsvZTtirjrlJTrtoDslYTrpbQs7Lu07ZOo7YSw6rWQ7JyhKOyLrO2ZlCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzqta3soJzqsJzrsJws6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzrho3sl4Us64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzrrLzrpqzsuZjro4ws67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzsnKDslYTqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzsnYzslYXqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzssq3shozrhYTqsJzrsJws6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzstpXsgrAs64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLOy9nOuhrOu5hOyVhCzsu7Ttk6jthLDqtZDsnKEo7Ius7ZmUKSzqtZDsnKEsMg0KMjAyNizsnbzrsJjrtInsgqzri6gs7L2c66Gs67mE7JWELO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw1DQoyMDI2LOydvOuwmOu0ieyCrOuLqCztgqTrpbTquLDsiqTsiqTtg4Qs6rCE7Zi4LOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztgqTrpbTquLDsiqTsiqTtg4Qs7JqU66asLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztgqTrpbTquLDsiqTsiqTtg4Qs7LKt7IaM64WE6rCc67CcLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztgqTrpbTquLDsiqTsiqTtg4Qs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDYNCjIwMjYs7J2867CY67SJ7IKs64uoLO2DhOyekOuLiOyVhCzqsITtmLgs67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2DhOyekOuLiOyVhCzqs7ztlZnqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2DhOyekOuLiOyVhCzrlJTsp4DthLjrr7jrlJTslrQs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2DhOyekOuLiOyVhCzsnoTsg4Hrs5Hrpqws67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2DnOq1rSzrlJTsp4DthLjrr7jrlJTslrQs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2DnOq1rSztlZzqta3slrTqtZDsnKEo7Ius7ZmUKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YOc6rWtLO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxNg0KMjAyNizsnbzrsJjrtInsgqzri6gs7YqA64uI7KeALOusvOumrOy5mOujjCzrs7TqsbTsnZjro4wsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YqA64uI7KeALOuvuOyIoOq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YqA64uI7KeALOyekeyXhey5mOujjCzrs7TqsbTsnZjro4wsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YqA64uI7KeALO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSw1DQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs6rCE7Zi4LOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs66+47Iig6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs66+47Jqp6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs7J2M7JWF6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs7KCE6riwL+yghOugpSzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YyM65286rO87J20LOyghOyekCzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YyM65286rO87J20LOygnOqzvC/soJzrubUs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2MjOudvOqzvOydtCzsp4Dsl63qsJzrsJws64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2MjOudvOqzvOydtCzssq3shozrhYTqsJzrsJws6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2MjOudvOqzvOydtCzssrTsnKHqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YyM65286rO87J20LOy0iOuTseq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7YyM65286rO87J20LOy7tO2TqO2EsOq1kOycoSjsi6ztmZQpLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjIzrnbzqs7zsnbQs7ZWc6rWt7Ja06rWQ7JyhKOydvOuwmCks6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzqsITtmLgs67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzrrLzrpqzsuZjro4ws67O06rG07J2Y66OMLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzrr7jsiKDqtZDsnKEs6rWQ7JyhLDINCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzrs7TqsbTsnZjro4wg7J2867CYLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7IKs7ZqM67O17KeALOqzteqzte2WieyglSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7IiY7ZWZ6rWQ7JyhLOq1kOycoSwyDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7JiB7JaR6rSA66asLOuztOqxtOydmOujjCwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7Jyg7JWE6rWQ7JyhLOq1kOycoSwxDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7J2M7JWF6rWQ7JyhLOq1kOycoSwzDQoyMDI2LOydvOuwmOu0ieyCrOuLqCztjpjro6gs7LK07Jyh6rWQ7JyhKO2DnOq2jOuPhCks6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzstIjrk7HqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2OmOujqCzsu7Ttk6jthLDqtZDsnKEo7J2867CYKSzqtZDsnKEsMg0KMjAyNizsnbzrsJjrtInsgqzri6gs7Y6Y66OoLO2KueyImOq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7Y6Y66OoLO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7Y6Y66OoLO2ZmOqyvSzquLDsiKDtmZjqsr3sl5DrhIjsp4AsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZS87KeALOqwhO2YuCzrs7TqsbTsnZjro4wsMg0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZS87KeALOqzteqzte2WieyglSDsnbzrsJgs6rO16rO17ZaJ7KCVLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzqs7ztlZnqtZDsnKEs6rWQ7JyhLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzrho3sl4Us64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzsnpDrj5nssKgs6riw7Iig7ZmY6rK97JeQ64SI7KeALDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzstpXsgrAs64aN66a87IiY7IKwLDENCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzsuZjsnITsg50s67O06rG07J2Y66OMLDINCjIwMjYs7J2867CY67SJ7IKs64uoLO2UvOyngCzsu7Ttk6jthLDqtZDsnKEo7J2867CYKSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZWE66as7ZWALOqwhO2YuCzrs7TqsbTsnZjro4wsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZWE66as7ZWALOqzvO2Vmeq1kOycoSzqtZDsnKEsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZWE66as7ZWALOuGjeyXhSzrho3rprzsiJjsgrAsMQ0KMjAyNizsnbzrsJjrtInsgqzri6gs7ZWE66as7ZWALO2VnOq1reyWtOq1kOycoSjsnbzrsJgpLOq1kOycoSwxDQo=" download="koica_wfk_20260331.csv" class="btn btn-primary"><i class="bi bi-download"></i> KOICA 해외봉사단 파견현황</a>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 파일 경로 및 Base64 변환 (화면에는 숨겨짐)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("downloadthis")</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#library(downloadthis)</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>excel_path <span class="ot">&lt;-</span> <span class="st">"./koica_wfk_20260331.csv"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>b64_data <span class="ot">&lt;-</span> base64enc<span class="sc">::</span><span class="fu">base64encode</span>(<span class="fu">readBin</span>(excel_path, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                                            <span class="st">"raw"</span>, </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">n =</span> <span class="fu">file.info</span>(excel_path)<span class="sc">$</span>size))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 버튼 출력 (이 버튼만 웹 화면에 노출됨)</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>htmltools<span class="sc">::</span><span class="fu">HTML</span>(<span class="fu">paste0</span>(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,'</span>, </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  b64_data, <span class="st">'" '</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">'download="koica_wfk_20260331.csv" class="btn btn-primary"&gt;'</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">'&lt;i class="bi bi-download"&gt;&lt;/i&gt; KOICA 해외봉사단 파견현황&lt;/a&gt;'</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+</section>
+<section id="실습-3주차-강의교재-직접-만들어보기" class="level1">
+<h1>실습: 3주차 강의교재 직접 만들어보기</h1>
+<section id="tidyverse-로드" class="level2">
+<h2 class="anchored" data-anchor-id="tidyverse-로드">tidyverse 로드</h2>
+<blockquote class="blockquote">
+<p>항상 tidyverse를 로드합니다.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)            <span class="co"># 라이브러리 로드</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="showtext-로드" class="level2">
+<h2 class="anchored" data-anchor-id="showtext-로드">showtext 로드</h2>
+<blockquote class="blockquote">
+<p>한글을 오류없이 출력할수 있습니다</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("showtext")        # 최초 1회</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(showtext)                     <span class="co"># 라이브러리 로드</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">showtext_auto</span>()     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="자료-출처" class="level2">
+<h2 class="anchored" data-anchor-id="자료-출처">자료 출처</h2>
+<p>출처: <a href="https://www.data.go.kr/data/15051101/fileData.do">공공데이터포탈</a></p>
+<p><img src="03강_해외봉사단_파견실적.png" class="img-fluid"></p>
+<p><br></p>
+</section>
+<section id="csv-파일-불러온-후-변수에-저장하기" class="level2">
+<h2 class="anchored" data-anchor-id="csv-파일-불러온-후-변수에-저장하기">csv 파일 불러온 후 변수에 저장하기</h2>
+<blockquote class="blockquote">
+<p>변수명: koica_wfk_20260331</p>
+</blockquote>
+<div class="cell" data-hash="6강_기본_cache/html/sheet_fa5da4586bba45dbc98990346db66ee5">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_csv</span>(<span class="st">"./koica_wfk_20260331.csv"</span>) <span class="ot">-&gt;</span>  koica_wfk_20260331</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(koica_wfk_20260331)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 196 × 6
+    연도 단원형태   국가명 파견직종         파견분야        인원
+   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt;            &lt;chr&gt;          &lt;dbl&gt;
+ 1  2026 일반봉사단 가나   유아교육         교육               2
+ 2  2026 일반봉사단 가나   전기/전력        기술환경에너지     1
+ 3  2026 일반봉사단 가나   체육교육(일반)   교육               1
+ 4  2026 일반봉사단 가나   컴퓨터교육(일반) 교육               1
+ 5  2026 일반봉사단 가나   한국어교육(일반) 교육               1
+ 6  2026 일반봉사단 네팔   관광             공공행정           1
+ 7  2026 일반봉사단 네팔   사회복지         공공행정           1
+ 8  2026 일반봉사단 네팔   유아교육         교육               1
+ 9  2026 일반봉사단 네팔   임상병리         보건의료           1
+10  2026 일반봉사단 네팔   자동차           기술환경에너지     1
+# ℹ 186 more rows</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="데이터셋-구조보기" class="level2">
+<h2 class="anchored" data-anchor-id="데이터셋-구조보기">데이터셋 구조보기</h2>
+<section id="glimpse" class="level4">
+<h4 class="anchored" data-anchor-id="glimpse">glimpse()</h4>
+<p>데이터 셋의 전체 크기, 변수의 자료형을 보여주고, 대략 어떤 값들로 채워져 있는지 정돈된 형태로 출력</p>
+<blockquote class="blockquote">
+<p>데이터셋의 물리적 구조를 스냅샷으로 제공</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>koica_wfk_20260331 <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 196
+Columns: 6
+$ 연도     &lt;dbl&gt; 2026, 2026, 2026, 2026, 2026, 2026, 2026, 2026, 2026, 2026, 2…
+$ 단원형태 &lt;chr&gt; "일반봉사단", "일반봉사단", "일반봉사단", "일반봉사단", "일반봉사단", "일반봉사단", "일반봉사단"…
+$ 국가명   &lt;chr&gt; "가나", "가나", "가나", "가나", "가나", "네팔", "네팔", "네팔", "네팔", "네팔", "…
+$ 파견직종 &lt;chr&gt; "유아교육", "전기/전력", "체육교육(일반)", "컴퓨터교육(일반)", "한국어교육(일반)", "관광", …
+$ 파견분야 &lt;chr&gt; "교육", "기술환경에너지", "교육", "교육", "교육", "공공행정", "공공행정", "교육", "보건의…
+$ 인원     &lt;dbl&gt; 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1…</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
