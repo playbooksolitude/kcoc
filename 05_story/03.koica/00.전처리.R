@@ -19,6 +19,11 @@ library(ggfx)
 read_csv("./01.kcoc/05.files/oecd2023.csv") -> oecd2023_1sheet
 read_csv("./01.kcoc/05.files/oecd2023_5select.csv") -> oecd2023_5select
 
+read_csv("") -> oecd2023_1sheet
+read_csv("./01.kcoc/05.files/oecd2023_5select.csv") -> oecd2023_5select
+
+oecd2023_1sheet |> 
+  colnames()
 #oecd2023_1sheet |> view()
 
 # 2 NA 컬럼 제외 select ----

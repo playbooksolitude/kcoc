@@ -20,6 +20,8 @@ fig-height: 7
 out-width: "90%"
 
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 2023 KOICA OECD CRS++ rawdata
@@ -31,6 +33,7 @@ KOICA 오픈데이터 포탈 참고 <https://www.oda.go.kr/opo/nnstat/opoNstatIn
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
+#| label: setup
 #| echo: false
 #| eval: true
 #| warning: false
@@ -41,8 +44,13 @@ library(tidyverse)
 library(RColorBrewer)
 library(scales)
 library(ggalluvial)
-source("../../../p_load.R")
-read_csv("../../05.files/oecd2023_5select.csv") -> oecd2023_5select
+library(bbplot)
+source("./p_load.R")
+
+read_csv("./oecd2023_5select.csv") -> oecd2023_5select
+
+oecd2023_5select |> dim()
+oecd2023_5select
 
 ```
 
@@ -51,16 +59,19 @@ read_csv("../../05.files/oecd2023_5select.csv") -> oecd2023_5select
 막대 그래프
 
 ```{r}
-#| echo: false
-
+#| echo: true
+#| code-fold: true
+#| code-summary: "클릭해서 코드보기"
 
 oecd2023_5select |> 
   group_by(대륙명_1) |> 
   reframe(총지원금 = sum(지출액_백만달러), 
           사업건수 = n()) |> 
   ggplot(aes(x = 대륙명_1, y = 총지원금)) +
-  geom_bar(stat = 'identity', show.legend = F, aes(fill = 대륙명_1)) +
-  geom_label(aes(label = round(총지원금,1)), size = 7) +
+  geom_bar(stat = 'identity', show.legend = F, 
+           aes(fill = 대륙명_1)) +
+  geom_label(aes(label = round(총지원금,1)), 
+             size = 7) +
   bbc_style() +
   scale_fill_brewer(palette = 'Set2') +
   ggtitle(label = '', 
@@ -262,6 +273,7 @@ oecd2023_5select |>
 sankey
 
 ```{r}
+#| fig-height: 14
 
 oecd2023_5select |>
   group_by(원조유형, 대륙명_1, 사업분야) |>

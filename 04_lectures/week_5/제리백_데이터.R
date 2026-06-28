@@ -1,51 +1,7 @@
 #26-0619
 
 
-#
-library(tidyverse)
-#
-penguins |> 
-    group_by(species) |> 
-    reframe(mean_length = round(mean(bill_length_mm, na.rm = T),1))
 
-penguins |> 
-  group_by(species) |> 
-  reframe(mean_length = mean(bill_length_mm, na.rm = T),
-          mean_depth = mean(bill_depth_mm, na.rm = T),
-          mean_mass = mean(body_mass_g, na.rm = T))
-
-(penguins |> 
-    group_by(species) |> 
-    reframe(mean_length = round(mean(bill_length_mm, na.rm = T),1),
-            mean_depth = round(mean(bill_depth_mm, na.rm = T), 1),
-            mean_mass = round(mean(body_mass_g, na.rm = T), 1),
-            n = n()) -> penguins_1_table)
-penguins_1_table |>                                           
-  pivot_longer(cols = !species,
-               names_to = "type", 
-               values_to = "value") 
-
-#
-penguins_1_table |>                                           
-  pivot_longer(cols = !species,
-               names_to = "type", 
-               values_to = "value") |> 
-  ggplot(aes(x = species, y = value)) +
-  geom_bar(stat = 'identity') +
-  facet_wrap(.~type, scale = 'free_y') +
-  geom_label(aes(label = value))                  +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
-
-
-#
-penguins |> 
-  drop_na() |> 
-  ggplot(aes(x = bill_length_mm, 
-             y = bill_depth_mm, 
-             color = species)) +
-  geom_point() +
-  geom_smooth(method = 'lm', se = F) +
-  facet_grid(sex~ island)
 
 library(readxl)
 read_xlsx("./99.files/jerrybag.xlsx") -> jerry_1xlsx
@@ -157,26 +113,6 @@ jerry_1xlsx |>
     )
 
 
-
-
-jerry_1xlsx
-
-
-
-
-
-  #facet_wrap(.~`Age Group`) +
-  facet_grid(`Age Group`~`Customer Type`) +
-  theme_minimal() +
-  theme(
-    axis.text = element_text(size = 12), 
-    axis.title = element_blank(),
-    # legend.position = 'none',
-    plot.title = element_text(size = 28), 
-    plot.subtitle = element_text(size = 22, just = .1)
-  ) +
-  scale_fill_brewer(palette = 'Set1')
-
 # 면분할, 성별, 연령  
   jerry_1xlsx |> 
     filter(`Age Group` %in% c("20대", "30대", 
@@ -200,64 +136,6 @@ jerry_2rename |>
   count(`Date Time`)
 
 jerry_1xlsx |> view()
-
-#
-table1
-table2  
-table3
-table4a
-table4b
-
-table1 |> 
-  ggplot(aes(x = country, y = population)) +
-  geom_bar(stat = 'identity', 
-           aes(fill = factor(year)), 
-           position = 'dodge') +
-  scale_y_continuous(labels = scales::comma)
-
-#
-table2 |> 
-  ggplot(aes(x =country, y = count)) +
-  geom_bar(stat = 'identity', aes(fill = type))
-
-#
-table1 |> 
-  pivot_longer(cols = c(cases, population), 
-               names_to = 'type', 
-               values_to = 'count')
-
-# 
-table2
-library(palmerpenguins)
-penguins |> 
-  ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
-  geom_point() +
-  geom_smooth(method = 'lm', se = F)
-
-
-#
-G20
-library(treemapify)
-
-G20
-ggplot(data = G20, aes(area = gdp_mil_usd, 
-                       fill = hdi)) +
-  geom_treemap()
-
-#
-data(package = 'treemapify')
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
