@@ -86,11 +86,7 @@ leaflet() |>
 
 ### 이란 (테헤란)
 
-> #우간다
-> leaflet() \|\>
-> setView(32.5825, 0.3476, zoom = 13) \|\>
-> addTiles() \|\>
-> addMarkers(32.5825, 0.3476, "Kampala")
+> #우간다 leaflet() \|\> setView(32.5825, 0.3476, zoom = 13) \|\> addTiles() \|\> addMarkers(32.5825, 0.3476, "Kampala")
 >
 > R 을 사용해 지도를 시각화할거야.
 >
