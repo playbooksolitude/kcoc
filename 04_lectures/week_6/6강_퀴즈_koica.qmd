@@ -1,0 +1,223 @@
+---
+title: "6강_퀴즈_koica"
+author: "최요한"
+date: "`r Sys.Date()`"
+version: "0.1.0"
+editor: visual
+execute:
+  warning: false
+  message: false    
+  echo: false
+format: 
+  html:
+    toc: true                # 목차만들기
+    toc-depth: 3             # 목차 깊이
+    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
+    number-sections: true    # 자동 번호
+    number-depth: 3          # 번호 부여 수준
+    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true      # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true
+---
+
+# 개요
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+
+```
+
+## 대륙별 담당
+
+- 아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+
+- 아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+
+- 아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+
+<br>
+
+```{r}
+#| echo: false
+#| warning: false
+
+# 1. 파일 경로 및 Base64 변환 (화면에는 숨겨짐)
+#install.packages("downloadthis")
+#library(downloadthis)
+excel_path <- "./2024+OECD+CRS.xlsx"
+b64_data <- base64enc::base64encode(readBin(excel_path, "raw", n = file.info(excel_path)$size))
+
+# 2. 버튼 출력 (이 버튼만 웹 화면에 노출됨)
+htmltools::HTML(paste0(
+  '<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,', b64_data, '" ',
+  'download="2024+OECD+CRS.xlsx" class="btn btn-primary">',
+  '<i class="bi bi-download"></i> KOICA 2024 OECD CRS</a>'
+))
+```
+
+<br>
+
+# 퀴즈
+
+## 전처리
+
+> excel 파일 불러오고 koica_1_2024xlsx 이름으로 변수 저장
+>
+> 그 외 본인의 스타일에 맞게 변수명 변경
+
+```{r}
+#| eval: false
+
+koica_1_2024xlsx |> 
+  separate_wider_delim(
+    지역, 
+    delim = " > ", 
+    names = c("대륙", "지역1", "지역2"), 
+    too_few = "align_start"
+    #too_many = "merge"
+  ) |> 
+  select(사업번호, 대륙, 지역1, 지역2)
+
+```
+
+```{r}
+#| eval: false
+#| echo: true
+
+2024+OECD+CRS.xlsx 파일을 불러오고 데이터셋 변수로 할당
+
+변수 |> glimpse()
+
+```
+
+<br>
+
+## 데이터 구조 파악 및 특정 조건 정렬
+
+> 변수 구조를 파악하고 지출액이 가장 큰 사업 찾기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 기술 통계 및 요약 (group_by & summarise)
+
+> `사업실시기관명`별로 총 지출액의 합계, 평균, 총 사업 수 요약하기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 파생변수 생성 및 빈도 집계 (mutate & count)
+
+> 약정액 대비 지출액 비율 변수를 만들고, 100% 초과 사업의 분야 빈도 파악
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 주요 수원국 비교
+
+> 대륙별 상위 5개 수원국별 지출액 막대 그래프 그리기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 대륙별 지원금 규모
+
+> 대륙별 지원금 규모를 막대 그래프로 그리기
+
+``` r
+
+
+
+
+
+```
+
+<br>
+
+## 성평등 관련 지출액 비중
+
+> 지출액의 비중을 보기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 사업실시기관명, 사업분야별 미배분 사업
+
+> 히트맵으로 미배분 사업을 파악하기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 원조구분(양자/다자간) 삼각협력인 수원국
+
+> 양자간(삼각협력) 관계의 사업분야를 출력하기
+
+``` r
+
+
+
+
+```
+
+<br>
+
+## 사업실시기관명 평균 지출액 차이
+
+> '국제이주기구', '유엔아동기금' 간의 평균 지출액 차이 검정
+>
+> - 국제이주기구: 1,361,102
+>
+> - 유엔아동기금: 1,455,387
+
+``` r
+
+
+
+
+```

@@ -6,11 +6,11 @@ date: "`r Sys.Date()`"
 editor: visual
 format: 
   html:
-    toc: true
-    toc-depth: 3             # 번호 깊이
+    toc: true                # 목차만들기
+    toc-depth: 3             # 목차 깊이
     toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
-    number-depth: 3
     number-sections: true    # 자동 번호
+    number-depth: 3          # 번호 부여 수준
     code-fold: false         # 코드를 클릭해서 펼칩니다
     code-summary: "소스 코드 확인하기"
     smooth-scroll: true      # 클릭 시 부드럽게 이동
@@ -77,21 +77,21 @@ library(palmerpenguins)
 
 ### 설명
 
--   Use Visual Editor (추천)
+- Use Visual Editor (추천)
 
-    -   체크되어 있으면 워드(Word)나 노션(Notion)처럼 서식이 곧바로 눈에 보이는 WYSIWYG 방식의 '비주얼 에디터'를 사용합니다. 체크를 해제하면 마크다운(Markdown) 코드가 그대로 노출되는 '소스 에디터'로 전환됩니다.
+  - 체크하면 워드(Word)나 노션(Notion)처럼 '비주얼 에디터'를 사용하고 체크를 해제하면 마크다운(Markdown) 코드가 그대로 노출되는 '소스 에디터'를 사용합니다.
 
--   Preview in Window (새 창에서 미리보기)
+- Preview in Window (새 창에서 미리보기)
 
--   Preview in Viewer Pane (Viewer 창에서 미리보기, 추천)
+- Preview in Viewer Pane (Viewer 창에서 미리보기, 추천)
 
--   Chunk Output Inline (코드 청크 아래에 출력)
+- Chunk Output Inline (코드 청크 아래에 출력)
 
-    -   현재 체크되어 있는 옵션입니다. R 코드 블록(청크)을 실행했을 때, 그 결과(표, 그래프, 텍스트 등)를 소스 코드 바로 아래(문서 내부)에 끼워 넣어서 보여줍니다.
+  - 현재 체크되어 있는 옵션입니다. R 코드 블록(청크)을 실행했을 때, 그 결과(표, 그래프, 텍스트 등)를 소스 코드 바로 아래(문서 내부)에 끼워 넣어서 보여줍니다.
 
--   Chunk Output in Console (콘솔 창에 출력, 추천)
+- Chunk Output in Console (콘솔 창에 출력, 추천)
 
-    -   코드 블록을 실행했을 때, 결과물을 문서 내부가 아닌 RStudio 하단의 **Console(콘솔) 창**이나 **Plots 창**에 분리하여 출력합니다. 전통적인 R 스크립트 실행 방식과 같습니다.
+  - 코드 블록을 실행했을 때, 결과물을 문서 내부가 아닌 RStudio 하단의 **Console(콘솔) 창**이나 **Plots 창**에 분리하여 출력합니다. 전통적인 R 스크립트 실행 방식과 같습니다.
 
 <br>
 
@@ -105,36 +105,34 @@ library(palmerpenguins)
 
 ### 설정하기
 
--   Any (무엇이든 검색해서 삽입하기) `ctrl + /`
+- Any (무엇이든 검색해서 삽입하기) `ctrl + /`
 
-    -   일종의 만능 검색창입니다. 단축키를 누르고 원하는 기능 이름(예: Table, Image 등)을 타이핑하면 메뉴를 일일이 찾지 않고도 바로 삽입할 수 있습니다. (노션의 `/` 명령어와 유사)
+  - 일종의 만능 검색창입니다. 단축키를 누르고 원하는 기능 이름(예: Table, Image 등)을 타이핑하면 메뉴를 일일이 찾지 않고도 바로 삽입할 수 있습니다. (노션의 `/` 명령어와 유사)
 
-<!-- -->
+- YAML Block (YAML 블록 삽입)
 
--   YAML Block (YAML 블록 삽입)
+  - 문서의 제목, 저자, 출력 포맷 등 전체적인 설정을 정의하는 문서 최상단의 **YAML 헤더 블록**을 삽입합니다.
 
-    -   문서의 제목, 저자, 출력 포맷 등 전체적인 설정을 정의하는 문서 최상단의 **YAML 헤더 블록**을 삽입합니다.
+- **Figure / Image... (그림 / 이미지 삽입)** `ctrl + shist + I`
 
--   **Figure / Image\... (그림 / 이미지 삽입)** `ctrl + shist + I`
-
--   Link\... (하이퍼링크 삽입) `ctrl + K`
+- Link... (하이퍼링크 삽입) `ctrl + K`
 
 🔗 [KCOC](https://www.ngokcoc.or.kr/)
 
--   **Code Block\... (일반 코드 블록 삽입)** `ctrl + alt + I`
+- **Code Block... (일반 코드 블록 삽입)** `ctrl + alt + I`
 
 ``` r
 ```
 
--   Special Characters (특수 문자)
+- Special Characters (특수 문자)
 
-    -   😀 웃음 이모지
+  - 😀 웃음 이모지
 
--   Horizontal Rule (가로 구분선)
+- Horizontal Rule (가로 구분선)
 
 ------------------------------------------------------------------------
 
--   Tabset\... (탭 화면 삽입)
+- Tabset... (탭 화면 삽입)
 
 ::: panel-tabset
 ## 코드
@@ -166,7 +164,7 @@ penguins
 ```
 :::
 
--   Callout\... (콜아웃 상자 삽입)
+- Callout... (콜아웃 상자 삽입)
 
 ::: callout-note
 노트 콜아웃
@@ -176,7 +174,7 @@ penguins
 중요 콜아웃
 :::
 
--   Comment (주석) <!--# 테스트 -->
+- Comment (주석) <!--# 테스트 -->
 
 <br>
 
@@ -208,16 +206,16 @@ penguins
 >
 > 코드 블록에서만 동작하며 반드시 줄간격 없이 입력해야 함
 
-|                  |               |               |          |            |            |          |
+|  |  |  |  |  |  |  |
 |-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-| **옵션**         | **코드 실행** | **코드 표시** | **출력** | **그래프** | **메시지** | **경고** |
-| `eval: false`    | **X**         |               | **X**    | **X**      | **X**      | **X**    |
-| `include: false` |               | **X**         | **X**    | **X**      | **X**      | **X**    |
-| `echo: false`    |               | **X**         |          |            |            |          |
-| `results: hide`  |               |               | **X**    |            |            |          |
-| `fig-show: hide` |               |               |          | **X**      |            |          |
-| `message: false` |               |               |          |            | **X**      |          |
-| `warning: false` |               |               |          |            |            | **X**    |
+| **옵션** | **코드 실행** | **코드 표시** | **출력** | **그래프** | **메시지** | **경고** |
+| `eval: false` | **X** |  | **X** | **X** | **X** | **X** |
+| `include: false` |  | **X** | **X** | **X** | **X** | **X** |
+| `echo: false` |  | **X** |  |  |  |  |
+| `results: hide` |  |  | **X** |  |  |  |
+| `fig-show: hide` |  |  |  | **X** |  |  |
+| `message: false` |  |  |  |  | **X** |  |
+| `warning: false` |  |  |  |  |  | **X** |
 
 <br>
 

@@ -1,7 +1,10 @@
 ---
-title: "6강 재현성 있는 의사소통"
+title: "6강 재현성 있는 문서 작성"
+author: "최요한"
 format: html
 editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Quarto
@@ -27,6 +30,20 @@ The `echo: false` option disables the printing of code (only output is displayed
 
 <br>
 
-도구상자
+# Render와 화면 설정
 
-![도구상자 화면](스크린샷%202026-06-25%2010.22.13.png){width="200"}
+## Render (중요)
+
+> Quarto 문서를 html 파일로 생성하기
+>
+> 단축키: ctrl + shift + k
+
+![Render 화면 도구상자](스크린샷 2026-06-26 오후 7.01.12.png){width="600"}
+
+<br>
+
+## View 설정
+
+> Render 옆 '톱니바퀴' 버튼
+
+![](스크린샷 2026-06-26 오후 7.08.00.png){width="600"}

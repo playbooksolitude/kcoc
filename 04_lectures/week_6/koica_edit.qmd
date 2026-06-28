@@ -3,29 +3,23 @@ title: "KCOC M&E workbook"
 author: "최요한"
 date: "`r Sys.Date()`"
 version: "0.1.0"
-editor: visual
+format: 
+  html: 
+    embed-resources: true
+    toc: true
+    toc-location: left
+    number-sections: true
 execute:
   warning: false
   message: false    
   echo: false
-format: 
-  html:
-    toc: true                # 목차만들기
-    toc-depth: 3             # 목차 깊이
-    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
-    number-sections: true    # 자동 번호
-    number-depth: 3          # 번호 부여 수준
-    code-fold: false         # 코드를 클릭해서 펼칩니다
-    code-summary: "소스 코드 확인하기"
-    smooth-scroll: true      # 클릭 시 부드럽게 이동
-    code-copy: true        # 코드 복사 버튼 활성화
-    # theme: Zephyr
-    # theme: Flatly
-    #theme:
-    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
-    #  dark: darkly
-    # css: styles.css
-    embed-resources: true
+fig-width: 12
+fig-height: 7
+out-width: "90%"
+
+editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## 2023 KOICA OECD CRS++ rawdata
@@ -94,22 +88,16 @@ library(waffle)
 library(treemapify)
 library(showtext)
 showtext_auto()
-read_csv("./oecd2023_5select.csv") -> oecd2023_5select
+library(readxl)
+#read_csv("./oecd2023_5select.csv") -> oecd2023_5select
+#read_xlsx("./2023+OECD+CRS.xlsx") -> koica_1_2023xlsx
+read_xlsx("./2023+OECD+CRS_edit.xlsx") -> oecd2023_5select
 
 ```
 
 ## 구조 파악
 
-> 데이터의 크기, 변수명, 구성부터 파악합니다.
-
-```{r}
-
-oecd2023_5select |> 
-  glimpse()
-
-```
-
-<br>
+> 구조부터 파악합니다.
 
 ### 대륙별 지원금 규모
 
@@ -117,6 +105,7 @@ oecd2023_5select |>
 
 ```{r}
 #| echo: false
+
 
 oecd2023_5select |> 
   group_by(대륙명_1) |> 
@@ -161,7 +150,7 @@ oecd2023_5select |>
 treemap
 
 ```{r}
-#| fig-height: 8
+#| fig-height: 12
 
 oecd2023_5select |> 
   group_by(대륙명_1) |> 
@@ -265,7 +254,7 @@ oecd2023_5select |>
 
 ```
 
-### 상위 5개국 원조
+### 상위 10개국 원조
 
 면분할
 
@@ -274,10 +263,8 @@ oecd2023_5select |>
 top10_countries <- oecd2023_5select %>%
   group_by(대륙명_1, 수원국) %>%
   summarise(total = sum(지출액_백만달러, na.rm = TRUE)) %>%
-  ungroup() |> 
-  filter(대륙명_1 %in% c('아시아', "아프리카")) |> 
   arrange(desc(total)) %>%
-  slice(2:6) %>%
+  slice(2:11) %>%
   pull(수원국)
 
 oecd2023_5select %>%
@@ -290,7 +277,7 @@ oecd2023_5select %>%
   facet_wrap(.~대륙명_1, scales = 'free_y') +
   scale_fill_viridis_d(option = "plasma") +
   labs(
-    title = "대륙별 지원금 상위 5개국",
+    title = "대륙별 지원금 상위 10개국",
     subtitle = " 원조유형비중 확인",
     x = "수원국", y = "지출액 (백만달러)",
     fill = "원조 유형"
@@ -331,7 +318,7 @@ oecd2023_5select |>
 sankey
 
 ```{r}
-#| fig-height: 12
+#| fig-height: 18
 
 oecd2023_5select |>
   group_by(원조유형, 대륙명_1, 사업분야) |>
