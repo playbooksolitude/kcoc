@@ -1,5 +1,5 @@
 ---
-title: "6강_퀴즈_koica"
+title: "7강_퀴즈_koica"
 author: "최요한"
 date: "`r Sys.Date()`"
 version: "0.1.0"
@@ -37,6 +37,7 @@ editor_options:
 ```{r}
 #| label: setup
 #| message: false
+#| echo: true
 
 library(tidyverse)
 library(readxl)     #xlsx 데이터 불러오기
@@ -51,11 +52,11 @@ showtext_auto()     #한글 출력하기
 
 ## 대륙별 담당
 
--   아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+- 아시아: 김수진님, 박상애님, 박중열님, 방혜린님
 
--   아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+- 아프리카: 신창민님, 오정민님, 정진실님, 박지원님
 
--   아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+- 아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
 
 <br>
 
@@ -83,7 +84,7 @@ htmltools::HTML(paste0(
 
 > 불러온 koica 데이터를 "X2024_OECD_CRS" 변수명으로 저장합니다
 >
-> 아래 코드는 제 노트북의 경로입니다. 선생님들 노트북마다 경로가 다르므로 자신의 경로를 입력하세요. \
+> 아래 코드는 제 노트북의 경로입니다. 선생님들 노트북마다 경로가 다르므로 자신의 경로를 입력하세요.\
 > 경로에 익숙하지 않으면 아래 펼쳐보기를 클릭해 Import Dataset을 사용해도 됩니다.
 >
 > Import Dataset은 변수명을 "X2024_OECD_CRS"으로 (동일하게) 저장할 것입니다
@@ -105,7 +106,7 @@ read_xlsx("./2024+OECD+CRS.xlsx") -> X2024_OECD_CRS
 
 </details>
 
-## 데이터셋을 복사(백업)합니다. 
+## 데이터셋을 복사(백업)합니다.
 
 > 데이터를 분석하다보면 값이 엉키거나 몇 단계 전으로 되돌아가야할 경우가 있습니다
 >
@@ -124,6 +125,7 @@ X2024_OECD_CRS 불러온 데이터셋
 koica_1_2024xlsx 복사해서 분석에 사용할 데이터셋
 
 ```{r}
+#| echo: true
 
 X2024_OECD_CRS  -> koica_1_2024xlsx
 
@@ -131,12 +133,13 @@ X2024_OECD_CRS  -> koica_1_2024xlsx
 
 <br>
 
-## 구조보기
+## 전체 살펴보기
 
 > 전체 데이터를 훓어봅니다
 
 ```{r}
 #| eval: false
+#| echo: true
 
 koica_1_2024xlsx |> 
   view()
@@ -159,7 +162,6 @@ koica_1_2024xlsx |> glimpse()
 ```
 
 ``` r
-
 
 
 
@@ -198,6 +200,7 @@ koica_1_2024xlsx |> colnames()
 
 
 
+
 ```
 
 ```{r}
@@ -224,6 +227,7 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
@@ -244,6 +248,7 @@ koica_1_2024xlsx |>
 > filter(value == 0)
 
 ``` r
+
 
 
 
@@ -271,6 +276,7 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
@@ -292,6 +298,7 @@ koica_1_2024xlsx |>
 > group_by(), reframe(), mean(), sum(), n(), arrange(), desc()
 
 ``` r
+
 
 
 
@@ -320,6 +327,7 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
@@ -345,6 +353,7 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
@@ -367,6 +376,7 @@ koica_1_2024xlsx |>
 > geom_point()
 
 ``` r
+
 
 
 
@@ -397,9 +407,11 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   filter(약정액 < 80000000) |> 
@@ -420,15 +432,18 @@ koica_1_2024xlsx |>
 
 > '프로젝트 원조'의 약정액 대비 지출액의 비율을 계산하세요
 >
-> > drop_na(), mutate(), select(), filter(),
+> > drop_na(), mutate(), select(), filter(), bbc_style()
 
 ``` r
+
 
 
 
 ```
 
 ```{r}
+#| fig-height: 8
+#| echo: true
 
 koica_1_2024xlsx |> 
   drop_na(약정액, 지출액) |> 
@@ -445,7 +460,7 @@ koica_1_2024xlsx |>
   geom_text(aes(label = paste0(round(비율,1),"%")), 
             #position = position_stack(.5), 
             vjust = -.1,
-            size = 8) 
+            size = 6) 
 
 
 ```
@@ -465,6 +480,7 @@ koica_1_2024xlsx |>
 > > drop_na(), mutate(), select(), filter(),
 
 ``` r
+
 
 
 
@@ -494,6 +510,7 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
 ```{r}
@@ -517,9 +534,15 @@ koica_1_2024xlsx |>
 
 
 
+
 ```
 
+> 스피어만 vs 피어슨 상관계수
+>
+> 아웃라이어 포함 vs 제외
+
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   drop_na(약정액, 지출액) -> koica_2_2024dropna
@@ -560,6 +583,7 @@ cor(koica_3_2024dropnafilter$약정액,
 
 
 
+
 ```
 
 ```{r}
@@ -585,6 +609,7 @@ koica_1_2024xlsx |>
 > ggplot(aes(x = 수원국 \|\> fct_reorder(desc(n)), y = n))
 
 ``` r
+
 
 
 
@@ -618,7 +643,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -646,10 +670,10 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   separate_wider_delim(
@@ -822,17 +846,19 @@ koica_4_2024separate |>
 
 > '국제이주기구', '유엔아동기금' 간의 평균 지출액 차이 검정
 >
-> -   국제이주기구: 1,361,102
+> - 국제이주기구: 1,361,102
 >
-> -   유엔아동기금: 1,455,387
+> - 유엔아동기금: 1,455,387
 
 ``` r
+
 
 
 
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   filter(사업실시기관명 %in% c("국제이주기구", "유엔아동기금")
