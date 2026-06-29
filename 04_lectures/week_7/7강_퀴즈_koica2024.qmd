@@ -1,5 +1,5 @@
 ---
-title: "6강_퀴즈_koica"
+title: "7강_퀴즈_koica"
 author: "최요한"
 date: "`r Sys.Date()`"
 version: "0.1.0"
@@ -7,7 +7,7 @@ editor: visual
 execute:
   warning: false
   message: false
-  echo: false
+  echo: true
 format: 
   html:
     toc: true                # 목차만들기
@@ -15,7 +15,7 @@ format:
     toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
     number-sections: true    # 자동 번호
     number-depth: 3          # 번호 부여 수준
-    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-fold: true         # 코드를 클릭해서 펼칩니다
     code-summary: "소스 코드 확인하기"
     smooth-scroll: true      # 클릭 시 부드럽게 이동
     code-copy: true        # 코드 복사 버튼 활성화
@@ -37,6 +37,7 @@ editor_options:
 ```{r}
 #| label: setup
 #| message: false
+#| echo: true
 
 library(tidyverse)
 library(readxl)     #xlsx 데이터 불러오기
@@ -51,11 +52,11 @@ showtext_auto()     #한글 출력하기
 
 ## 대륙별 담당
 
--   아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+- 아시아: 김수진님, 박상애님, 박중열님, 방혜린님
 
--   아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+- 아프리카: 신창민님, 오정민님, 정진실님, 박지원님
 
--   아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+- 아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
 
 <br>
 
@@ -107,13 +108,14 @@ read_xlsx("./2024+OECD+CRS.xlsx") -> X2024_OECD_CRS
 
 ## 데이터셋을 복사(백업)합니다.
 
+> X2024_OECD_CRS -\> koica_1_2024xlsx
+>
 > 데이터를 분석하다보면 값이 엉키거나 몇 단계 전으로 되돌아가야할 경우가 있습니다
 >
 > 그 때를 대비해 불러온 데이터를 새로운 변수로 복사한 후 새로운 변수로 분석합니다(좋은 습관입니다)
 
 ```{r}
 #| eval: false
-#| echo: false
 
 read_xlsx("./04_lectures/week_7/2024+OECD+CRS.xlsx")
 
@@ -124,6 +126,7 @@ X2024_OECD_CRS 불러온 데이터셋
 koica_1_2024xlsx 복사해서 분석에 사용할 데이터셋
 
 ```{r}
+#| echo: true
 
 X2024_OECD_CRS  -> koica_1_2024xlsx
 
@@ -131,7 +134,7 @@ X2024_OECD_CRS  -> koica_1_2024xlsx
 
 <br>
 
-## 구조보기
+## 전체 살펴보기
 
 > 전체 데이터를 훓어봅니다
 
@@ -152,7 +155,6 @@ koica_1_2024xlsx |>
 > glimpse
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> glimpse() 
 
@@ -161,7 +163,10 @@ koica_1_2024xlsx |> glimpse()
 ``` r
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
 ```
 
 <br>
@@ -178,7 +183,6 @@ koica_1_2024xlsx |> glimpse()
 ```
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> colnames()
 
@@ -198,7 +202,6 @@ koica_1_2024xlsx |> colnames()
 ```
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> 
   sapply(n_distinct) |> 
@@ -389,6 +392,7 @@ koica_1_2024xlsx |>
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   filter(약정액 < 80000000) |> 
@@ -409,7 +413,7 @@ koica_1_2024xlsx |>
 
 > '프로젝트 원조'의 약정액 대비 지출액의 비율을 계산하세요
 >
-> > drop_na(), mutate(), select(), filter(),
+> > drop_na(), mutate(), select(), filter(), bbc_style()
 
 ``` r
 
@@ -417,6 +421,8 @@ koica_1_2024xlsx |>
 ```
 
 ```{r}
+#| fig-height: 8
+#| echo: true
 
 koica_1_2024xlsx |> 
   drop_na(약정액, 지출액) |> 
@@ -433,7 +439,7 @@ koica_1_2024xlsx |>
   geom_text(aes(label = paste0(round(비율,1),"%")), 
             #position = position_stack(.5), 
             vjust = -.1,
-            size = 8) 
+            size = 6) 
 
 
 ```
@@ -504,7 +510,12 @@ koica_1_2024xlsx |>
 
 ```
 
+> 스피어만 vs 피어슨 상관계수
+>
+> 아웃라이어 포함 vs 제외
+
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   drop_na(약정액, 지출액) -> koica_2_2024dropna
@@ -600,7 +611,10 @@ koica_1_2024xlsx |>
 ``` r
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
 ```
 
 ```{r}
@@ -627,10 +641,14 @@ koica_1_2024xlsx |>
 ``` r
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   separate_wider_delim(
@@ -798,9 +816,9 @@ koica_4_2024separate |>
 
 > '국제이주기구', '유엔아동기금' 간의 평균 지출액 차이 검정
 >
-> -   국제이주기구: 1,361,102
+> - 국제이주기구: 1,361,102
 >
-> -   유엔아동기금: 1,455,387
+> - 유엔아동기금: 1,455,387
 
 ``` r
 
@@ -808,6 +826,7 @@ koica_4_2024separate |>
 ```
 
 ```{r}
+#| echo: true
 
 koica_1_2024xlsx |> 
   filter(사업실시기관명 %in% c("국제이주기구", "유엔아동기금")
