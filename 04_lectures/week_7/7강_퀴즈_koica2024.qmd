@@ -7,7 +7,7 @@ editor: visual
 execute:
   warning: false
   message: false
-  echo: false
+  echo: true
 format: 
   html:
     toc: true                # 목차만들기
@@ -15,7 +15,7 @@ format:
     toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
     number-sections: true    # 자동 번호
     number-depth: 3          # 번호 부여 수준
-    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-fold: true         # 코드를 클릭해서 펼칩니다
     code-summary: "소스 코드 확인하기"
     smooth-scroll: true      # 클릭 시 부드럽게 이동
     code-copy: true        # 코드 복사 버튼 활성화
@@ -108,13 +108,14 @@ read_xlsx("./2024+OECD+CRS.xlsx") -> X2024_OECD_CRS
 
 ## 데이터셋을 복사(백업)합니다.
 
+> X2024_OECD_CRS -\> koica_1_2024xlsx
+>
 > 데이터를 분석하다보면 값이 엉키거나 몇 단계 전으로 되돌아가야할 경우가 있습니다
 >
 > 그 때를 대비해 불러온 데이터를 새로운 변수로 복사한 후 새로운 변수로 분석합니다(좋은 습관입니다)
 
 ```{r}
 #| eval: false
-#| echo: false
 
 read_xlsx("./04_lectures/week_7/2024+OECD+CRS.xlsx")
 
@@ -139,7 +140,6 @@ X2024_OECD_CRS  -> koica_1_2024xlsx
 
 ```{r}
 #| eval: false
-#| echo: true
 
 koica_1_2024xlsx |> 
   view()
@@ -155,14 +155,12 @@ koica_1_2024xlsx |>
 > glimpse
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> glimpse() 
 
 ```
 
 ``` r
-
 
 
 ```
@@ -178,11 +176,9 @@ koica_1_2024xlsx |> glimpse()
 ``` r
 
 
-
 ```
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> colnames()
 
@@ -200,11 +196,9 @@ koica_1_2024xlsx |> colnames()
 
 
 
-
 ```
 
 ```{r}
-#| echo: false
 
 koica_1_2024xlsx |> 
   sapply(n_distinct) |> 
@@ -224,7 +218,6 @@ koica_1_2024xlsx |>
 > 38번 항목 약정액에는 몇개의 결측값이 있나요?
 
 ``` r
-
 
 
 
@@ -248,7 +241,6 @@ koica_1_2024xlsx |>
 > filter(value == 0)
 
 ``` r
-
 
 
 
@@ -276,7 +268,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -298,7 +289,6 @@ koica_1_2024xlsx |>
 > group_by(), reframe(), mean(), sum(), n(), arrange(), desc()
 
 ``` r
-
 
 
 
@@ -327,7 +317,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -353,7 +342,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -376,7 +364,6 @@ koica_1_2024xlsx |>
 > geom_point()
 
 ``` r
-
 
 
 
@@ -407,7 +394,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -435,7 +421,6 @@ koica_1_2024xlsx |>
 > > drop_na(), mutate(), select(), filter(), bbc_style()
 
 ``` r
-
 
 
 
@@ -483,7 +468,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -510,7 +494,6 @@ koica_1_2024xlsx |>
 
 
 
-
 ```
 
 ```{r}
@@ -531,7 +514,6 @@ koica_1_2024xlsx |>
 > 약정액과 지출액의 상관관계를 구하세요.
 
 ``` r
-
 
 
 
@@ -583,7 +565,6 @@ cor(koica_3_2024dropnafilter$약정액,
 
 
 
-
 ```
 
 ```{r}
@@ -609,7 +590,6 @@ koica_1_2024xlsx |>
 > ggplot(aes(x = 수원국 \|\> fct_reorder(desc(n)), y = n))
 
 ``` r
-
 
 
 
@@ -642,7 +622,6 @@ koica_1_2024xlsx |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -667,7 +646,6 @@ koica_1_2024xlsx |>
 > separate_wider_delim()
 
 ``` r
-
 
 
 ```
@@ -700,7 +678,6 @@ koica_4_2024separate |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -722,7 +699,6 @@ koica_4_2024separate |>
 > geom_tile(), geom_text(), theme_minimal(), theme()
 
 ``` r
-
 
 
 ```
@@ -757,7 +733,6 @@ koica_4_2024separate |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -790,7 +765,6 @@ koica_4_2024separate |>
 ``` r
 
 
-
 ```
 
 ```{r}
@@ -816,7 +790,6 @@ koica_4_2024separate |>
 > 사하라 이남, 남부아프리카 지역의 지출액을 수원국, 사업분야별로 시각화하세요
 
 ``` r
-
 
 
 ```
@@ -851,7 +824,6 @@ koica_4_2024separate |>
 > - 유엔아동기금: 1,455,387
 
 ``` r
-
 
 
 
