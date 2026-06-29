@@ -46,7 +46,8 @@ library(scales)
 library(ggalluvial)
 library(bbplot)
 source("./p_load.R")
-
+library(showtext)
+showtext_auto()
 read_csv("./oecd2023_5select.csv") -> oecd2023_5select
 
 oecd2023_5select |> dim()
@@ -73,9 +74,12 @@ oecd2023_5select |>
   geom_label(aes(label = round(총지원금,1)), 
              size = 7) +
   bbc_style() +
-  scale_fill_brewer(palette = 'Set2') +
+  scale_fill_brewer(palette = 'Dark2') +
   ggtitle(label = '', 
           subtitle = '단위: 백만달러') 
+
+RColorBrewer::display.brewer.all()
+
 ```
 
 ### 대륙별 원조유형
@@ -254,8 +258,12 @@ heatmap
 
 oecd2023_5select |> 
   filter(str_detect(수원국, '미배분')) |> 
-  count(사업실시기관명, 사업분야) |> #print(n = Inf)
-  ggplot(aes(x = 사업실시기관명, y = 사업분야, fill = n)) +
+  view()
+  count(사업실시기관명, 사업분야) |> 
+  #print(n = Inf)
+  #view()
+  ggplot(aes(x = 사업실시기관명, 
+             y = 사업분야, fill = n)) +
   geom_tile(color = 'snow', show.legend = F) +
   geom_text(aes(label = n), color = 'snow', size = 5) +
   theme_minimal() +

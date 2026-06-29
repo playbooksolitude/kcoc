@@ -20,6 +20,8 @@ format:
     #  dark: darkly
     # css: styles.css
     embed-resources: true
+editor_options: 
+  chunk_output_type: console
 ---
 
 # 지도
@@ -29,6 +31,7 @@ format:
 #install.packages("leaflet")
 library(leaflet)
 library(tidyverse)
+library(tidygeocoder)
 
 ```
 
@@ -92,7 +95,7 @@ leaflet() |>
 >
 > 위의 코드는 우간다를 표시한 지도야
 >
-> 코드를 해석한 후 이란 호르무즈 해협을 표시하는 위도,경도 code를 제시해
+> 코드를 해석한 후 이란을 표시하는 위도,경도 code를 제시해
 
 ```{r}
 #| echo: false
