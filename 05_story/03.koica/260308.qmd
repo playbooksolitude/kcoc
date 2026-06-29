@@ -3,7 +3,6 @@ title: "KCOC M&E workbook"
 author: "최요한"
 date: "2026-03-08"
 version: "0.1.0"
-
 format: 
   html: 
     embed-resources: true
@@ -11,14 +10,13 @@ format:
     toc-location: left
     number-sections: true
 execute:
+  
   warning: false
   message: false    
   echo: false
-  
 fig-width: 12
 fig-height: 7
 out-width: "90%"
-
 editor: visual
 editor_options: 
   chunk_output_type: console
