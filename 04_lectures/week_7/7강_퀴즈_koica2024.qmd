@@ -7,7 +7,7 @@ editor: visual
 execute:
   warning: false
   message: false
-  echo: true
+  echo: false
 format: 
   html:
     toc: true                # 목차만들기
@@ -15,7 +15,7 @@ format:
     toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
     number-sections: true    # 자동 번호
     number-depth: 3          # 번호 부여 수준
-    code-fold: true         # 코드를 클릭해서 펼칩니다
+    code-fold: false         # 코드를 클릭해서 펼칩니다
     code-summary: "소스 코드 확인하기"
     smooth-scroll: true      # 클릭 시 부드럽게 이동
     code-copy: true        # 코드 복사 버튼 활성화
@@ -30,7 +30,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# 개요
+# 준비
 
 ## 사용할 패키지
 
@@ -52,11 +52,11 @@ showtext_auto()     #한글 출력하기
 
 ## 대륙별 담당
 
-- 아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+-   아시아: 김수진님, 박상애님, 박중열님, 방혜린님
 
-- 아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+-   아프리카: 신창민님, 오정민님, 정진실님, 박지원님
 
-- 아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+-   아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
 
 <br>
 
@@ -116,6 +116,7 @@ read_xlsx("./2024+OECD+CRS.xlsx") -> X2024_OECD_CRS
 
 ```{r}
 #| eval: false
+#| echo: true
 
 read_xlsx("./04_lectures/week_7/2024+OECD+CRS.xlsx")
 
@@ -134,7 +135,7 @@ X2024_OECD_CRS  -> koica_1_2024xlsx
 
 <br>
 
-## 전체 살펴보기
+## 데이터 살펴보기
 
 > 전체 데이터를 훓어봅니다
 
@@ -146,7 +147,7 @@ koica_1_2024xlsx |>
 
 ```
 
-# 톱아보기
+# 퀴즈(기초)
 
 ## 변수 개수 확인
 
@@ -163,10 +164,9 @@ koica_1_2024xlsx |> glimpse()
 ``` r
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
+
+
 ```
 
 <br>
@@ -178,7 +178,6 @@ koica_1_2024xlsx |> glimpse()
 > colnames()
 
 ``` r
-
 
 ```
 
@@ -192,12 +191,11 @@ koica_1_2024xlsx |> colnames()
 
 ## 고유값 확인
 
-> 변수별로 고유값을 확인합니다
+> 변수의 고유값을 표형식으로 출력합니다
 >
 > sapply(), n_distnict, enframe(), print()
 
 ``` r
-
 
 ```
 
@@ -222,7 +220,6 @@ koica_1_2024xlsx |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -244,7 +241,6 @@ koica_1_2024xlsx |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -261,12 +257,11 @@ koica_1_2024xlsx |>
 
 ## 특정 조건 정렬
 
-> 지출액이 가장 큰 사업 10개의 사업번호, 사업실시기관명, 지출액, 지역, 사업명(한글)을 출력하시오
+> 지출액이 가장 큰 사업 10개의 사업번호, 사업실시기관명, 지출액, 수원국, 사업명(한글)을 출력하시오
 >
 > arrange(), desc(), select()
 
 ``` r
-
 
 ```
 
@@ -274,13 +269,13 @@ koica_1_2024xlsx |>
 
 koica_1_2024xlsx |> 
   arrange(desc(지출액)) |> 
-  select(사업번호, 사업실시기관명, 지출액, 지역, '사업명(한글)')
+  select(사업번호, 사업실시기관명, 지출액, 수원국, '사업명(한글)')
 
 ```
 
 <br>
 
-# 요약
+# 퀴즈(기본)
 
 ## 기술 통계 및 요약
 
@@ -289,7 +284,6 @@ koica_1_2024xlsx |>
 > group_by(), reframe(), mean(), sum(), n(), arrange(), desc()
 
 ``` r
-
 
 ```
 
@@ -306,38 +300,15 @@ koica_1_2024xlsx |>
 
 <br>
 
-## 히스토그램
-
-> 지출액을 히스토그램으로 시각화하세요
->
-> 원조유형별로 면분할하세요
-
-``` r
-
-
-```
-
-```{r}
-
-koica_1_2024xlsx |> 
-  ggplot(aes(x = 지출액)) +
-  geom_histogram() +
-  theme_minimal() +
-  #scale_x_continuous(labels = scales::comma)  +
-  facet_wrap(.~원조유형, scales = 'free')
-
-```
-
-<br>
-
 ## 지출액 크기
 
+> 지출액과 약정액의 분포를 파악하고자 합니다.
+>
 > x축 = 약정액, y축 = 지출액 산점도를 그리세요.
 >
 > geom_point()
 
 ``` r
-
 
 ```
 
@@ -354,14 +325,15 @@ koica_1_2024xlsx |>
 
 ## 아웃라이어 제거
 
-> 약정액이 80000000 을 초과하는 사업이 1건 있습니다.
+> 지출액과 약정액이 80,000,000 을 초과하는 사업이 1건 있습니다.
 >
-> 해당 사업의 큰 규모가 다른 사업의 파악을 방해하므로 제외한 후 다시 산점도를 그리세요
+> 지출액이 80,000,000을 초과하는 사업은 무엇인가요?
+>
+> 80,000,000이라는 큰 숫자가 시각화 분석을 방해하므로 제외한 후 다시 산점도를 그리세요
 >
 > geom_point()
 
 ``` r
-
 
 ```
 
@@ -387,7 +359,6 @@ koica_1_2024xlsx |>
 > geom_smooth(), facet_wrap(), geom_abline(), lims()
 
 ``` r
-
 
 ```
 
@@ -416,7 +387,6 @@ koica_1_2024xlsx |>
 > > drop_na(), mutate(), select(), filter(), bbc_style()
 
 ``` r
-
 
 ```
 
@@ -460,7 +430,6 @@ koica_1_2024xlsx |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -485,7 +454,6 @@ koica_1_2024xlsx |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -506,7 +474,6 @@ koica_1_2024xlsx |>
 > 약정액과 지출액의 상관관계를 구하세요.
 
 ``` r
-
 
 ```
 
@@ -554,7 +521,6 @@ cor(koica_3_2024dropnafilter$약정액,
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -580,7 +546,6 @@ koica_1_2024xlsx |>
 > ggplot(aes(x = 수원국 \|\> fct_reorder(desc(n)), y = n))
 
 ``` r
-
 
 ```
 
@@ -611,10 +576,9 @@ koica_1_2024xlsx |>
 ``` r
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
+
+
 ```
 
 ```{r}
@@ -641,10 +605,7 @@ koica_1_2024xlsx |>
 ``` r
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 465014d1bb0c99e74fba2303bd73b5871c1aab72
 ```
 
 ```{r}
@@ -674,7 +635,6 @@ koica_4_2024separate |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -696,7 +656,6 @@ koica_4_2024separate |>
 > geom_tile(), geom_text(), theme_minimal(), theme()
 
 ``` r
-
 
 ```
 
@@ -729,7 +688,6 @@ koica_4_2024separate |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -761,7 +719,6 @@ koica_4_2024separate |>
 
 ``` r
 
-
 ```
 
 ```{r}
@@ -787,7 +744,6 @@ koica_4_2024separate |>
 > 사하라 이남, 남부아프리카 지역의 지출액을 수원국, 사업분야별로 시각화하세요
 
 ``` r
-
 
 ```
 
@@ -816,12 +772,11 @@ koica_4_2024separate |>
 
 > '국제이주기구', '유엔아동기금' 간의 평균 지출액 차이 검정
 >
-> - 국제이주기구: 1,361,102
+> -   국제이주기구: 1,361,102
 >
-> - 유엔아동기금: 1,455,387
+> -   유엔아동기금: 1,455,387
 
 ``` r
-
 
 ```
 

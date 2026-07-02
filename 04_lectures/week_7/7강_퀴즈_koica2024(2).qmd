@@ -1,0 +1,799 @@
+---
+title: "7강_퀴즈_koica"
+author: "최요한"
+date: "`r Sys.Date()`"
+version: "0.1.0"
+editor: visual
+execute:
+  warning: false
+  message: false
+  echo: false
+format: 
+  html:
+    toc: true                # 목차만들기
+    toc-depth: 3             # 목차 깊이
+    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
+    number-sections: true    # 자동 번호
+    number-depth: 3          # 번호 부여 수준
+    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true      # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true   #html 파일에 이미지를 모두 답습니다
+editor_options: 
+  chunk_output_type: console
+---
+
+# 준비
+
+## 사용할 패키지
+
+```{r}
+#| label: setup
+#| message: false
+#| echo: true
+
+library(tidyverse)
+library(readxl)     #xlsx 데이터 불러오기
+library(writexl)    #xlsx 포맷으로 결과 출력하기
+library(treemapify) #treemap
+library(leaflet)    #지도 그기
+library(showtext)   #한글 출력 패키지
+showtext_auto()     #한글 출력하기
+
+```
+
+<br>
+
+## 대륙별 담당
+
+-   아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+
+-   아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+
+-   아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+
+<br>
+
+```{r}
+#| echo: false
+#| warning: false
+
+# 1. 파일 경로 및 Base64 변환 (화면에는 숨겨짐)
+#install.packages("downloadthis")
+#library(downloadthis)
+excel_path <- "./2024+OECD+CRS.xlsx"
+b64_data <- base64enc::base64encode(readBin(excel_path, "raw", n = file.info(excel_path)$size))
+
+# 2. 버튼 출력 (이 버튼만 웹 화면에 노출됨)
+htmltools::HTML(paste0(
+  '<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,', b64_data, '" ',
+  'download="2024+OECD+CRS.xlsx" class="btn btn-primary">',
+  '<i class="bi bi-download"></i> KOICA 2024 OECD CRS</a>'
+))
+```
+
+<br>
+
+## 데이터 불러오기
+
+> 불러온 koica 데이터를 "X2024_OECD_CRS" 변수명으로 저장합니다
+>
+> 아래 코드는 제 노트북의 경로입니다. 선생님들 노트북마다 경로가 다르므로 자신의 경로를 입력하세요.\
+> 경로에 익숙하지 않으면 아래 펼쳐보기를 클릭해 Import Dataset을 사용해도 됩니다.
+>
+> Import Dataset은 변수명을 "X2024_OECD_CRS"으로 (동일하게) 저장할 것입니다
+
+```{r}
+#| echo: true
+
+read_xlsx("./2024+OECD+CRS.xlsx") -> X2024_OECD_CRS
+
+```
+
+<details>
+
+<summary>펼쳐보기</summary>
+
+![](99.images/01.from_excel.png){width="500"}
+
+![](99.images/02.import.png){width="600"}
+
+</details>
+
+## 데이터셋을 복사(백업)합니다.
+
+> X2024_OECD_CRS -\> koica_1_2024xlsx
+>
+> 데이터를 분석하다보면 값이 엉키거나 몇 단계 전으로 되돌아가야할 경우가 있습니다
+>
+> 그 때를 대비해 불러온 데이터를 새로운 변수로 복사한 후 새로운 변수로 분석합니다(좋은 습관입니다)
+
+```{r}
+#| eval: false
+#| echo: true
+
+read_xlsx("./04_lectures/week_7/2024+OECD+CRS.xlsx")
+
+```
+
+X2024_OECD_CRS 불러온 데이터셋
+
+koica_1_2024xlsx 복사해서 분석에 사용할 데이터셋
+
+```{r}
+#| echo: true
+
+X2024_OECD_CRS  -> koica_1_2024xlsx
+
+```
+
+<br>
+
+## 데이터 살펴보기
+
+> 전체 데이터를 훓어봅니다
+
+```{r}
+#| eval: false
+
+koica_1_2024xlsx |> 
+  view()
+
+```
+
+# 퀴즈(기초)
+
+## 변수 개수 확인
+
+> 데이터는 몇 행, 몇 열입니까?
+>
+> glimpse
+
+```{r}
+
+koica_1_2024xlsx |> glimpse() 
+
+```
+
+<br>
+
+## 변수명 확인
+
+> 38번째 변수명은 무엇입니까?
+>
+> colnames()
+
+```{r}
+
+koica_1_2024xlsx |> colnames()
+
+```
+
+<br>
+
+## 고유값 확인
+
+> 변수의 고유값을 표형식으로 출력합니다
+>
+> sapply(), n_distnict, enframe(), print()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  sapply(n_distinct) |> 
+  enframe() |> 
+  print(n = Inf)
+
+```
+
+<br>
+
+## 결측값 확인
+
+> 결측값의 분포를 대략 확인합니다.
+>
+> is.na(), colSums(), enframe(), print(n = Inf)
+>
+> 38번 항목 약정액에는 몇개의 결측값이 있나요?
+
+```{r}
+
+koica_1_2024xlsx |> 
+  is.na() |> 
+  colSums() |> 
+  enframe() 
+
+```
+
+<br>
+
+## 결측값 제로 변수
+
+> 결측값이 없는 (모든 값이 다 들어있는) 변수는 몇개인가요?
+>
+> filter(value == 0)
+
+```{r}
+
+koica_1_2024xlsx |> 
+  is.na() |> 
+  colSums() |> 
+  enframe() |> 
+  filter(value == 0)
+
+```
+
+<br>
+
+## 특정 조건 정렬
+
+> 지출액이 가장 큰 사업 10개의 사업번호, 사업실시기관명, 지출액, 수원국, 사업명(한글)을 출력하시오
+>
+> arrange(), desc(), select()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  arrange(desc(지출액)) |> 
+  select(사업번호, 사업실시기관명, 지출액, 수원국, '사업명(한글)')
+
+```
+
+<br>
+
+# 퀴즈(기본)
+
+## 기술 통계 및 요약
+
+> `사업실시기관명`별로 총 지출액의 합계, 평균, 총 사업 수 요약하세요
+>
+> group_by(), reframe(), mean(), sum(), n(), arrange(), desc()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  group_by(사업실시기관명) |> 
+  reframe(지출액합계 = sum(지출액), 
+          지출액평균 = mean(지출액), 
+          총사업수 = n()) |> 
+  arrange(desc(총사업수))
+
+```
+
+<br>
+
+## 지출액 규모
+
+> 지출액의 분포를 파악하고자 합니다.
+>
+> x축 = 지출액 히스토그램을 그리세요
+>
+> geom_histogram()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  ggplot(aes(x = 지출액)) +
+  geom_histogram()
+
+```
+
+<br>
+
+## 지출액 크기
+
+> 지출액과 약정액의 분포를 파악하고자 합니다.
+>
+> x축 = 약정액, y축 = 지출액 산점도를 그리세요
+>
+> geom_point()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  ggplot(aes(x = 약정액, y = 지출액)) +
+  geom_point()
+
+```
+
+<br>
+
+## 아웃라이어 제거
+
+> 지출액과 약정액이 80,000,000 을 초과하는 사업이 1건 있습니다.
+>
+> 지출액이 80,000,000을 초과하는 사업의 원조유형은 무엇인가요?
+>
+> 80,000,000이라는 큰 숫자가 시각화 분석을 방해하므로 제외한 후 히스토그램을 그리세요
+>
+> geom_point(), geom_histogram()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  filter(지출액 < 80000000) |> 
+  ggplot(aes(x = 지출액)) +
+  geom_histogram()
+
+```
+
+<br>
+
+# 퀴즈(어려움)
+
+## 원조유형별 사업건당 평균 지출액
+
+> 원조유형별 사업건수와 전체 지출액, 사업건당 평균 지출액을 표로 출력하세요
+>
+> group_by(원조유형)
+>
+> reframe(), n(), sum()
+
+```{r}
+#| echo: false
+
+koica_1_2024xlsx |> 
+  group_by(원조유형) |> 
+  reframe(사업건수 = n(),
+          지출액합계 = sum(지출액),
+          사업건당_지출액평균 = 지출액합계 / 사업건수)
+
+```
+
+<br>
+
+## 원조유형별 사업건당 평균 지출액 시각화
+
+> 위에서 그린 표를 트리맵으로 시각화 하세요
+>
+> geom_treemap(), geom_treemap_text()
+
+```{r}
+#| echo: false
+
+koica_1_2024xlsx |> 
+  group_by(원조유형) |> 
+  reframe(사업건수 = n(),
+          지출액합계 = sum(지출액),
+          사업건당_지출액평균 = 지출액합계 / 사업건수) |> 
+  ggplot(aes(area=지출액합계, fill = 사업건수, label = 원조유형)) +
+  geom_treemap() +
+  geom_treemap_text(color = 'snow', reflow = TRUE)
+
+
+```
+
+```{r}
+#| code-fold: true
+#| echo: true
+#| code-summary: 막대그래프 참고
+
+koica_1_2024xlsx |> 
+  group_by(원조유형) |> 
+  reframe(사업건수 = n(),
+          지출액합계 = sum(지출액),
+          사업건당_지출액평균 = 지출액합계 / 사업건수) |> 
+  ggplot(aes(x = 원조유형, y = 사업건당_지출액평균)) +
+  geom_bar(stat = 'identity') +
+  coord_flip()
+
+```
+
+<br>
+
+## 약정액 대비 지출액 비율
+
+> 지출액을 약정액으로 나누어 지출액비율을 만들고
+>
+> 약정액보다 지출액이 많은 사업을 모두 출력하세요
+>
+> drop_na(), mutate(), select(), filter()
+
+```{r}
+#| echo: false
+
+koica_1_2024xlsx |> 
+  drop_na(약정액, 지출액) |> 
+  mutate(지출액비율 = 지출액 / 약정액) |> 
+  select(사업번호, 사업실시기관명, 지출액비율, 지출액, 약정액) |> 
+  filter(지출액비율 > 1) |> 
+   arrange(desc(지출액비율))
+
+```
+
+<br>
+
+## 엑셀파일 저장
+
+> 약정액 대비 지출액 비율이 높은 순서대로 내림차순한 후 엑셀파일로 출력하세요.
+>
+> > 엑셀파일명: 초과지출사업.xlsx
+> >
+> > writexl 패키지
+> >
+> > write_xlsx()
+
+```{r}
+
+  koica_1_2024xlsx |> 
+    drop_na(약정액, 지출액) |> 
+    mutate(지출액비율 = 지출액 / 약정액) |> 
+    select(사업번호, 사업실시기관명, 지출액비율, 지출액, 약정액) |> 
+    filter(지출액비율 > 1) |> 
+    arrange(desc(지출액비율)) |> 
+    write_xlsx("./초과지출사업.xlsx")
+
+```
+
+<br>
+
+## 사업실시기관명 평균 지출액 차이
+
+> '국제이주기구', '유엔아동기금' 간의 평균 지출액 차이를 t-검정하세요
+>
+> -   국제이주기구: 1,361,102
+>
+> -   유엔아동기금: 1,455,387
+>
+> > 단일표본, 독립표본, 대응표본 t-검정 중 어떤 검정을 해야 하나요?
+> >
+> > 두 단체의 평균 지출액 t-검정 결과는 어떠한가요?
+
+```{r}
+#| echo: true
+#| code-fold: false
+
+koica_1_2024xlsx |> 
+  filter(사업실시기관명 %in% c("국제이주기구", "유엔아동기금")
+         ) -> koica_5_2024ttest
+
+koica_5_2024ttest |> 
+  group_by(사업실시기관명) |> 
+  reframe(평균지출액 = mean(지출액), 
+          n = n())
+
+```
+
+```{r}
+#| echo: false
+
+t.test(지출액 ~ 사업실시기관명, data = koica_5_2024ttest)
+
+```
+
+<br>
+
+> 표준편차를 구해 두 단체의 평균지출액을 확인하세요
+
+```{r}
+#| code-fold: true
+#| code-summary: "표준편차 확인하기"
+#| echo: true
+
+koica_5_2024ttest |> 
+  group_by(사업실시기관명) |> 
+  summarise(
+    데이터개수 = n(),
+    최솟값 = min(지출액),
+    중앙값 = median(지출액),
+    최대값 = max(지출액),
+    표준편차 = sd(지출액) 
+  )
+
+```
+
+<br>
+
+> 박스플롯을 시각화해 데이터의 퍼짐 정도를 확인하세요
+
+```{r}
+#| code-fold: true
+#| echo: true
+
+koica_5_2024ttest |> 
+  ggplot(aes(x = 사업실시기관명, y = 지출액, fill = 사업실시기관명)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.1, alpha = 0.7, color = "darkgrey") + 
+  theme_minimal() +
+  labs(title = "두 기관의 실제 지출액 Raw Data 분포 비교") +
+  scale_fill_brewer(palette = 'Set1')
+
+```
+
+<br>
+
+퀴즈 끝.
+
+<br>
+
+## 지도 그리기 (AI)
+
+> AI를 활용해 지역별로 풀어보세요
+>
+> -   아시아: 김수진님, 박상애님, 박중열님, 방혜린님
+>
+> -   아프리카: 신창민님, 오정민님, 정진실님, 박지원님
+>
+> -   아메리카: 이정수님, 이하늬님, 이명희님, 이윤임님
+
+### 지역 분리하기
+
+> 아메리카 \> 남아메리카 처럼 지역이 2\~3개로 묶여 있습니다.
+>
+> 지역을 대륙, 지역1, 지역2처럼 3개의 변수로 분리해 "koica_4_2024separate'변수에 저장하세요
+>
+> "koica_4_2024separate" 변수에서 사업번호, 대륙, 지역1, 지역2만 출력하세요
+>
+> separate_wider_delim()
+
+```{r}
+#| echo: true
+
+koica_1_2024xlsx |> 
+  separate_wider_delim(
+    지역, 
+    delim = " > ", 
+    names = c("대륙", "지역1", "지역2"), 
+    too_few = "align_start"
+    #too_many = "merge"
+  ) -> koica_4_2024separate
+
+koica_4_2024separate |> 
+  select(사업번호, 수원국, 대륙, 지역1, 지역2)
+
+```
+
+<br>
+
+### 아래 3개 도시의 지도를 출력하세요
+
+> koica_4_2024separate
+>
+> 아시아: 투르크메니스탄 (수도: 아쉬하바드)
+
+```{r}
+#| echo: false
+
+leaflet() |>
+  setView(58.3833, 37.9500, zoom = 12) |>
+  addTiles() |>
+  addMarkers(58.3833, 37.9500, popup = "Ashgabat (Turkmenistan)")
+
+```
+
+<br>
+
+> koica_4_2024separate
+>
+> 튀니지 (수도: 튀니스)
+
+```{r}
+#| echo: false
+
+
+leaflet() |>
+  setView(10.1815, 36.8065, zoom = 12) |>
+  addTiles() |>
+  addMarkers(10.1815, 36.8065, popup = "Tunis (Tunisia)")
+```
+
+<br>
+
+> koica_4_2024separate
+>
+> 수리남 (수도: 파라마리보)
+
+```{r}
+#| echo: false
+
+
+leaflet() |>
+  setView(-55.1668, 5.8664, zoom = 12) |>
+  addTiles() |>
+  addMarkers(-55.1668, 5.8664, popup = "Paramaribo (Suriname)")
+```
+
+<br>
+
+# 보너스 퀴즈 (심화)
+
+<br>
+
+## 성평등 관련 지출액 비중
+
+> 성평등 항목 중 "관련내용이 주요(1차적) 목적인 경우"의 총지출액을 (선생님이 담당하는) 대륙에서 지역1, 지역2로 출력하세요
+>
+> koica_4_2024separate, filter(), group_by(), reframe(), sum(), n()
+
+```{r}
+
+koica_4_2024separate |> 
+  filter(성평등 == '관련내용이 주요(1차적) 목적인 경우') |> 
+  group_by(대륙, 지역1, 지역2) |> 
+  reframe(총지출액 = sum(지출액), 
+          사업건수 = n())
+
+```
+
+<br>
+
+## 히트맵 시각화
+
+> 위 내용을 자신이 담당하는 지역의 히트맵으로 시각화하세요 (오세아니아 예시)
+>
+> geom_tile(), geom_text(), theme_minimal(), theme()
+
+```{r}
+#| echo: true
+#| code-fold: false
+#| code-summary: 오세아니아 예시
+
+
+koica_4_2024separate |> 
+  filter(성평등 == '관련내용이 주요(1차적) 목적인 경우') |> 
+  filter(대륙 == '오세아니아') |> 
+  group_by(대륙, 지역1, 지역2) |> 
+  reframe(총지출액 = sum(지출액), 
+          사업건수 = n()) |> 
+  ggplot(aes(x = 지역1, y = 지역2, fill = 총지출액)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = scales::comma(총지출액)), color = 'snow') + 
+  theme_minimal() +
+  theme(
+    axis.text = element_text(size = 12)
+  )
+
+```
+
+<br>
+
+## 대륙, 지역1별 지출액 분포
+
+> 지출액의 비중을 x축 = 지역1, y축 = 지역2로 히트맵으로 보기
+>
+> 위의 코드를 활용합니다.
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: 오세아니아 예시
+
+koica_4_2024separate |> 
+  #filter(성평등 == '관련내용이 주요(1차적) 목적인 경우') |> 
+  filter(대륙 == '오세아니아') |> 
+  group_by(대륙, 지역1, 지역2) |> 
+  reframe(총지출액 = sum(지출액), 
+          사업건수 = n()) |> 
+  ggplot(aes(x = 지역1, y = 지역2, fill = 총지출액)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = scales::comma(총지출액)), color = 'snow') + 
+  theme_minimal() +
+  theme(
+    axis.text = element_text(size = 12)
+  )
+
+```
+
+<br>
+
+## 면분할
+
+> 위 그래프에서 자신의 대륙만 선택해 시각화하세요
+>
+> x축 = 지역1, y 축= 지역2로 설정하세요
+
+```{r}
+#| echo: true
+#| code-fold: true
+#| code-summary: 아프리카 예시
+
+koica_4_2024separate |> 
+  filter(대륙 %in% c('아프리카'))|> 
+  group_by(지역1, 지역2) |> 
+  reframe(총지출액 = sum(지출액), 
+          사업건수 = n()) |> 
+  ggplot(aes(x = 지역1, y = 지역2, fill = 총지출액)) +
+  geom_tile(color = 'snow') +
+  geom_text(aes(label = scales::comma(총지출액)), color = 'snow') + 
+  theme_minimal() +
+  theme(
+    axis.text = element_text(size = 12)
+  )
+```
+
+<br>
+
+## 주요 수원국 비교
+
+> 수원국별로 사업건수를 조회하세요
+>
+> 사업건수가 많은 수원국 상위 10개를 막대그래프로 시각화하세요
+>
+> count(), slice(), geom_bar(), geom_label(), theme_minimal(), theme()
+
+```{r}
+
+koica_1_2024xlsx |> 
+  count(수원국, sort = T) |> 
+  slice(1:10) |> 
+  ggplot(aes(x = 수원국,
+             y = n)) +
+  geom_bar(stat = 'identity') + 
+  geom_label(aes(label = n), size = 5) +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 9))
+
+```
+
+<br>
+
+## 막대그래프 정렬
+
+> 사업건수가 많은 순서대로 막대그래프로 정렬하세요
+>
+> ggplot(aes(x = 수원국 \|\> fct_reorder(desc(n)), y = n))
+
+```{r}
+
+koica_1_2024xlsx |> 
+  count(수원국, sort = T) |> 
+  slice(1:10) |> 
+  ggplot(aes(x = 수원국 |> fct_reorder(desc(n)),
+             y = n)) +
+  geom_bar(stat = 'identity') + 
+  geom_label(aes(label = n), size = 5) +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 9))
+
+```
+
+<br>
+
+## 상관관계
+
+> 약정액과 지출액의 상관관계를 구하세요.
+>
+> > 스피어만 vs 피어슨 상관계수
+> >
+> > 아웃라이어 포함 vs 제외
+
+```{r}
+#| echo: true
+
+koica_1_2024xlsx |> 
+  drop_na(약정액, 지출액) -> koica_2_2024dropna
+
+cor(koica_2_2024dropna$약정액, 
+    koica_2_2024dropna$지출액, 
+    method = "spearman")
+
+cor(koica_2_2024dropna$약정액, 
+    koica_2_2024dropna$지출액, 
+    method = "pearson")
+
+koica_2_2024dropna |> 
+  filter(약정액 < 80000000) -> koica_3_2024dropnafilter
+
+cor(koica_3_2024dropnafilter$약정액, 
+    koica_3_2024dropnafilter$지출액, 
+    method = "spearman")
+
+cor(koica_3_2024dropnafilter$약정액, 
+    koica_3_2024dropnafilter$지출액, 
+    method = "pearson")
+
+  
+```
+
+<br>
+
+# 끝.
+
+수고 많으셨습니다.
