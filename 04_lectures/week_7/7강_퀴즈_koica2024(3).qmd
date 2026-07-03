@@ -1,0 +1,266 @@
+---
+title: "7강_퀴즈_koica(4)"
+author: "최요한"
+date: "`r Sys.Date()`"
+version: "0.1.0"
+editor: visual
+execute:
+  warning: false
+  message: false
+  echo: false
+format: 
+  html:
+    toc: true                # 목차만들기
+    toc-depth: 3             # 목차 깊이
+    toc-float: true          # 스크롤을 내려도 목차가 따라옵니다.
+    number-sections: true    # 자동 번호
+    number-depth: 3          # 번호 부여 수준
+    code-fold: false         # 코드를 클릭해서 펼칩니다
+    code-summary: "소스 코드 확인하기"
+    smooth-scroll: true      # 클릭 시 부드럽게 이동
+    code-copy: true        # 코드 복사 버튼 활성화
+    # theme: Zephyr
+    # theme: Flatly
+    #theme:
+    #  light: [flatly, cosmo]  #본문 flatly, #내비게이션 등 cosmo 적용
+    #  dark: darkly
+    # css: styles.css
+    embed-resources: true   #html 파일에 이미지를 모두 답습니다
+editor_options: 
+  chunk_output_type: console
+---
+
+# 준비
+
+## 사용할 패키지
+
+```{r}
+#| label: setup
+#| message: false
+#| echo: true
+
+library(tidyverse)
+library(palmerpenguins)
+library(readxl)     #xlsx 데이터 불러오기
+library(writexl)    #xlsx 포맷으로 결과 출력하기
+library(MetBrewer)  # palette
+library(nord)  # palette
+library(showtext)   #한글 출력 패키지
+showtext_auto()     #한글 출력하기
+
+
+```
+
+<br>
+
+# MetBrewer
+
+> ## 팔레트를 설치합니다
+
+```{r}
+
+#install.packages("MetBrewer")
+library(MetBrewer)
+
+```
+
+<br>
+
+### 팔레트 펼치기
+
+> scale_color_met_c() 연속형
+>
+> scale_color_met_d() 범주형
+>
+> scale_fill_met_c() 연속형
+>
+> scale_fill_met_d() 범주형
+
+```{r}
+
+MetBrewer::display_all()        #펼쳐보기
+MetBrewer::colorblind_palettes  #이름코드
+
+```
+
+-   scale_color_met_c(): 연속형(Continuous) 변수의 점(point), 선(line)의 테두리/색상에 적용
+
+-   scale_color_met_d(): 범주형(Discrete) 변수의 점(point), 선(line)의 테두리/색상에 적용
+
+-   scale_fill_met_c(): 연속형(Continuous)변수의 막대그래프, 히스토그램같은 내부 면적에 적용
+
+-   scale_fill_met_d(): 범주형(Discrete) 변수의 막대그래프, 히스토그램같은 내부 면적에 적용
+
+![](스크린샷 2026-07-02 22.06.22.png){width="400"}
+
+<br>
+
+### penguins 일반
+
+> 기본
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = body_mass_g)) +
+  geom_point(size = 3, alpha = 0.8) 
+
+```
+
+<br>
+
+### metBrewer (테두리-연속형)
+
+> scale_color_met_c()
+>
+> color = body_mass_g
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = body_mass_g)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_color_met_c("Hiroshige") + # MetBrewer 연속형 함수
+  theme_minimal()
+
+```
+
+<br>
+
+### MetBrewer (테두리-범주형)
+
+> scale_color_met_d()
+>
+> color = species
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = species)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_color_met_d("VanGogh2") + # MetBrewer 연속형 함수
+  theme_minimal()
+
+```
+
+<br>
+
+### penguins 일반
+
+> 일반 색상
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = flipper_length_mm, fill = after_stat(x))) +
+  geom_histogram(binwidth = 3, color = "white", alpha = 0.85)
+
+```
+
+<br>
+
+### MetBrewer (면적-연속형)
+
+> scale_fill_met_d()
+
+```{r}
+
+MetBrewer::display_all()
+
+penguins |> 
+  drop_na() |> 
+  count(sex, species) |> 
+  ggplot(aes(x = sex, y = n, fill = species)) +
+  geom_bar(stat = 'identity') +
+  MetBrewer::scale_fill_met_d(name = 'Cassatt2') +
+  theme_minimal()
+
+```
+
+<br>
+
+### MetBrewer (면적-범주형)
+
+```{r}
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = flipper_length_mm, fill = after_stat(x))) +
+  geom_histogram(binwidth = 3, color = "white", alpha = 0.85) +
+  scale_fill_met_c("Isfahan1") + # 연속형 fill 스케일
+  theme_minimal()
+
+```
+
+<br>
+
+### MetBrewer 입히기(범주형-면적)
+
+> 일반 색상
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  count(sex, species) |> 
+  ggplot(aes(x = sex, y = n, fill = species)) +
+  geom_bar(stat = 'identity') 
+
+```
+
+<br>
+
+### MetBrewer (연속형-테두리)
+
+> scale_color_met_c()
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = body_mass_g)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_color_met_c("Hiroshige") + # MetBrewer 연속형 함수
+  theme_minimal() +
+    labs(
+    title = "펭귄의 부리 크기와 몸무게 관계",
+    subtitle = "MetBrewer ('Hiroshige') 연속형 팔레트 적용",
+    x = "부리 길이 (mm)", y = "부리 깊이 (mm)", color = "몸무게 (g)"
+  )
+
+```
+
+<br>
+
+### MetBrewer 입히기 (연속형)
+
+```{r}
+
+penguins |> 
+  drop_na() |> 
+  ggplot(aes(x = bill_length_mm, 
+             y = bill_depth_mm, 
+             color = body_mass_g)) +
+  geom_point(size = 3, alpha = 0.8) 
+
+  scale_color_met_c("Hiroshige") + # MetBrewer 연속형 함수
+  theme_minimal() +
+  labs(
+    title = "펭귄의 부리 크기와 몸무게 관계",
+    subtitle = "MetBrewer ('Hiroshige') 연속형 팔레트 적용",
+    x = "부리 길이 (mm)", y = "부리 깊이 (mm)", color = "몸무게 (g)"
+  )
+```
+
+## 
